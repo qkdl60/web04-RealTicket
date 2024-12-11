@@ -1,7 +1,7 @@
 import { fontFamily } from 'tailwindcss/defaultTheme';
 
-import { colors } from './style/colors.ts';
-import { fontSize } from './style/fontSize.ts';
+import colors from './styles/colors.ts';
+import fontSize from './styles/fontSize.ts';
 
 /** @type {import('tailwindcss').Config} */
 

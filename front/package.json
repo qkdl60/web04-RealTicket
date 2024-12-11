@@ -11,6 +11,7 @@
     "prettier": "prettier -w",
     "tsc": "tsc -b",
     "test": "vitest"
+    ,"build-style": "node style.config.js"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.60.6",
