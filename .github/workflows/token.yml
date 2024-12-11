@@ -1,4 +1,4 @@
-name: Create PR from design to main
+name: Create PR from design to dev
 
 # design 브랜치의 tokens.json 파일에 대한 push 감지
 on:
