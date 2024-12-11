@@ -30,6 +30,6 @@ jobs:
         env: 
             GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       - name: Create Pull Request
-        run: gh pr create -B main -H design --title '💄 디자인 토큰 업데이트' --body '디자인 토큰이 업데이트 후 변환작업을 수행했습니다.'
+        run: gh pr create -B dev -H design --title '💄 디자인 토큰 업데이트' --body '디자인 토큰이 업데이트 후 변환작업을 수행했습니다.'
         env:
             GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
