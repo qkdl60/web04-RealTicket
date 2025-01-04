@@ -36,5 +36,5 @@ export default {
     hover: "#f3f4f6",
     cardBorder: "#d1d5db",
   },
-  test: "#ab2ade",
+  test: "#953cb8",
 };
