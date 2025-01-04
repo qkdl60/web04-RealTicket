@@ -5,9 +5,8 @@ on:
   push:
     branches:
       - design
-    paths:
-      - 'tokens/tokens.json'
-      
+    path:
+      - "front/tokens/tokens.json"
 jobs:
   createPullRequest:
     runs-on: ubuntu-latest
@@ -15,21 +14,21 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: "18"
       # 디자인 파일 변환 후 생성된 파일도 push해서 main 브랜치로 병합하는 PR을 생성
       - name: Run Token Transformer
         run: |
-            cd front 
-            npm i style-dictionary
-            npm run build-style
-            git config --global user.name "GitHub 디자인 계정 이름" 
-            git config --global user.email "GitHub 디자인 계정 이메일"
-            git add .
-            git commit -m '피그마 디자인 파일 변환'
-            git push
-        env: 
-            GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          cd front 
+          npm i style-dictionary
+          npm run build-style
+          git config --global user.name "GitHub 디자인 계정 이름" 
+          git config --global user.email "GitHub 디자인 계정 이메일"
+          git add .
+          git commit -m '피그마 디자인 파일 변환'
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       - name: Create Pull Request
         run: gh pr create -B dev -H design --title '💄 디자인 토큰 업데이트' --body '디자인 토큰이 업데이트 후 변환작업을 수행했습니다.'
         env:
-            GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
