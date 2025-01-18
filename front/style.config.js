@@ -30,7 +30,7 @@ const sdConfig = {
     verbosity: 'verbose', // 'default' | 'silent' | 'verbose'
   },
   preprocessors: ['removeGlobalKey'],
-  source: ['./tokens/**/*.json'],
+  source: ['./tokens/**/tokens.json'],
   platforms: {
     js: {
       buildPath: './styles/',

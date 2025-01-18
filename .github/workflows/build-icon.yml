@@ -1,4 +1,4 @@
-name: Create PR from design to dev
+name: Create PR from icon to dev
 
 # design 브랜치의 tokens.json 파일에 대한 push 감지
 on:
@@ -6,8 +6,7 @@ on:
     branches:
       - design
     paths:
-      - front/tokens/tokens.json
-   
+      - front/tokens/icon.json
 jobs:
   createPullRequest:
     runs-on: ubuntu-latest
@@ -20,16 +19,16 @@ jobs:
       - name: Run Token Transformer
         run: |
           cd front 
-          npm i style-dictionary
-          npm run build-style
+          npm i 
+          npm run build-icon
           git config --global user.name "GitHub 디자인 계정 이름" 
           git config --global user.email "GitHub 디자인 계정 이메일"
           git add .
-          git commit -m '피그마 디자인 파일 변환'
+          git commit -m 'icon 변경'
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       - name: Create Pull Request
-        run: gh pr create -B dev -H design --title '💄 디자인 토큰 업데이트' --body '디자인 토큰이 업데이트 후 변환작업을 수행했습니다.'
+        run: gh pr create -B dev -H design --title '💄 아이콘 업데이트' --body '아이콘 업데이트 후 변환작업을 수행했습니다.'
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
