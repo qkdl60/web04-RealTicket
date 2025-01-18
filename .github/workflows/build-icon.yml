@@ -1,0 +1,34 @@
+name: Create PR from icon to dev
+
+# design 브랜치의 tokens.json 파일에 대한 push 감지
+on:
+  push:
+    branches:
+      - design
+    path:
+      - "front/tokens/icon.json"
+jobs:
+  createPullRequest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      # 디자인 파일 변환 후 생성된 파일도 push해서 main 브랜치로 병합하는 PR을 생성
+      - name: Run Token Transformer
+        run: |
+          cd front 
+          npm i 
+          npm run build-icon
+          git config --global user.name "GitHub 디자인 계정 이름" 
+          git config --global user.email "GitHub 디자인 계정 이메일"
+          git add .
+          git commit -m 'icon 변경'
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      - name: Create Pull Request
+        run: gh pr create -B dev -H design --title '💄 아이콘 업데이트' --body '아이콘 업데이트 후 변환작업을 수행했습니다.'
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
