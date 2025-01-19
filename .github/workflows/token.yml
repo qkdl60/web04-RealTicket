@@ -6,8 +6,7 @@ on:
     branches:
       - design
     paths:
-      - front/tokens/tokens.json
-   
+      - 'front/tokens/tokens.json'
 jobs:
   createPullRequest:
     runs-on: ubuntu-latest
