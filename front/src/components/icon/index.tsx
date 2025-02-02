@@ -27,7 +27,7 @@ interface IconProps extends VariantProps<typeof iconVariants> {
   className?: string;
 }
 
-export function IconTrash2({ color, size, className, ...props }: IconProps) {
+export function IconBookmark({ color, size, className, ...props }: IconProps) {
   return (
     <svg
       width="1em"
@@ -47,39 +47,7 @@ export function IconTrash2({ color, size, className, ...props }: IconProps) {
       )}
       {...props}>
       <path
-        d="M3 6H21"
-        stroke="current"
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-      />
-      <path
-        d="M19 6V20C19 21 18 22 17 22H7C6 22 5 21 5 20V6"
-        stroke="current"
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-      />
-      <path
-        d="M8 6V4C8 3 9 2 10 2H14C15 2 16 3 16 4V6"
-        stroke="current"
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-      />
-      <path
-        d="M10 11V17"
-        stroke="current"
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-      />
-      <path
-        d="M14 11V17"
+        d="M19 21L12 17L5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V21Z"
         stroke="current"
         strokeWidth={2}
         strokeLinecap="round"
