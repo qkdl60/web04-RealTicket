@@ -11,5 +11,5 @@ export default function WithLogin({ children }: PropsWithChildren) {
   if (!isLogin) {
     return <Navigate to={ROUTE_URL.USER.LOGIN} />;
   }
-  return <>{children}</>;
+  return children;
 }

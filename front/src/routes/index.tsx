@@ -18,14 +18,11 @@ const ReservationPage = lazy(() => import('@/pages/ReservationPage'));
 const ReservationWaitingPage = lazy(() => import('@/pages/ReservationWaitingPage'));
 const WaitingQueuePage = lazy(() => import('@/pages/WaitingQueuePage'));
 
-//TODO lazyloading,suspene, fallback 적용, withLogin hoc접근 권한 설정, flat보다는 next 처럼 밑으로 최적화도 더 좋다
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
-    errorElement: <NotFoundPage />,
     children: [
-      { path: '*', element: <NotFoundPage /> },
       { path: '', element: <Navigate to={ROUTE_URL.PROGRAM.DEFAULT} /> },
       { path: ROUTE_URL.PROGRAM.DEFAULT, element: <ProgramsPage /> },
       { path: `${ROUTE_URL.PROGRAM.DEFAULT}/:programId`, element: <ProgramDetailPage /> },
@@ -80,6 +77,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+  { path: '*', element: <NotFoundPage /> },
 ]);
 
 export default router;
