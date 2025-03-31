@@ -17,6 +17,7 @@ export default function GuestLoginButton() {
   const isGuestLoginPending = !!useIsFetching({ queryKey: GUEST_LOGIN_QUERY_KEY });
   const { confirm } = useConfirm();
   const queryClient = useQueryClient();
+
   const loginAsGuest = async () => {
     const isConfirm = await confirm({
       title: '게스트로 입장하기',
