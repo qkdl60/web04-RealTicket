@@ -9,7 +9,7 @@ type AuthAction = {
   logout: () => void;
 };
 
-type AuthState = {
+export type AuthState = {
   auth: Auth;
   action: AuthAction;
 };

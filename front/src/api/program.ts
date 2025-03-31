@@ -4,7 +4,6 @@ import { API } from '@/constants/index.ts';
 
 export const getPrograms = () =>
   apiClient.get(API.PROGRAMS.GET_PROGRAMS).then((res) => {
-    console.log(res);
     return res.data;
   });
 export const getProgramsDetail = (id: number) => () =>
