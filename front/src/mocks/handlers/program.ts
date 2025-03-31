@@ -11,7 +11,17 @@ export const programHandlers = [
   }),
 
   // Get program detail
-  http.get('/program/:id', ({ params }) => {
+  http.options('http://localhost/program/:id', () => {
+    return new HttpResponse(null, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Credentials': 'true', // credentials 허용
+      },
+    });
+  }),
+  http.get('http://localhost/program/:id', ({ params }) => {
     const id = Number(params.id);
 
     if (isNaN(id)) {
@@ -22,6 +32,13 @@ export const programHandlers = [
       return new HttpResponse(null, { status: 404 });
     }
 
-    return HttpResponse.json(program);
+    return HttpResponse.json(program, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Credentials': 'true', // credentials 허용
+      },
+    });
   }),
 ];

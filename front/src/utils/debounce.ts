@@ -1,5 +1,7 @@
+type Timeout = ReturnType<typeof setTimeout>;
+
 const setDebounce = (delayTime: number) => {
-  let timer: null | number = null;
+  let timer: Timeout | null = null;
 
   return (callback: () => void) => {
     if (timer) {

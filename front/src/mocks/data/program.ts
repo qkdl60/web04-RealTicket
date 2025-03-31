@@ -127,8 +127,8 @@ export const mockProgramDetails: ProgramDetail[] = [
     runningTime: 120,
     price: 80000,
     events: [
-      { id: 1, runningDate: '2024-03-20T19:00:00' },
-      { id: 2, runningDate: '2024-03-21T19:00:00' },
+      { id: 1, runningDate: new Date('2024-03-20T19:00:00.000Z') },
+      { id: 2, runningDate: new Date('2024-03-21T19:00:00.000Z') },
     ],
   },
   {
@@ -144,8 +144,8 @@ export const mockProgramDetails: ProgramDetail[] = [
     runningTime: 180,
     price: 60000,
     events: [
-      { id: 3, runningDate: '2024-03-22T20:00:00' },
-      { id: 4, runningDate: '2024-03-23T20:00:00' },
+      { id: 3, runningDate: new Date('2024-03-22T20:00:00.000Z') },
+      { id: 4, runningDate: new Date('2024-03-23T20:00:00.000Z') },
     ],
   },
   {
@@ -161,8 +161,8 @@ export const mockProgramDetails: ProgramDetail[] = [
     runningTime: 150,
     price: 100000,
     events: [
-      { id: 5, runningDate: '2024-03-24T19:00:00' },
-      { id: 6, runningDate: '2024-03-25T19:00:00' },
+      { id: 5, runningDate: new Date('2024-03-24T19:00:00.000Z') },
+      { id: 6, runningDate: new Date('2024-03-25T19:00:00.000Z') },
     ],
   },
   {
@@ -178,8 +178,8 @@ export const mockProgramDetails: ProgramDetail[] = [
     runningTime: 240,
     price: 50000,
     events: [
-      { id: 7, runningDate: '2024-03-26T18:00:00' },
-      { id: 8, runningDate: '2024-03-27T18:00:00' },
+      { id: 7, runningDate: new Date('2024-03-26T18:00:00.000Z') },
+      { id: 8, runningDate: new Date('2024-03-27T18:00:00.000Z') },
     ],
   },
   {
@@ -195,8 +195,8 @@ export const mockProgramDetails: ProgramDetail[] = [
     runningTime: 300,
     price: 120000,
     events: [
-      { id: 9, runningDate: '2024-03-28T14:00:00' },
-      { id: 10, runningDate: '2024-03-29T14:00:00' },
+      { id: 9, runningDate: new Date('2024-03-28T14:00:00.000Z') },
+      { id: 10, runningDate: new Date('2024-03-29T14:00:00.000Z') },
     ],
   },
   {
@@ -212,8 +212,8 @@ export const mockProgramDetails: ProgramDetail[] = [
     runningTime: 180,
     price: 45000,
     events: [
-      { id: 11, runningDate: '2024-03-30T19:00:00' },
-      { id: 12, runningDate: '2024-03-31T19:00:00' },
+      { id: 11, runningDate: new Date('2024-03-30T19:00:00.000Z') },
+      { id: 12, runningDate: new Date('2024-03-31T19:00:00.000Z') },
     ],
   },
   {
@@ -229,8 +229,8 @@ export const mockProgramDetails: ProgramDetail[] = [
     runningTime: 210,
     price: 55000,
     events: [
-      { id: 13, runningDate: '2024-04-01T20:00:00' },
-      { id: 14, runningDate: '2024-04-02T20:00:00' },
+      { id: 13, runningDate: new Date('2024-04-01T20:00:00.000Z') },
+      { id: 14, runningDate: new Date('2024-04-02T20:00:00.000Z') },
     ],
   },
   {
@@ -246,8 +246,8 @@ export const mockProgramDetails: ProgramDetail[] = [
     runningTime: 150,
     price: 130000,
     events: [
-      { id: 15, runningDate: '2024-04-03T19:30:00' },
-      { id: 16, runningDate: '2024-04-04T19:30:00' },
+      { id: 15, runningDate: new Date('2024-04-03T19:30:00.000Z') },
+      { id: 16, runningDate: new Date('2024-04-04T19:30:00.000Z') },
     ],
   },
   {
@@ -263,8 +263,8 @@ export const mockProgramDetails: ProgramDetail[] = [
     runningTime: 180,
     price: 40000,
     events: [
-      { id: 17, runningDate: '2024-04-05T20:00:00' },
-      { id: 18, runningDate: '2024-04-06T20:00:00' },
+      { id: 17, runningDate: new Date('2024-04-05T20:00:00.000Z') },
+      { id: 18, runningDate: new Date('2024-04-06T20:00:00.000Z') },
     ],
   },
   {
@@ -280,8 +280,8 @@ export const mockProgramDetails: ProgramDetail[] = [
     runningTime: 180,
     price: 90000,
     events: [
-      { id: 19, runningDate: '2024-04-07T19:00:00' },
-      { id: 20, runningDate: '2024-04-08T19:00:00' },
+      { id: 19, runningDate: new Date('2024-04-07T19:00:00.000Z') },
+      { id: 20, runningDate: new Date('2024-04-08T19:00:00.000Z') },
     ],
   },
 ];

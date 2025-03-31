@@ -3,12 +3,12 @@ import Button from '@/components/common/Button.tsx';
 import type { EventDetail } from '@/type/index.ts';
 import { cx } from 'class-variance-authority';
 
-type ReserveButtonProps = {
+type GoReadyPageButtonProps = {
   selectedEvent: Pick<EventDetail, 'runningDate' | 'id'> | undefined;
   goReadyPage: () => void;
 };
 
-export default function ReserveButton({ selectedEvent, goReadyPage }: ReserveButtonProps) {
+export default function GoReadyPageButton({ selectedEvent, goReadyPage }: GoReadyPageButtonProps) {
   return (
     <Button size={'middle'} color={'success'} disabled={!selectedEvent} onClick={goReadyPage}>
       <span className={cx('text-label1', selectedEvent ? 'text-typo-display' : 'text-typo-disable')}>

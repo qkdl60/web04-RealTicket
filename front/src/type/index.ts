@@ -10,7 +10,17 @@ export interface Program {
   profileUrl: string;
   actors: string;
 }
-
+export interface EventDetail {
+  id: number;
+  name: string;
+  price: number;
+  place: { id: number; name: string };
+  runningTime: number;
+  runningDate: Date;
+  reservationOpenDate: string;
+  reservationCloseDate: string;
+}
+export type ProgramEvent = Pick<EventDetail, 'id' | 'runningDate'>;
 export interface ProgramDetail {
   id: number;
   name: string;
@@ -20,19 +30,8 @@ export interface ProgramDetail {
   place: { id: number; name: string };
   profileUrl: string;
   price: number;
-  events: Pick<EventDetail, 'id' | 'runningDate'>[];
+  events: ProgramEvent[];
 }
-export interface EventDetail {
-  id: number;
-  name: string;
-  price: number;
-  place: { id: number; name: string };
-  runningTime: number;
-  runningDate: string;
-  reservationOpenDate: string;
-  reservationCloseDate: string;
-}
-
 export interface PlaceInformation {
   id: number;
   layout: Layout;

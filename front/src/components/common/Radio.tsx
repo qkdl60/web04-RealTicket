@@ -27,6 +27,7 @@ export default function Radio({ group, value, checked, subText, onClick, classNa
         type="radio"
         value={value}
         checked={checked}
+        aria-checked={checked}
         readOnly
       />
       <div className="text-display2 text-typo">{value}</div>

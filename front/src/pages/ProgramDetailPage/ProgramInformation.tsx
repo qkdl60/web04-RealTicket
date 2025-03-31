@@ -1,5 +1,4 @@
 type ProgramInformationProps = {
-  isOneDay: boolean;
   startDate: string;
   lastDate: string;
 } & Pick<Program, 'name' | 'runningTime' | 'genre' | 'actors' | 'place' | 'profileUrl'>;
@@ -11,10 +10,11 @@ export default function ProgramInformation({
   actors,
   place,
   profileUrl,
-  isOneDay,
   startDate,
   lastDate,
 }: ProgramInformationProps) {
+  const isOneDay = startDate === lastDate;
+
   return (
     <div className="flex gap-8">
       <img src={profileUrl || 'https://picsum.photos/200/300'} width={200} height={300} alt={`${name}`} />

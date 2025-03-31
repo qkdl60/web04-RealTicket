@@ -15,7 +15,7 @@ export default function OptionContainer({ title, caption, children }: DateMenuPr
         <span className="text-caption2 text-typo-sub">{caption}</span>
       </div>
       <Separator direction="row" />
-      <ul className="flex flex-grow flex-col gap-2">{children}</ul>
+      <ol className="option_list flex flex-grow flex-col gap-2">{children}</ol>
     </div>
   );
 }
