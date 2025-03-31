@@ -75,7 +75,7 @@ const renderWithRouter = (ui: React.ReactElement) => {
   return render(<BrowserRouter>{ui}</BrowserRouter>);
 };
 
-describe('Navbar', () => {
+describe('Navbar view 확인', () => {
   (useAuthStore as unknown as Mock).mockImplementation((selector: Selector) =>
     selector({
       auth: { isLogin: false, userId: null },
@@ -94,7 +94,7 @@ describe('Navbar', () => {
     expect(screen.getByText('게스트로 입장하기')).toBeInTheDocument();
   });
 
-  it('유저 정보 버튼 확인', () => {
+  it('로그인 상태 버튼 확인', () => {
     // Mock auth store to return logged in state
     (useAuthStore as unknown as Mock).mockImplementation((selector: Selector) =>
       selector({
