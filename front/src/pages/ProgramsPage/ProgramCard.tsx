@@ -1,4 +1,4 @@
-export interface IProgram {
+export type Program = {
   id: number;
   name: string;
   genre: string;
@@ -8,12 +8,12 @@ export interface IProgram {
   };
   profileUrl: string;
   actors: string;
-}
+};
 export default function ProgramCard({
   name,
   profileUrl,
   actors,
-}: Pick<IProgram, 'actors' | 'id' | 'name' | 'profileUrl'>) {
+}: Pick<Program, 'actors' | 'id' | 'name' | 'profileUrl'>) {
   return (
     <div className="flex min-h-[300px] w-[200px] min-w-[200px] flex-col gap-4 rounded border-2 p-4 hover:border-surface">
       <img className="object-con h-[240px] w-[160px] object-cover" src={profileUrl} />

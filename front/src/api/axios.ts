@@ -6,7 +6,7 @@ import router from '@/routes/index.tsx';
 import axios, { AxiosError, isAxiosError } from 'axios';
 
 //TODO 타입 정의
-const isDevelopEnvironment = import.meta.env.VITE_ENVIRONMENT === 'dev';
+const isDevelopEnvironment = import.meta.env.DEV;
 // const isDevelopEnvironment = true;
 
 export const BASE_URL = import.meta.env.VITE_API_URL + (isDevelopEnvironment ? '' : '/api');
