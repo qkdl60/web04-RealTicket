@@ -1,0 +1,21 @@
+import type { PropsWithChildren } from 'react';
+
+import Separator from '@/components/common/Separator.tsx';
+
+type DateMenuProps = {
+  title: string;
+  caption: string;
+} & PropsWithChildren;
+
+export default function OptionContainer({ title, caption, children }: DateMenuProps) {
+  return (
+    <div className="flex w-full flex-col gap-2">
+      <div className="flex w-full flex-shrink flex-col px-4 py-2">
+        <span className="text-heading3 text-typo">{title}</span>
+        <span className="text-caption2 text-typo-sub">{caption}</span>
+      </div>
+      <Separator direction="row" />
+      <ul className="flex flex-grow flex-col gap-2">{children}</ul>
+    </div>
+  );
+}

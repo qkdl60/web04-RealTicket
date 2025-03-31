@@ -1,9 +1,9 @@
-interface IProgramInformationProps
-  extends Pick<Program, 'actors' | 'genre' | 'place' | 'profileUrl' | 'runningTime' | 'name'> {
+type ProgramInformationProps = {
   isOneDay: boolean;
   startDate: string;
   lastDate: string;
-}
+} & Pick<Program, 'name' | 'runningTime' | 'genre' | 'actors' | 'place' | 'profileUrl'>;
+
 export default function ProgramInformation({
   name,
   runningTime,
@@ -14,7 +14,7 @@ export default function ProgramInformation({
   isOneDay,
   startDate,
   lastDate,
-}: IProgramInformationProps) {
+}: ProgramInformationProps) {
   return (
     <div className="flex gap-8">
       <img src={profileUrl || 'https://picsum.photos/200/300'} width={200} height={300} alt={`${name}`} />
@@ -36,7 +36,7 @@ export default function ProgramInformation({
   );
 }
 
-interface Program {
+type Program = {
   id: number;
   name: string;
   runningTime: number;
@@ -45,9 +45,9 @@ interface Program {
   place: { id: number; name: string };
   profileUrl: string;
   price: number;
-  events: Pick<Event, 'id' | 'runningDate'>[];
-}
-interface Event {
+  events: Pick<ProgramEvent, 'id' | 'runningDate'>[];
+};
+type ProgramEvent = {
   id: number;
   name: string;
   place: string;
@@ -56,4 +56,4 @@ interface Event {
   reservationOpenDate: Date;
   reservationCloseDate: Date;
   actors: string;
-}
+};
