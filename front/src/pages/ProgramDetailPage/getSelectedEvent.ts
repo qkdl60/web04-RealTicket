@@ -3,12 +3,12 @@ import { getDate, getTime } from '@/utils/date.ts';
 import type { ProgramEvent } from '@/type/index.ts';
 
 export function getSelectedEvent(
-  filteredEventList: ProgramEvent[],
+  EventList: ProgramEvent[],
   selectedDate: Date | null,
   selectedTime: string | null,
 ) {
   if (!selectedDate || !selectedDate) return undefined;
-  return filteredEventList.find(
+  return EventList.find(
     (event) =>
       selectedDate &&
       selectedTime &&

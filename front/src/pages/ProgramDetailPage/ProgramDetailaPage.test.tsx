@@ -13,7 +13,6 @@ getSelectedEvent 유닛
 import { ReactElement } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import { filterEventsByDate } from '@/pages/ProgramDetailPage/filterEventsByDate.ts';
 import { getDateList } from '@/pages/ProgramDetailPage/getDateList.ts';
 import { getSelectedEvent } from '@/pages/ProgramDetailPage/getSelectedEvent.ts';
 import { getTimeList } from '@/pages/ProgramDetailPage/getTimeList.ts';
@@ -43,20 +42,6 @@ describe('ProgramDetailPage unittest', () => {
       runningDate: new Date('2024-03-20T20:00:00'),
     },
   ];
-  it('filterEventsByDate 유닛 ', () => {
-    const selectedDate = new Date('2024-03-20T19:00:00');
-    const filteredEvents = filterEventsByDate(events, selectedDate);
-    expect(filteredEvents).toEqual([
-      {
-        id: 1,
-        runningDate: new Date('2024-03-20T19:00:00'),
-      },
-      {
-        id: 3,
-        runningDate: new Date('2024-03-20T20:00:00'),
-      },
-    ]);
-  });
 
   it('getDateList 유닛', () => {
     const dateList = getDateList(events);
@@ -73,7 +58,7 @@ describe('ProgramDetailPage unittest', () => {
   });
 
   it('getTimeList 유닛 날짜 정렬', () => {
-    const timeList = getTimeList(events);
+    const timeList = getTimeList(events, new Date('2024-03-20T10:00:00.000Z'));
     expect(timeList).toEqual(['19:00', '20:00']);
     expect(timeList).not.toEqual(['20:00', '19:00']);
   });

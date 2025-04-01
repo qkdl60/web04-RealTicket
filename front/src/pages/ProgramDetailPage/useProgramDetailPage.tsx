@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import type { CustomError } from '@/api/axios.ts';
 import { getProgramsDetail } from '@/api/program.ts';
 
-import { filterEventsByDate } from '@/pages/ProgramDetailPage/filterEventsByDate.ts';
 import { getDateList } from '@/pages/ProgramDetailPage/getDateList.ts';
 import { getSelectedEvent } from '@/pages/ProgramDetailPage/getSelectedEvent.ts';
 import { getTimeList } from '@/pages/ProgramDetailPage/getTimeList';
@@ -31,9 +30,8 @@ export default function useProgramDetailPage() {
     time: null,
   });
 
-  const filteredEventList = filterEventsByDate(eventList, selected.date);
   const dateList = getDateList(eventList);
-  const timeList = getTimeList(filteredEventList);
+  const timeList = getTimeList(eventList, selected.date);
   const selectedEvent = getSelectedEvent(eventList, selected.date, selected.time);
 
   const startDate = dateList[0];
