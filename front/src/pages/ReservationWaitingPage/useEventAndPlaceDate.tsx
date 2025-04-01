@@ -25,9 +25,8 @@ export default function useEventAndPlaceDate(eventId: number) {
     staleTime: Infinity,
   });
 
-  const isReadyPlaceInfo = !isPlaceInfoPending && placeData;
+  const isReadyPlaceInfo = !isPlaceInfoPending && !!placeData;
   const overviewImageURL = placeData?.layout.overview;
-
   const eventInfo = formatEventInfo(event, place.name);
   const reservationOpenDate = event.reservationOpenDate;
   return { eventInfo, overviewImageURL, isReadyPlaceInfo, reservationOpenDate };

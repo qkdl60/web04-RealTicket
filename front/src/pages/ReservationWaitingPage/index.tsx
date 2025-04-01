@@ -1,8 +1,12 @@
-import Button from '@/components/common/Button.tsx';
-
-import EventInfoSection from '@/pages/ReservationWaitingPage/EventInfoSection.tsx';
+import ReservationWaitingPageView from '@/pages/ReservationWaitingPage/ReservationWaitingPageView.tsx';
 import useReservationWaitingPage from '@/pages/ReservationWaitingPage/useReservationWaitingPage.tsx';
 
+/*
+
+view 와 logic 분리
+- 장점 테스트 시 분리된 view에 대해서만 통합 테스트를 할 수 있고 의존성 주입이 쉬워진다.
+- 단점 컴포넌트가 너무 많아지고 props 도 길어질 수 있다.  컴포넌트가 depth가 깊어진다. 
+ */
 export default function ReservationWaitingPage() {
   const {
     isReservationOpen,
@@ -15,22 +19,14 @@ export default function ReservationWaitingPage() {
   } = useReservationWaitingPage();
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="h-[420px] w-[700px]">
-        {isReadyPlaceInfo ? (
-          <img className="h-full w-full" src={overviewImageURL} alt="좌석 배치도" />
-        ) : (
-          <div>loading</div>
-        )}
-      </div>
-      <EventInfoSection eventInfo={eventInfo} restTime={restTime} />
-      <Button disabled={!canGoNextPage} className="my-4" onClick={permissionAndGoNextPage}>
-        {isReservationOpen ? (
-          <span className="text-label1 text-typo-display">예매하기</span>
-        ) : (
-          <span className="text-label1 text-typo-disable">예매 대기중</span>
-        )}
-      </Button>
-    </div>
+    <ReservationWaitingPageView
+      eventInfo={eventInfo}
+      isReservationOpen={isReservationOpen}
+      isReadyPlaceInfo={isReadyPlaceInfo}
+      overviewImageURL={overviewImageURL}
+      restTime={restTime}
+      canGoNextPage={canGoNextPage}
+      permissionAndGoNextPage={permissionAndGoNextPage}
+    />
   );
 }
