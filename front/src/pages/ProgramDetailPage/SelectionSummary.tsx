@@ -1,9 +1,9 @@
 import { getDate, getTime } from '@/utils/date.ts';
 
-import type { EventDetail } from '@/type/index.ts';
+import type { ProgramEvent } from '@/type/index.ts';
 
 type SelectionSummaryProps = {
-  selectedEvent: Pick<EventDetail, 'runningDate' | 'id'> | undefined;
+  selectedEvent: ProgramEvent | undefined;
 };
 export default function SelectionSummary({ selectedEvent }: SelectionSummaryProps) {
   return (

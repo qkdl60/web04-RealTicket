@@ -17,7 +17,6 @@ export default function useUserInfoButton() {
   const { userId } = useAuthStore((state) => state.auth);
   const { logout } = useAuthStore((state) => state.action);
   const queryClient = useQueryClient();
-  const shortUserId = userId?.slice(0, 12);
 
   const navigate = useNavigate();
   const { data: reservationList } = useQuery<Reservation[], CustomError>({
@@ -25,6 +24,8 @@ export default function useUserInfoButton() {
     queryFn: getReservation,
     staleTime: Infinity,
   });
+
+  const shortUserId = userId?.slice(0, 12);
   const beReservation = reservationList!.length !== 0;
   const { mutate: requestDeleteReservation } = useMutation<AxiosResponse, CustomError, number>({
     mutationKey: RESERVATION_DELETE_MUTATION_KEY,

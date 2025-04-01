@@ -56,3 +56,12 @@ export const ROUTE_URL = {
     WAITING_ROOM: (eventId: number) => `/event/${eventId}/waiting`,
   },
 };
+
+export const EVENT_INFO_LABEL = {
+  name: '이름',
+  place: '장소',
+  runningTime: '관람 시간',
+  date: '날짜',
+  time: '시간',
+  reservationOpenTime: '예매 오픈 시간',
+};

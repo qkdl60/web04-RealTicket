@@ -19,17 +19,6 @@ import type { RePermissionResult } from '@/type/booking.ts';
 import type { EventDetail } from '@/type/index.ts';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-/*
-이 페이지는 예매 대기 페이지에서 진입된다. 거기에 이벤트 정보가 있다 .
-params의 이벤트 재호출 보다는 reactrouter 의 state를 이요하거나, react query의 cache를 이용하자
-
-
-편의성을 위해서 캐싱된 데이터 이용
-
-progressbar를 어떻게 계산?
-첫 예상 시간을 받고
-TODO sse 커스텀 훅으로 변경
-*/
 export default function WaitingQueuePage() {
   const { eventId } = useParams();
   const { state } = useLocation();

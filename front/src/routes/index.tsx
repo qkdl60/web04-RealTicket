@@ -54,9 +54,9 @@ const router = createBrowserRouter([
       {
         path: `${ROUTE_URL.EVENT.DEFAULT}/:eventId/ready`,
         element: (
-          <WithLogin>
-            <ReservationWaitingPage />
-          </WithLogin>
+          // <WithLogin>
+          <ReservationWaitingPage />
+          // </WithLogin>
         ),
       },
       {

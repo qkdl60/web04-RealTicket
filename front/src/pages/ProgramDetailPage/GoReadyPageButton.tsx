@@ -1,10 +1,10 @@
 import Button from '@/components/common/Button.tsx';
 
-import type { EventDetail } from '@/type/index.ts';
+import type { ProgramEvent } from '@/type/index.ts';
 import { cx } from 'class-variance-authority';
 
 type GoReadyPageButtonProps = {
-  selectedEvent: Pick<EventDetail, 'runningDate' | 'id'> | undefined;
+  selectedEvent: ProgramEvent | undefined;
   goReadyPage: () => void;
 };
 

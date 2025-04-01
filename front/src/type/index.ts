@@ -1,3 +1,5 @@
+import { EVENT_INFO_LABEL } from './../constants/index';
+
 //TODO domain 별 타입 분리
 export interface Program {
   id: number;
@@ -10,24 +12,28 @@ export interface Program {
   profileUrl: string;
   actors: string;
 }
+export type Place = {
+  id: number;
+  name: string;
+};
 export interface EventDetail {
   id: number;
   name: string;
   price: number;
-  place: { id: number; name: string };
+  place: Place;
+  events: ProgramEvent[];
   runningTime: number;
-  runningDate: Date;
-  reservationOpenDate: string;
-  reservationCloseDate: string;
+  reservationOpenDate: Date;
+  reservationCloseDate: Date;
 }
-export type ProgramEvent = Pick<EventDetail, 'id' | 'runningDate'>;
+export type ProgramEvent = { id: number; runningDate: Date };
 export interface ProgramDetail {
   id: number;
   name: string;
   runningTime: number;
   genre: string;
   actors: string;
-  place: { id: number; name: string };
+  place: Place;
   profileUrl: string;
   price: number;
   events: ProgramEvent[];
@@ -55,3 +61,7 @@ export interface Section {
   seats: boolean[];
   colLen: number;
 }
+
+export type EventInfo = {
+  [key in keyof typeof EVENT_INFO_LABEL]: string;
+};
