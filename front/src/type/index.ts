@@ -1,4 +1,4 @@
-import { EVENT_INFO_LABEL } from './../constants/index';
+import { EVENT_INFO_LABEL } from '@/constants';
 
 //TODO domain 별 타입 분리
 export interface Program {
@@ -16,6 +16,7 @@ export type Place = {
   id: number;
   name: string;
 };
+
 export interface EventDetail {
   id: number;
   name: string;
@@ -43,7 +44,7 @@ export interface PlaceInformation {
   layout: Layout;
 }
 
-interface Layout {
+export interface Layout {
   overview: string;
   overviewWidth: number;
   overviewHeight: number;

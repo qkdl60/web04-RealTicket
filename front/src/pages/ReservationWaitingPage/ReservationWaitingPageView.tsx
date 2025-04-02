@@ -18,7 +18,6 @@ export default function ReservationWaitingPageView({
   overviewImageURL,
   eventInfo,
   restTime,
-
   canGoNextPage,
   isReservationOpen,
   permissionAndGoNextPage,

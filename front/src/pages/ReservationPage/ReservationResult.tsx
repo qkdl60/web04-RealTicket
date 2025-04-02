@@ -4,21 +4,21 @@ import Button from '@/components/common/Button.tsx';
 import Icon from '@/components/common/Icon.tsx';
 import Separator from '@/components/common/Separator.tsx';
 
-import { SelectedSeat } from '@/pages/ReservationPage/SectionAndSeat.tsx';
+import { SelectedSeat } from '@/pages/ReservationPage/SectionAndSeat';
 
 import { getDate, getTime } from '@/utils/date.ts';
 import { getPriceWon } from '@/utils/getPriceWon.ts';
 
 import { EventDetail } from '@/type/index.ts';
 
-interface IReservationResultProps {
+type ReservationResultProps = {
   event: EventDetail;
   reservationResult: SelectedSeat[];
-}
-export default function ReservationResult({ event, reservationResult }: IReservationResultProps) {
-  const { name, runningDate, place, price } = event;
-  //TODO 가격 호출 필요
-
+};
+export default function ReservationResult({ event, reservationResult }: ReservationResultProps) {
+  const { name, place, price, events } = event;
+  const eventDetail = events[0];
+  const { runningDate } = eventDetail;
   const placeName = place.name;
   return (
     <div className="flex flex-col gap-8 rounded-xl border-2 border-e-surface-sub p-6 shadow-xl">

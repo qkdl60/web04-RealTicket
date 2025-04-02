@@ -13,6 +13,12 @@ interface CaptchaProps {
   goNextStep: () => void;
 }
 //TODO 취소 버튼 관리
+const CAPTCHA_TEXT_LENGTH = 6;
+const HELP_MESSAGE_LIST = [
+  '대소문자 구분 없이 입력해주세요.',
+  '문자가 정확히 보기 어려우시면 보안문자 우측의 새로고침 버튼을 눌러주세요.',
+];
+
 export default function Captcha({ goNextStep }: CaptchaProps) {
   const [inputData, setInputData] = useState<string>('');
   const [isValid, setIsValid] = useState<boolean>(true);
@@ -79,8 +85,3 @@ export default function Captcha({ goNextStep }: CaptchaProps) {
     </div>
   );
 }
-const CAPTCHA_TEXT_LENGTH = 6;
-const HELP_MESSAGE_LIST = [
-  '대소문자 구분 없이 입력해주세요.',
-  '문자가 정확히 보기 어려우시면 보안문자 우측의 새로고침 버튼을 눌러주세요.',
-];

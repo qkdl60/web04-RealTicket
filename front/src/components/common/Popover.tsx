@@ -55,10 +55,23 @@ const Root = ({ children }: IRootProps) => {
 };
 interface ITriggerProps {
   render: (togglePopover: () => void, ref: MutableRefObject<HTMLButtonElement>) => ReactElement;
+  onBeforeOpen?: () => Promise<boolean>;
 }
-const Trigger = ({ render }: ITriggerProps) => {
+const Trigger = ({ render, onBeforeOpen }: ITriggerProps) => {
   const { togglePopover, triggerRef } = usePopoverContext();
-  return <>{render(togglePopover, triggerRef as MutableRefObject<HTMLButtonElement>)}</>;
+
+  const handleClick = async () => {
+    if (onBeforeOpen) {
+      const shouldOpen = await onBeforeOpen();
+      if (shouldOpen) {
+        togglePopover();
+      }
+    } else {
+      togglePopover();
+    }
+  };
+
+  return <>{render(handleClick, triggerRef as MutableRefObject<HTMLButtonElement>)}</>;
 };
 interface IOverlayProps {
   children: ReactNode;
@@ -77,7 +90,7 @@ const Overlay = ({ children }: IOverlayProps) => {
   return (
     <>
       {isOpen && (
-        <div ref={overlayRef} className="fixed h-full w-full" onClick={handleClick}>
+        <div ref={overlayRef} className="fixed left-0 top-0 h-full w-full" onClick={handleClick}>
           {children}
         </div>
       )}
@@ -89,37 +102,55 @@ interface IContent {
 }
 const Content = ({ children }: IContent) => {
   const { isOpen, triggerRef } = usePopoverContext();
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const contentRef = useRef(null);
+  const [position, setPosition] = useState({ top: 0, bottom: 0, left: 0, right: 0, width: 0, height: 0 });
+  const [isReady, setIsReady] = useState(false);
   const hasButtonRef = triggerRef && triggerRef.current;
   const canOpen = isOpen && hasButtonRef;
-  //TODO 타입 정리필요, 상수 정리
+
   const updatePosition = useCallback(() => {
     if (triggerRef && triggerRef.current) {
       const trigger = triggerRef.current!;
-      const { top, height } = trigger.getBoundingClientRect();
-      setPosition({ x: top, y: height });
+      const { height, width, left, right, top, bottom } = trigger.getBoundingClientRect();
+      setPosition({ top, bottom, left, right, width, height });
+      setIsReady(true);
     }
   }, [triggerRef]);
 
   useEffect(() => {
+    setIsReady(false);
     updatePosition();
     if (isOpen) {
       window.addEventListener('scroll', updatePosition);
+      window.addEventListener('resize', updatePosition);
     }
     return () => {
       window.removeEventListener('scroll', updatePosition);
+      window.removeEventListener('resize', updatePosition);
     };
   }, [isOpen, updatePosition]);
+
+  const { contentX, contentY } = getContentPosition(
+    position.top,
+    position.left,
+    position.width,
+    position.height,
+    contentRef,
+    8,
+  );
 
   return (
     <>
       {canOpen &&
         createPortal(
           <div
-            className="fixed z-10 cursor-default"
+            ref={contentRef}
+            className={`fixed z-10 cursor-default transition-opacity duration-150 ${
+              isReady ? 'opacity-100' : 'opacity-0'
+            }`}
             style={{
-              top: position.x + position.y + 24,
-              right: 32,
+              top: contentY,
+              left: contentX,
             }}>
             {children}
           </div>,
@@ -131,3 +162,33 @@ const Content = ({ children }: IContent) => {
 
 const Popover = { Root, Overlay, Trigger, Content };
 export default Popover;
+
+const getContentPosition = (
+  top: number,
+  left: number,
+  width: number,
+  height: number,
+  contentRef: MutableRefObject<HTMLDivElement | null>,
+  gap: number = 0,
+) => {
+  const { width: contentWidth, height: contentHeight } = contentRef.current?.getBoundingClientRect() || {
+    width: 0,
+    height: 0,
+  };
+
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+
+  let contentX = left + width - contentWidth;
+  let contentY = top + height + gap;
+
+  if (contentX + contentWidth > viewportWidth) {
+    contentX = left;
+  }
+
+  if (contentY + contentHeight > viewportHeight) {
+    contentY = top - contentHeight - gap;
+  }
+
+  return { contentX, contentY };
+};

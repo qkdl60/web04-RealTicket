@@ -3,8 +3,9 @@ import { getDate, getTime } from '@/utils/date.ts';
 import type { EventInfo } from '@/type/index.ts';
 import type { EventDetail } from '@/type/index.ts';
 
-export const formatEventInfo = (event: EventDetail, placeName: string): EventInfo => {
-  const { name: eventName, runningTime, events, reservationOpenDate } = event;
+export const formatEventInfo = (event: EventDetail): EventInfo => {
+  const { name: eventName, runningTime, events, reservationOpenDate, place } = event;
+  const placeName = place.name;
   const runningOpenDate = events[0].runningDate;
   return {
     name: eventName,

@@ -4,6 +4,8 @@
 
 RestTime 시간별 텍스트 변경
 
+TODO 훅 테스트 추가 
+
 */
 import ReservationWaitingPageView from '@/pages/ReservationWaitingPage/ReservationWaitingPageView.tsx';
 import RestTime from '@/pages/ReservationWaitingPage/RestTime.tsx';
@@ -68,6 +70,7 @@ describe('오픈 시간 버튼 상태 ', () => {
       />,
     );
     const button = screen.getByRole('button', { name: '예매하기' });
+
     expect(button).toBeEnabled();
   });
 });

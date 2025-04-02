@@ -62,9 +62,9 @@ const router = createBrowserRouter([
       {
         path: `${ROUTE_URL.EVENT.DEFAULT}/:eventId`,
         element: (
-          <WithLogin>
-            <ReservationPage />
-          </WithLogin>
+          // <WithLogin>
+          <ReservationPage />
+          // </WithLogin>
         ),
       },
       {
@@ -77,6 +77,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+
   { path: '*', element: <NotFoundPage /> },
 ]);
 
