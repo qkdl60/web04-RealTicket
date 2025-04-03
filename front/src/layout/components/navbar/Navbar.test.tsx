@@ -11,8 +11,7 @@
  */
 import { BrowserRouter } from 'react-router-dom';
 
-import Navbar from '@/components/Navbar';
-
+import Navbar from '@/layout/components/navbar';
 import { useAuthStore } from '@/stores/auth/authStore';
 import type { AuthState } from '@/stores/auth/authStore';
 import '@testing-library/jest-dom';

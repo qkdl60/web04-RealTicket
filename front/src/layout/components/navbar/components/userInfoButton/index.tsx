@@ -1,10 +1,10 @@
-import ReservationCard from '@/components/Navbar/ReservationCard.tsx';
-import useUserInfoButton from '@/components/Navbar/useUserInfoButton.tsx';
 import Button from '@/components/common/Button.tsx';
 import Icon from '@/components/common/Icon.tsx';
 import Popover from '@/components/common/Popover.tsx';
 import Separator from '@/components/common/Separator.tsx';
 
+import ReservationCard from '@/layout/components/navbar/components/userInfoButton/components/reservationCard';
+import useUserInfoButton from '@/layout/components/navbar/components/userInfoButton/hooks/useUserInfoButton';
 import { cx } from 'class-variance-authority';
 
 const POPOVER_WIDTH = 460;

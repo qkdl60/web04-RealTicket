@@ -1,10 +1,10 @@
-import GuestLoginButton from '@/components/Navbar/GuestLoginButton.tsx';
-import HeaderLogo from '@/components/Navbar/HeaderLogo.tsx';
-import LoginButton from '@/components/Navbar/LoginButton.tsx';
-import SignupButton from '@/components/Navbar/SignupButton.tsx';
-import UserInfoButton from '@/components/Navbar/UserInfoButton.tsx';
-
 import { useAuthStore } from '@/stores/auth/authStore.ts';
+
+import GuestLoginButton from './components/guestLoginButton';
+import HeaderLogo from './components/headerLogo';
+import LoginButton from './components/loginButton';
+import SignupButton from './components/signupButton';
+import UserInfoButton from './components/userInfoButton';
 
 export default function Navbar() {
   const { isLogin } = useAuthStore((state) => state.auth);
