@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { type CustomError } from '@/api/axios.ts';
 import { type UserData, postLogin } from '@/api/user.ts';
 
-import { useAuthContext } from '@/hooks/useAuthContext.tsx';
 import useForm from '@/hooks/useForm';
 
 import { toast } from '@/components/Toast/index.ts';
@@ -15,6 +14,7 @@ import Input from '@/components/common/Input';
 import { lengthValidate } from '@/pages/LoginPage/validate.ts';
 
 import { LOGIN_FAILED_MESSAGE } from '@/constants/user.ts';
+import { useAuthStore } from '@/stores/auth/authStore.ts';
 import type { LoginForm } from '@/type/user.ts';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
@@ -29,7 +29,8 @@ export default function LoginPage() {
     register,
     formState: { errors },
   } = useForm<LoginForm>();
-  const { login } = useAuthContext();
+  const { login } = useAuthStore((state) => state.action);
+
   const navigation = useNavigate();
   const { mutate, isPending, error } = useMutation<AxiosResponse<ResponseData>, CustomError, UserData>({
     mutationFn: postLogin,
