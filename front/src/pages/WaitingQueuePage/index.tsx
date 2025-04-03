@@ -24,9 +24,15 @@ export default function WaitingQueuePage() {
 
   const resetUserOrder = useWaitingInfoStore((state) => state.action.resetUserOrder);
   const { name: eventName, place, runningDate, runningTime } = useSuspenseEventQuery(Number(eventId));
-  const { isLoadingWaitingData, myOrder, waitingTimeText, progressValue, totalWaiting, canGo, restCount } =
+  const { isLoadingWaitingData, myOrder, waitingTimeText, progressValue, totalWaiting, isMyTurn, restCount } =
     useWaitingData(Number(eventId));
   const isInvalidAccess = !eventId || !myOrder;
+
+  useEffect(() => {
+    return () => {
+      resetUserOrder();
+    };
+  }, [resetUserOrder]);
 
   const eventInformation = [
     [
@@ -63,16 +69,10 @@ export default function WaitingQueuePage() {
       content: <span className="text-heading3 text-typo">{waitingTimeText}</span>,
     },
   ];
-
-  useEffect(() => {
-    return () => {
-      resetUserOrder();
-    };
-  }, [resetUserOrder]);
-
   if (isInvalidAccess) return <Navigate to="/" replace />;
-  if (canGo) return <Navigate to={ROUTE_URL.EVENT.DETAIL(Number(eventId))} replace />;
+  if (isMyTurn) return <Navigate to={ROUTE_URL.EVENT.DETAIL(Number(eventId))} replace />;
   if (isLoadingWaitingData) return <LoadingPage />;
+
   return (
     <Card>
       <h2 className="text-heading1 text-typo">{eventName}</h2>

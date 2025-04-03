@@ -1,4 +1,4 @@
-export const calcProgressValue = (firstWaitingTime: number | null, waitingTime: number | null) => {
-  if (firstWaitingTime === null || waitingTime === null) return 0;
-  return ((firstWaitingTime - waitingTime) / firstWaitingTime) * 100;
+export const calcProgressValue = (initialWaitingTime: number | null, waitingTime: number | null) => {
+  if (initialWaitingTime === null || waitingTime === null) return 0;
+  return ((initialWaitingTime - waitingTime) / initialWaitingTime) * 100;
 };

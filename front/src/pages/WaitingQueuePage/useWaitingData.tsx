@@ -27,9 +27,10 @@ export default function useWaitingData(eventId: number) {
   const waitingTime = calcWaitingTime(restCount, throughputRate);
   const waitingTimeText = formatWaitingTime(waitingTime);
   const progressValue = calcProgressValue(initialWaitingTimeRef.current, waitingTime);
-  initialWaitingTimeRef.current =
-    initialWaitingTimeRef.current == null && waitingData ? waitingTime : initialWaitingTimeRef.current;
-  const canGo = restCount !== null && restCount <= 0;
 
-  return { isLoadingWaitingData, myOrder, waitingTimeText, progressValue, totalWaiting, canGo, restCount };
+  initialWaitingTimeRef.current =
+    initialWaitingTimeRef.current === null && waitingTime !== null ? waitingTime : null;
+  const isMyTurn = restCount !== null && restCount <= 0;
+
+  return { isLoadingWaitingData, myOrder, waitingTimeText, progressValue, totalWaiting, isMyTurn, restCount };
 }
