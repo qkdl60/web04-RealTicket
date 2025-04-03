@@ -22,8 +22,8 @@ export interface EventDetail {
   name: string;
   price: number;
   place: Place;
-  events: ProgramEvent[];
   runningTime: number;
+  runningDate: Date;
   reservationOpenDate: Date;
   reservationCloseDate: Date;
 }

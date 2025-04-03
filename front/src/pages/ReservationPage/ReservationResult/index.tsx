@@ -15,10 +15,16 @@ type ReservationResultProps = {
   event: EventDetail;
   reservationResult: SelectedSeat[];
 };
+
+const ALERT_MESSAGE_LIST = [
+  '에매하신 내용은 상단 유저 정보를 통해서 확인 할 수 있습니다.',
+  '공연 당일 예매 내역 및 신분증을 지참해주세요.',
+  '공연 시작 후에는 입장이 제한 될 수 있습니다.',
+];
+
 export default function ReservationResult({ event, reservationResult }: ReservationResultProps) {
-  const { name, place, price, events } = event;
-  const eventDetail = events[0];
-  const { runningDate } = eventDetail;
+  const { name, place, price, runningDate } = event;
+
   const placeName = place.name;
   return (
     <div className="flex flex-col gap-8 rounded-xl border-2 border-e-surface-sub p-6 shadow-xl">
@@ -43,14 +49,14 @@ export default function ReservationResult({ event, reservationResult }: Reservat
             <Icon iconName="Ticket" />
             <span className="text-heading2 text-typo">선택한 좌석</span>
           </div>
-          <div>
+          <ul>
             {reservationResult.map((ticket) => (
-              <div key={ticket.name} className="flex items-center justify-between text-display1 text-typo">
+              <li key={ticket.name} className="flex items-center justify-between text-display1 text-typo">
                 <span>{ticket.name}</span>
                 <span>{getPriceWon(price)}</span>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
           <div className="flex items-center justify-between">
             <span className="text-heading3 text-typo">총 결제 금액</span>
             <span className="text-display1 text-primary">
@@ -60,7 +66,6 @@ export default function ReservationResult({ event, reservationResult }: Reservat
         </div>
       </div>
       <Separator direction="row" />
-
       <ul className="list-disc px-6">
         {ALERT_MESSAGE_LIST.map((text) => (
           <li key={text} className="text-caption2 text-typo-sub">
@@ -77,9 +82,3 @@ export default function ReservationResult({ event, reservationResult }: Reservat
     </div>
   );
 }
-
-const ALERT_MESSAGE_LIST = [
-  '에매하신 내용은 상단 유저 정보를 통해서 확인 할 수 있습니다.',
-  '공연 당일 예매 내역 및 신분증을 지참해주세요.',
-  '공연 시작 후에는 입장이 제한 될 수 있습니다.',
-];

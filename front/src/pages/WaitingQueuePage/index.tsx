@@ -1,64 +1,32 @@
-import { useEffect, useRef } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-
-import { BASE_URL } from '@/api/axios.ts';
-import { getEventDetail } from '@/api/event.ts';
-
-import useSSE from '@/hooks/useSSE.tsx';
+import { useEffect } from 'react';
+import { Navigate, useParams } from 'react-router-dom';
 
 import Card from '@/components/common/Card.tsx';
 import Icon from '@/components/common/Icon.tsx';
 import Progressbar from '@/components/common/Progressbar.tsx';
 
 import LoadingPage from '@/pages/LoadingPage.tsx';
+import useSuspenseEventQuery from '@/pages/WaitingQueuePage/useSuspenseEventQuery.tsx';
+import useWaitingData from '@/pages/WaitingQueuePage/useWaitingData.tsx';
 
 import { getDate, getTime } from '@/utils/date.ts';
 
-import { API, ROUTE_URL } from '@/constants/index.ts';
-import type { RePermissionResult } from '@/type/booking.ts';
-import type { EventDetail } from '@/type/index.ts';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { ROUTE_URL } from '@/constants/index.ts';
+import { useWaitingInfoStore } from '@/stores/booking/waitingInfoStore.ts';
+
+const ALERT_MESSAGE_LIST = [
+  `입장 순서가 되면 자동으로 좌석 선택 페이지로 이동됩니다.`,
+  `브라우저를 닫거나 새로고침 하지 마세요. 입장 순서가 늦어질 수 있습니다.`,
+];
 
 export default function WaitingQueuePage() {
   const { eventId } = useParams();
-  const { state } = useLocation();
-  const navigate = useNavigate();
-  const { userOrder } = state;
-  const myOrder = userOrder;
-  const firstWaitingTime = useRef<number | null>(null);
-  const { data: event } = useSuspenseQuery<EventDetail>({
-    queryKey: ['event', eventId],
-    queryFn: getEventDetail(Number(eventId)),
-    staleTime: Infinity,
-  });
-  const { name, place, runningDate, runningTime } = event;
 
-  const { data } = useSSE<RePermissionResult>({
-    sseURL: `${BASE_URL}${API.BOOKING.GET_RE_PERMISSION(Number(eventId))}`,
-  });
-
-  const totalWaiting = data?.totalWaiting;
-  const throughputRate = data?.throughputRate;
-  const headOrder = data?.headOrder;
-  const restCount = headOrder ? myOrder - headOrder + 1 : null;
-  const waitingTime = headOrder ? Math.floor(restCount! / (throughputRate! / 1000)) : null;
-
-  const restTimeText = waitingTime == null || waitingTime < 100 ? `1분 이내` : `${waitingTime} 초`;
-
-  useEffect(() => {
-    if (!myOrder || !eventId) {
-      //TODO toast
-      navigate('/', { replace: true });
-    }
-  }, [myOrder, eventId, navigate]);
-
-  useEffect(() => {
-    if (firstWaitingTime.current == null && data) {
-      firstWaitingTime.current = waitingTime;
-    }
-  }, [data, waitingTime]);
-
-  if (!data) return <LoadingPage />;
+  const resetUserOrder = useWaitingInfoStore((state) => state.action.resetUserOrder);
+  const { name: eventName, place, runningDate, runningTime } = useSuspenseEventQuery(Number(eventId));
+  const { isLoadingWaitingData, myOrder, waitingTimeText, progressValue, totalWaiting, canGo, restCount } =
+    useWaitingData(Number(eventId));
+  const isInvalidAccess = !eventId || !myOrder;
 
   const eventInformation = [
     [
@@ -92,26 +60,22 @@ export default function WaitingQueuePage() {
     {
       icon: <Icon iconName="Clock" />,
       title: '예상 대기 시간',
-      content: <span className="text-heading3 text-typo">{restTimeText}</span>,
+      content: <span className="text-heading3 text-typo">{waitingTimeText}</span>,
     },
   ];
 
-  const progressValue =
-    firstWaitingTime.current == null
-      ? 0
-      : ((firstWaitingTime.current - waitingTime!) / firstWaitingTime.current!) * 100;
+  useEffect(() => {
+    return () => {
+      resetUserOrder();
+    };
+  }, [resetUserOrder]);
 
-  const canGo = restCount !== null && restCount <= 0;
-
-  if (canGo) {
-    if (eventId) {
-      navigate(ROUTE_URL.EVENT.DETAIL(Number(eventId)), { replace: true });
-    }
-  }
-
+  if (isInvalidAccess) return <Navigate to="/" replace />;
+  if (canGo) return <Navigate to={ROUTE_URL.EVENT.DETAIL(Number(eventId))} replace />;
+  if (isLoadingWaitingData) return <LoadingPage />;
   return (
     <Card>
-      <h2 className="text-heading1 text-typo">{name}</h2>
+      <h2 className="text-heading1 text-typo">{eventName}</h2>
       <div className="flex justify-between">
         {eventInformation.map((infoList) => (
           <div className="flex max-w-[50%] flex-col gap-4">
@@ -140,7 +104,3 @@ export default function WaitingQueuePage() {
     </Card>
   );
 }
-const ALERT_MESSAGE_LIST = [
-  `입장 순서가 되면 자동으로 좌석 선택 페이지로 이동됩니다.`,
-  `브라우저를 닫거나 새로고침 하지 마세요. 입장 순서가 늦어질 수 있습니다.`,
-];

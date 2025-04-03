@@ -4,15 +4,15 @@ import type { EventInfo } from '@/type/index.ts';
 import type { EventDetail } from '@/type/index.ts';
 
 export const formatEventInfo = (event: EventDetail): EventInfo => {
-  const { name: eventName, runningTime, events, reservationOpenDate, place } = event;
+  const { name: eventName, runningTime, runningDate, reservationOpenDate, place } = event;
   const placeName = place.name;
-  const runningOpenDate = events[0].runningDate;
+
   return {
     name: eventName,
     place: placeName,
     runningTime: `${runningTime}분`,
-    date: getDate(new Date(runningOpenDate)),
-    time: getTime(new Date(runningOpenDate)),
+    date: getDate(new Date(runningDate)),
+    time: getTime(new Date(runningDate)),
     reservationOpenTime: getDate(new Date(reservationOpenDate)),
   };
 };
