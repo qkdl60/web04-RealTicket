@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { type VariantProps, cva } from 'class-variance-authority';
 
 const seatVariants = cva('rounded', {
@@ -32,4 +34,6 @@ function Seat({ state, seatName, onClick }: SeatProps) {
     />
   );
 }
-export default Seat;
+export default memo(Seat, (prevProps, nextProps) => {
+  return prevProps.state === nextProps.state && prevProps.seatName === nextProps.seatName;
+});

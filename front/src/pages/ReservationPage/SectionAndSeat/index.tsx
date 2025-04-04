@@ -10,9 +10,9 @@ import Separator from '@/components/common/Separator.tsx';
 
 import SeatCountSelector from '@/pages/ReservationPage/SectionAndSeat/SeatCountSelector.tsx';
 import SeatSelectorMap from '@/pages/ReservationPage/SectionAndSeat/SeatSelectorMap.tsx';
+import SectionSelectorMap from '@/pages/ReservationPage/SectionAndSeat/SectionSelectorMap';
 import SelectedSeatInfo from '@/pages/ReservationPage/SectionAndSeat/SelectedSeatInfo.tsx';
 import useConfirmMutation from '@/pages/ReservationPage/SectionAndSeat/useConfirmMutation.tsx';
-import SectionSelectorMap from '@/pages/ReservationPage/SectionSelectorMap';
 import { formatEventInfo } from '@/pages/ReservationWaitingPage/formatEventInfo.ts';
 
 import { changeSeatCountDebounce } from '@/utils/debounce.ts';
@@ -33,12 +33,12 @@ export interface SelectedSeat {
 
 type SectionAndSeatProps = {
   seatCount: SeatCount;
-  changeSeatCount: (count: SeatCount) => void;
+
   goNextStep: () => void;
   setReservationResult: (result: SelectedSeat[]) => void;
   event: EventDetail;
   placeInformation: PlaceInformation;
-  selectSeatCount: (count: SeatCount) => void;
+  setSeatCount: (count: SeatCount) => void;
 };
 
 export default function SectionAndSeat({
@@ -46,7 +46,7 @@ export default function SectionAndSeat({
   event,
   placeInformation,
   setReservationResult,
-  selectSeatCount,
+  setSeatCount,
   goNextStep,
 }: SectionAndSeatProps) {
   usePreventLeave();
@@ -65,12 +65,14 @@ export default function SectionAndSeat({
   const eventInfo = formatEventInfo(event);
 
   const changeSeatCount = (count: SeatCount) => {
-    setSelectedSeatList([]);
-    selectSeatCount(count);
     setIsChangingSeatCount(true);
     toast.warning('예매 매수 변경 중입니다.\n잠시만 기다려 주세요.');
     changeSeatCountDebounce(() => {
       postSeatCountMutate(count, {
+        onSuccess: () => {
+          setSelectedSeatList([]);
+          setSeatCount(count);
+        },
         onSettled: () => {
           setIsChangingSeatCount(false);
         },

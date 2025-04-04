@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { BASE_URL } from '@/api/axios.ts';
@@ -18,6 +19,8 @@ import type { Section } from '@/type/index.ts';
 import { cx } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
 
+import { calcSeatNameList } from './calcColumnCountList.ts';
+
 interface SeatSelectorMapProps {
   selectedSection: Section;
   selectedSectionIndex: number;
@@ -35,7 +38,6 @@ export default function SeatSelectorMap({
   selectedSeatList,
 }: SeatSelectorMapProps) {
   const { eventId } = useParams();
-
   const { name, seats, colLen } = selectedSection;
   const { requestCancelSeat, requestReserveSeat } = useSelectSeatMutation(
     PICK_SEAT_MUTATION_KEY,
@@ -52,7 +54,6 @@ export default function SeatSelectorMap({
   const seatStatusList = data && data.seatStatus;
   const selectedSeatStatus = seatStatusList ? seatStatusList[selectedSectionIndex] : [];
   const canView = isLoading === false && seatStatusList && seatStatusList.length !== 0;
-
   const selectedCount = selectedSeatList.length;
 
   const getHandleClick = (seatIndex: number, seatName: string, stateState: SeatState) => () => {
@@ -63,7 +64,11 @@ export default function SeatSelectorMap({
     if (maxSelectCount <= selectedCount) return;
     requestReserveSeat(seatIndex, seatName);
   };
-  let columnCount = 1;
+  const seatNameList = useMemo(() => {
+    console.log('reCalc');
+    return calcSeatNameList(seats, colLen, name);
+  }, [colLen, name, seats]);
+
   return (
     <>
       <StageDirection />
@@ -76,10 +81,7 @@ export default function SeatSelectorMap({
         )}>
         {canView ? (
           seats.map((seat, seatIndex) => {
-            const rowsCount = Math.floor(seatIndex / colLen) + 1;
-            const isNewLine = seatIndex % colLen === 0;
-            if (isNewLine) columnCount = 1;
-            const seatName = seat ? `${name}구역 ${rowsCount}행 ${columnCount}열` : `empty`;
+            const seatName = seatNameList[seatIndex];
             const stateState = getSeatState(
               seat,
               seatName,
@@ -89,7 +91,7 @@ export default function SeatSelectorMap({
               selectedSeatList,
               selectedSeatStatus,
             );
-            if (seat) columnCount++;
+
             return (
               <Seat
                 key={`${seatName}${seatIndex}`}

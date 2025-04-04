@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import Captcha from '@/components/Captcha/index.tsx';
 
 import ReservationResult from '@/pages/ReservationPage/ReservationResult';
-import SeatCountContent from '@/pages/ReservationPage/SeatCountContent';
+import SeatCountSelector from '@/pages/ReservationPage/SeatCountSelector';
 import type { SelectedSeat } from '@/pages/ReservationPage/SectionAndSeat';
 import SectionAndSeat from '@/pages/ReservationPage/SectionAndSeat';
 import useEventAndPlaceDate from '@/pages/ReservationWaitingPage/useEventAndPlaceDate.tsx';
@@ -21,10 +21,6 @@ export default function ReservationPage() {
   const [reservationResult, setReservationResult] = useState<SelectedSeat[]>([]);
   const [step, setStep] = useState<ReservationStep>('selectSeats');
 
-  const selectCount = (count: SeatCount) => {
-    setSeatCount(count);
-  };
-
   const isReadyReservationResult = reservationResult !== null && step === 'result';
   const isReadyPlaceInfo = !isPlaceInfoPending && !!placeInfo;
   if (step === 'captcha') {
@@ -39,8 +35,8 @@ export default function ReservationPage() {
 
   if (step === 'setCount') {
     return (
-      <SeatCountContent
-        selectCount={selectCount}
+      <SeatCountSelector
+        setSeatCount={setSeatCount}
         seatCount={seatCount}
         goNextStep={() => {
           setStep('selectSeats');
@@ -52,11 +48,10 @@ export default function ReservationPage() {
     return (
       isReadyPlaceInfo && (
         <SectionAndSeat
-          selectSeatCount={selectCount}
+          setSeatCount={setSeatCount}
           placeInformation={placeInfo!}
           event={event}
           seatCount={seatCount}
-          changeSeatCount={selectCount}
           setReservationResult={setReservationResult}
           goNextStep={() => {
             setStep('result');

@@ -13,17 +13,17 @@ import { cx } from 'class-variance-authority';
 
 interface ISeatCountContentProps {
   seatCount: SeatCount;
-  selectCount: (count: SeatCount) => void;
+  setSeatCount: (count: SeatCount) => void;
   goNextStep: () => void;
 }
 //section 선택 페이지는 좌석 선택시에도 사용된다\
 
-export default function SeatCountContent({ selectCount, goNextStep, seatCount }: ISeatCountContentProps) {
+export default function SeatCountSelector({ setSeatCount, goNextStep, seatCount }: ISeatCountContentProps) {
   const { mutate: postSeatCountMutate, isPending } = useMutation({ mutationFn: postSeatCount });
   const selectSeatCount = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedCount = Number(event.target.value);
     if (selectedCount == seatCount) return;
-    selectCount(selectedCount as SeatCount);
+    setSeatCount(selectedCount as SeatCount);
   };
 
   const handleNextStep = async () => {

@@ -3,12 +3,17 @@ import { BASE_URL } from '@/api/axios.ts';
 import { seats } from '@/mocks/data/seats.ts';
 import { http } from 'msw';
 
+const random = () => {
+  const r = Math.random();
+  return r > 0.5 ? true : false;
+};
 export const bookingHandler = [
   http.get(`${BASE_URL}/booking/seat/:id`, () => {
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
       start(controller) {
         const interval = setInterval(() => {
+          seats[0][0] = random();
           const data = {
             seatStatus: seats,
           };
