@@ -1,10 +1,7 @@
 import { useState } from 'react';
 
-import { postSeatCount } from '@/api/booking.ts';
-
 import usePreventLeave from '@/hooks/usePreventLeave.tsx';
 
-import { toast } from '@/components/Toast/index.ts';
 import Dimmed from '@/components/common/Dimmed.tsx';
 import Separator from '@/components/common/Separator.tsx';
 
@@ -12,18 +9,16 @@ import SeatCountSelector from '@/pages/ReservationPage/SectionAndSeat/SeatCountS
 import SeatSelectorMap from '@/pages/ReservationPage/SectionAndSeat/SeatSelectorMap.tsx';
 import SectionSelectorMap from '@/pages/ReservationPage/SectionAndSeat/SectionSelectorMap';
 import SelectedSeatInfo from '@/pages/ReservationPage/SectionAndSeat/SelectedSeatInfo.tsx';
-import useConfirmMutation from '@/pages/ReservationPage/SectionAndSeat/useConfirmMutation.tsx';
+import useCompleteReservationMutation from '@/pages/ReservationPage/SectionAndSeat/useCompleteReservationMutation.tsx';
 import { formatEventInfo } from '@/pages/ReservationWaitingPage/formatEventInfo.ts';
-
-import { changeSeatCountDebounce } from '@/utils/debounce.ts';
 
 import type { EventDetail, PlaceInformation } from '@/type/index.ts';
 import type { SeatCount } from '@/type/reservation.ts';
-import { useMutation } from '@tanstack/react-query';
 
 import CompleteButton from './CompleteButton';
 import EventInfoSection from './EventInfoSection';
 import SeatStatusGuide from './SeatStatusGuide';
+import useChangeSeatCountMutation from './useChangeSeatCountMutation.tsx';
 
 export interface SelectedSeat {
   sectionIndex: number;
@@ -33,7 +28,6 @@ export interface SelectedSeat {
 
 type SectionAndSeatProps = {
   seatCount: SeatCount;
-
   goNextStep: () => void;
   setReservationResult: (result: SelectedSeat[]) => void;
   event: EventDetail;
@@ -52,9 +46,8 @@ export default function SectionAndSeat({
   usePreventLeave();
   const [selectedSectionIndex, setSelectedSectionIndex] = useState<number | null>(null);
   const [selectedSeatList, setSelectedSeatList] = useState<SelectedSeat[]>([]);
-  const [isChangingSeatCount, setIsChangingSeatCount] = useState<boolean>(false);
-  const confirmReservation = useConfirmMutation();
-  const { mutate: postSeatCountMutate } = useMutation({ mutationFn: postSeatCount });
+  const completeReservation = useCompleteReservationMutation();
+
   const { layout } = placeInformation;
   const { sections } = layout;
   const { id: eventId } = event;
@@ -64,24 +57,13 @@ export default function SectionAndSeat({
   const beSelectedSection = selectedSectionIndex !== null && selectedSection;
   const eventInfo = formatEventInfo(event);
 
-  const changeSeatCount = (count: SeatCount) => {
-    setIsChangingSeatCount(true);
-    toast.warning('예매 매수 변경 중입니다.\n잠시만 기다려 주세요.');
-    changeSeatCountDebounce(() => {
-      postSeatCountMutate(count, {
-        onSuccess: () => {
-          setSelectedSeatList([]);
-          setSeatCount(count);
-        },
-        onSettled: () => {
-          setIsChangingSeatCount(false);
-        },
-      });
-    });
-  };
+  const { changeSeatCount, isChangingSeatCount } = useChangeSeatCountMutation(
+    setSeatCount,
+    setSelectedSeatList,
+  );
 
-  const completeReservation = () => {
-    confirmReservation({
+  const onComplete = () => {
+    completeReservation({
       eventId,
       selectedSeatList,
       onSuccess: () => {
@@ -90,6 +72,7 @@ export default function SectionAndSeat({
       },
     });
   };
+
   return (
     <div className="flex w-full gap-4">
       <div className="m-auto flex w-[70%] flex-col gap-8 px-4 py-2">
@@ -132,7 +115,7 @@ export default function SectionAndSeat({
           isChangingSeatCount={isChangingSeatCount}
         />
         <Separator direction="row" />
-        <CompleteButton isCompleteSelectSeat={isCompleteSelectSeat} onClick={completeReservation} />
+        <CompleteButton isCompleteSelectSeat={isCompleteSelectSeat} onClick={onComplete} />
       </div>
     </div>
   );

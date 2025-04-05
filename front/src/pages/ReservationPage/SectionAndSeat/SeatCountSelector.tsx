@@ -1,9 +1,7 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import Select from 'react-select';
 
 import useConfirm from '@/hooks/useConfirm';
-
-import { changeSeatCountDebounce } from '@/utils/debounce';
 
 import { SEAT_COUNT_LIST } from '@/constants/reservation';
 
@@ -12,7 +10,7 @@ type SeatCountSelectorProps = {
   seatCount: number;
   changeSeatCount: (count: (typeof SEAT_COUNT_LIST)[number]) => void;
 };
-export default function SeatCountSelector({ seatCount, changeSeatCount }: SeatCountSelectorProps) {
+function SeatCountSelector({ seatCount, changeSeatCount }: SeatCountSelectorProps) {
   const { confirm } = useConfirm();
   const [isOpenSelect, setIsOpenSelect] = useState<boolean>(false);
 
@@ -49,7 +47,6 @@ export default function SeatCountSelector({ seatCount, changeSeatCount }: SeatCo
           });
           if (isConfirm) {
             setIsOpenSelect(true);
-            changeSeatCountDebounce(() => {});
           }
         }}
         onBlur={() => {
@@ -59,3 +56,7 @@ export default function SeatCountSelector({ seatCount, changeSeatCount }: SeatCo
     </label>
   );
 }
+export default memo(
+  SeatCountSelector,
+  (prev, next) => prev.seatCount === next.seatCount && prev.changeSeatCount === next.changeSeatCount,
+);

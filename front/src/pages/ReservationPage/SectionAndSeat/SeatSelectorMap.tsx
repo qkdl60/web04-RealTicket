@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { BASE_URL } from '@/api/axios.ts';
@@ -46,6 +46,7 @@ export default function SeatSelectorMap({
     setSelectedSeatList,
     selectedSectionIndex,
   );
+
   const reservingSeatList = useReservingSeatListState(PICK_SEAT_MUTATION_KEY);
   const { data, isLoading } = useSSE<{ seatStatus: boolean[][] }>({
     sseURL: `${BASE_URL}${API.BOOKING.GET_SEATS_SSE(Number(eventId))}`,
@@ -54,20 +55,23 @@ export default function SeatSelectorMap({
   const seatStatusList = data && data.seatStatus;
   const selectedSeatStatus = seatStatusList ? seatStatusList[selectedSectionIndex] : [];
   const canView = isLoading === false && seatStatusList && seatStatusList.length !== 0;
-  const selectedCount = selectedSeatList.length;
+  const selectedSeatCount = selectedSeatList.length;
 
-  const getHandleClick = (seatIndex: number, seatName: string, stateState: SeatState) => () => {
-    if (stateState === 'mine') {
-      requestCancelSeat(seatIndex, seatName);
-      return;
-    }
-    if (maxSelectCount <= selectedCount) return;
-    requestReserveSeat(seatIndex, seatName);
-  };
+  const selectSeatHandler = useCallback(
+    (seatIndex: number, seatName: string, stateState: SeatState) => {
+      if (stateState === 'mine') {
+        requestCancelSeat(seatIndex, seatName);
+        return;
+      }
+      if (maxSelectCount <= selectedSeatCount) return;
+      requestReserveSeat(seatIndex, seatName);
+    },
+    [maxSelectCount, selectedSeatCount, requestCancelSeat, requestReserveSeat],
+  );
+
   const seatNameList = useMemo(() => {
-    console.log('reCalc');
-    return calcSeatNameList(seats, colLen, name);
-  }, [colLen, name, seats]);
+    return calcSeatNameList(seats, colLen, name, Number(eventId), selectedSectionIndex);
+  }, [colLen, name, seats, eventId, selectedSectionIndex]);
 
   return (
     <>
@@ -97,7 +101,8 @@ export default function SeatSelectorMap({
                 key={`${seatName}${seatIndex}`}
                 seatName={seatName}
                 state={stateState}
-                onClick={getHandleClick(seatIndex, seatName, stateState)}
+                seatIndex={seatIndex}
+                onClick={selectSeatHandler}
               />
             );
           })

@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import type { SelectedSeat } from './index.tsx';
 
-function useConfirmMutation() {
+function useCompleteReservationMutation() {
   const queryClient = useQueryClient();
   const { mutate: confirmReservation } = useMutation({ mutationFn: postReservation });
   const completeReservation = ({
@@ -36,4 +36,4 @@ function useConfirmMutation() {
 
   return completeReservation;
 }
-export default useConfirmMutation;
+export default useCompleteReservationMutation;

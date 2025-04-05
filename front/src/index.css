@@ -6,22 +6,22 @@
 @layer base{
  @font-face {
   font-family: 'pretendard';
-  src: url('./assets/fonts/Pretendard-ExtraLight.subset.woff2');
+  src: url('./assets/fonts/Pretendard-ExtraLight.subset.woff2') format('woff2');
   font-weight:400 ;
  }
  @font-face {
   font-family: 'pretendard';
-  src: url('./assets/fonts/Pretendard-Regular.subset.woff2');
+  src: url('./assets/fonts/Pretendard-Regular.subset.woff2') format('woff2');
   font-weight: 500;
  }
  @font-face {
   font-family: 'pretendard';
-  src: url('./assets/fonts/Pretendard-Medium.subset.woff2');
+  src: url('./assets/fonts/Pretendard-Medium.subset.woff2') format('woff2');
   font-weight: 600;
  }
  @font-face {
   font-family: 'pretendard';
-  src: url('./assets/fonts/Pretendard-ExtraBold.subset.woff2');
+  src: url('./assets/fonts/Pretendard-ExtraBold.subset.woff2') format('woff2');
   font-weight: 700;
  }
 }

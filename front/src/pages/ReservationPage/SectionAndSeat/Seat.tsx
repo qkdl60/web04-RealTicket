@@ -1,5 +1,7 @@
 import { memo } from 'react';
 
+import { SeatState } from '@/pages/ReservationPage/SectionAndSeat/getSeatState.ts';
+
 import { type VariantProps, cva } from 'class-variance-authority';
 
 const seatVariants = cva('rounded', {
@@ -19,21 +21,20 @@ const seatVariants = cva('rounded', {
 
 type SeatProps = VariantProps<typeof seatVariants> & {
   seatName: string;
-  onClick: () => void;
+  onClick: (seatIndex: number, seatName: string, state: SeatState) => void;
+  seatIndex: number;
 };
 
-function Seat({ state, seatName, onClick }: SeatProps) {
+function Seat({ state, seatName, onClick, seatIndex }: SeatProps) {
   return (
     <div
       role="button"
-      data-name={seatName}
-      aria-label={`${state} 좌석`}
+      aria-label={seatName}
       tabIndex={state === 'available' ? 0 : -1}
       className={`h-6 w-6 ${seatVariants({ state })}`}
-      onClick={onClick}
+      onClick={() => onClick(seatIndex, seatName, state as SeatState)}
     />
   );
 }
-export default memo(Seat, (prevProps, nextProps) => {
-  return prevProps.state === nextProps.state && prevProps.seatName === nextProps.seatName;
-});
+// export default Seat;
+export default memo(Seat);

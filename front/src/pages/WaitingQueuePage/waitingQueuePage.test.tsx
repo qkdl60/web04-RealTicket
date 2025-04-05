@@ -7,13 +7,6 @@ import { RePermissionResult } from '@/type/booking.ts';
 import { act, renderHook } from '@testing-library/react';
 import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
-/**
- 각 상황에 따라서 페이지 작동 확인 
-  함수 유닛 테스트 
-
-  useWaitingData에 대해서 sse를 여러번 받았을떄 각 상황별 return 값 확인
- */
-
 vi.mock('@/hooks/useSSE', () => ({
   default: vi.fn(),
 }));

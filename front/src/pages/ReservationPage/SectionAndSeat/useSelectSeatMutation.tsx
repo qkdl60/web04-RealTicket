@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import { postSeat } from '@/api/booking.ts';
 
 import { toast } from '@/components/Toast/index.ts';
@@ -26,44 +28,50 @@ const useSelectSeatMutation = (
     },
     throwOnError: false,
   });
-  const requestCancelSeat = async (seatIndex: number, seatName: string) => {
-    const filteredSeatList = selectedSeatList.filter((seat) => seatName !== seat.name);
-    await selectSeat(
-      {
-        sectionIndex: selectedSectionIndex,
-        seatIndex: seatIndex,
-        expectedStatus: 'deleted',
-        eventId: Number(eventId),
-      },
-      {
-        onSuccess: () => {
-          setSelectedSeatList(filteredSeatList);
-          toast.warning(`${seatName!} 좌석을 취소했습니다`);
+  const requestCancelSeat = useCallback(
+    async (seatIndex: number, seatName: string) => {
+      const filteredSeatList = selectedSeatList.filter((seat) => seatName !== seat.name);
+      await selectSeat(
+        {
+          sectionIndex: selectedSectionIndex,
+          seatIndex: seatIndex,
+          expectedStatus: 'deleted',
+          eventId: Number(eventId),
         },
-      },
-    );
-    return filteredSeatList;
-  };
+        {
+          onSuccess: () => {
+            setSelectedSeatList(filteredSeatList);
+            toast.warning(`${seatName!} 좌석을 취소했습니다`);
+          },
+        },
+      );
+      return filteredSeatList;
+    },
+    [selectedSeatList, selectedSectionIndex, eventId, selectSeat, setSelectedSeatList],
+  );
 
-  const requestReserveSeat = async (seatIndex: number, seatName: string) => {
-    await selectSeat(
-      {
-        sectionIndex: selectedSectionIndex,
-        seatIndex: seatIndex,
-        expectedStatus: 'reserved',
-        eventId: Number(eventId),
-      },
-      {
-        onSuccess: () => {
-          toast.success(`${seatName!} 좌석 선택에\n성공했습니다`);
-          setSelectedSeatList([
-            ...selectedSeatList,
-            { seatIndex: seatIndex, sectionIndex: selectedSectionIndex, name: seatName! },
-          ]);
+  const requestReserveSeat = useCallback(
+    async (seatIndex: number, seatName: string) => {
+      await selectSeat(
+        {
+          sectionIndex: selectedSectionIndex,
+          seatIndex: seatIndex,
+          expectedStatus: 'reserved',
+          eventId: Number(eventId),
         },
-      },
-    );
-  };
+        {
+          onSuccess: () => {
+            setSelectedSeatList([
+              ...selectedSeatList,
+              { seatIndex: seatIndex, sectionIndex: selectedSectionIndex, name: seatName! },
+            ]);
+            toast.success(`${seatName!} 좌석 선택에\n성공했습니다`);
+          },
+        },
+      );
+    },
+    [selectedSeatList, selectedSectionIndex, eventId, selectSeat, setSelectedSeatList],
+  );
   return { requestCancelSeat, requestReserveSeat };
 };
 

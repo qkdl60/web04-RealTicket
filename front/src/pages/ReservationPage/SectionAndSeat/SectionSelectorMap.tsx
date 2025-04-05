@@ -8,11 +8,10 @@ import { getSectionData } from './getSectionData.ts';
 interface SectionSelectorMapProps {
   className?: string;
   layout: Layout;
-
   setSelectedSectionIndex: (id: number) => void;
   selectedSectionIndex: number | null;
 }
-export default function SectionSelectorMap({
+function SectionSelectorMap({
   className,
   layout,
   setSelectedSectionIndex,
@@ -32,7 +31,7 @@ export default function SectionSelectorMap({
           <g
             key={id}
             className="hover:cursor-pointer"
-            onClick={() => setSelectedSectionIndex(index)}
+            onClick={() => setSelectedSectionIndex?.(index)}
             role="radio"
             aria-label={`${id} 섹션 선택`}>
             <path className={isActive ? 'fill-primary' : 'fill-surface-sub'} d={pathD} />
@@ -49,3 +48,4 @@ export default function SectionSelectorMap({
     </svg>
   );
 }
+export default SectionSelectorMap;
