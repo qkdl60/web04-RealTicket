@@ -1,12 +1,12 @@
 import Icon from '@/components/common/Icon.tsx';
 
-import RestTime from '@/pages/ReservationWaitingPage/RestTime.tsx';
+import { RestTimeLabel } from '../restTimeLabel';
 
 type ReservationTimeInfoProps = {
   reservationOpenTime: string;
   restTime: number;
 };
-export default function ReservationTimeInfo({ reservationOpenTime, restTime }: ReservationTimeInfoProps) {
+export const ReservationTimeInfo = ({ reservationOpenTime, restTime }: ReservationTimeInfoProps) => {
   return (
     <div className="flex flex-col justify-between">
       <div className="flex flex-col gap-1 text-typo">
@@ -21,8 +21,8 @@ export default function ReservationTimeInfo({ reservationOpenTime, restTime }: R
           <Icon iconName="Clock" />
           예매 오픈까지 남은 시간
         </span>
-        <RestTime restTime={restTime} />
+        <RestTimeLabel restTime={restTime} />
       </div>
     </div>
   );
-}
+};

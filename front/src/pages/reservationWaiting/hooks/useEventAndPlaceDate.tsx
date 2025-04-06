@@ -7,7 +7,8 @@ import { EventDetail } from '@/type/index.ts';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 
-export default function useEventAndPlaceDate(eventId: number) {
+//TODO api 훅 분리
+export const useEventAndPlaceDate = (eventId: number) => {
   const { data: event } = useSuspenseQuery<EventDetail, CustomError>({
     queryKey: ['event', eventId],
     queryFn: getEventDetail(Number(eventId)),
@@ -23,4 +24,4 @@ export default function useEventAndPlaceDate(eventId: number) {
   });
 
   return { event, placeInfo, isPlaceInfoPending };
-}
+};

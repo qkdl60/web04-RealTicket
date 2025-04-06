@@ -8,7 +8,7 @@ import type { PermissionResult } from '@/type/booking.ts';
 import { useIsFetching, useQueryClient } from '@tanstack/react-query';
 
 const PERMISSION_QUERY_KEY = ['permission'];
-export default function usePermission(eventId: number) {
+export const usePermission = (eventId: number) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const setUserOrder = useWaitingInfoStore((state) => state.action.setUserOrder);
@@ -30,4 +30,4 @@ export default function usePermission(eventId: number) {
   };
 
   return { permissionAndGoNextPage, isPermissionFetching };
-}
+};

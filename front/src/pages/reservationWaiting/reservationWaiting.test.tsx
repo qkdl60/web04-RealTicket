@@ -7,31 +7,14 @@ RestTime 시간별 텍스트 변경
 TODO 훅 테스트 추가 
 
 */
-import ReservationWaitingPageView from '@/pages/ReservationWaitingPage/ReservationWaitingPageView.tsx';
-import RestTime from '@/pages/ReservationWaitingPage/RestTime.tsx';
-
 import { EventInfo } from '@/type/index.ts';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-describe('남은 시간별 텍스트 형태', () => {
-  it('남은 시간이 100초 이상일 때', () => {
-    render(<RestTime restTime={140_000} />);
-    console.log(screen.debug());
-    expect(screen.queryByText(/00시간 02분 20초/)).toBeInTheDocument();
-  });
-  it('남은 시간이 100초 미만일 때', () => {
-    render(<RestTime restTime={60_000} />);
-    expect(screen.getByText('060초')).toBeInTheDocument();
-  });
-  it('남은 시간이 0초 미만일 때', () => {
-    render(<RestTime restTime={-100} />);
-    expect(screen.getByText('000초')).toBeInTheDocument();
-  });
-});
+import { ReservationWaitingPageView } from './ui';
 
-describe('오픈 시간 버튼 상태 ', () => {
+describe('오픈 시간 버튼 상태 테스트', () => {
   const eventInfo: EventInfo = {
     name: 'Test Event',
     place: 'Test Place',

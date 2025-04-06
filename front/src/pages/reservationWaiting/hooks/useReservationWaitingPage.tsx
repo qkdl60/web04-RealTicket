@@ -1,11 +1,12 @@
 import { useParams } from 'react-router-dom';
 
-import { formatEventInfo } from '@/pages/ReservationWaitingPage/formatEventInfo.ts';
-import useEventAndPlaceDate from '@/pages/ReservationWaitingPage/useEventAndPlaceDate.tsx';
-import useEventTimer from '@/pages/ReservationWaitingPage/useEventTimer.tsx';
-import usePermission from '@/pages/ReservationWaitingPage/usePermission.tsx';
+import { formatEventInfo } from '@/pages/reservationWaiting/utils/formatEventInfo';
 
-export default function useReservationWaitingPage() {
+import { useEventAndPlaceDate } from './useEventAndPlaceDate';
+import { useEventTimer } from './useEventTimer';
+import { usePermission } from './usePermission';
+
+export const useReservationWaitingPage = () => {
   const { eventId } = useParams();
   const { event, placeInfo, isPlaceInfoPending } = useEventAndPlaceDate(Number(eventId));
   const { permissionAndGoNextPage, isPermissionFetching } = usePermission(Number(eventId));
@@ -28,4 +29,4 @@ export default function useReservationWaitingPage() {
     overviewImageURL,
     permissionAndGoNextPage,
   };
-}
+};

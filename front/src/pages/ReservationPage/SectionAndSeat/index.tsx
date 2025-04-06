@@ -6,7 +6,7 @@ import Dimmed from '@/components/common/Dimmed.tsx';
 import Separator from '@/components/common/Separator.tsx';
 
 import useCompleteReservationMutation from '@/pages/ReservationPage/SectionAndSeat/useCompleteReservationMutation.tsx';
-import { formatEventInfo } from '@/pages/ReservationWaitingPage/formatEventInfo.ts';
+import { formatEventInfo } from '@/pages/reservationWaiting/utils/formatEventInfo.ts';
 
 import type { EventDetail, PlaceInformation } from '@/type/index.ts';
 import type { SeatCount } from '@/type/reservation.ts';

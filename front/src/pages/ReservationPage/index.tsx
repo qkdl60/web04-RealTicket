@@ -7,7 +7,7 @@ import ReservationResult from '@/pages/ReservationPage/ReservationResult';
 import SeatCountSelector from '@/pages/ReservationPage/SeatCountSelector';
 import type { SelectedSeat } from '@/pages/ReservationPage/SectionAndSeat';
 import SectionAndSeat from '@/pages/ReservationPage/SectionAndSeat';
-import useEventAndPlaceDate from '@/pages/ReservationWaitingPage/useEventAndPlaceDate.tsx';
+import useEventAndPlaceDate from '@/pages/reservationWaiting/hooks/useEventAndPlaceDate';
 
 import type { SeatCount } from '@/type/reservation.ts';
 

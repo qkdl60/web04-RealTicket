@@ -1,10 +1,10 @@
-type RestTimeProps = {
+type RestTimeLabelProps = {
   restTime: number;
 };
 const SECONDS_PER_HOUR = 3600;
 const SECONDS_PER_MINUTE = 60;
 
-export default function RestTime({ restTime }: RestTimeProps) {
+export const RestTimeLabel = ({ restTime }: RestTimeLabelProps) => {
   const restSeconds = Math.floor(restTime / 1000);
   if (restSeconds <= 0) return <span className="text-display1 text-error">000초</span>;
   if (restSeconds <= 100) {
@@ -22,4 +22,4 @@ export default function RestTime({ restTime }: RestTimeProps) {
         .padStart(2, '0')}분 ${(restSeconds % 60).toString().padStart(2, '0')}초`}</span>
     );
   }
-}
+};

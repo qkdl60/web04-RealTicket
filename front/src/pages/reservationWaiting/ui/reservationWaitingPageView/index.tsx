@@ -1,8 +1,8 @@
 import Button from '@/components/common/Button.tsx';
 
-import EventInfoSection from '@/pages/ReservationWaitingPage/EventInfoSection.tsx';
-
 import { EventInfo } from '@/type/index.ts';
+
+import { EventInfoSection } from '../eventInfoSection';
 
 type ReservationWaitingPageViewProps = {
   isReadyPlaceInfo: boolean;
@@ -13,7 +13,7 @@ type ReservationWaitingPageViewProps = {
   isReservationOpen: boolean;
   permissionAndGoNextPage: () => void;
 };
-export default function ReservationWaitingPageView({
+export const ReservationWaitingPageView = ({
   isReadyPlaceInfo,
   overviewImageURL,
   eventInfo,
@@ -21,7 +21,7 @@ export default function ReservationWaitingPageView({
   canGoNextPage,
   isReservationOpen,
   permissionAndGoNextPage,
-}: ReservationWaitingPageViewProps) {
+}: ReservationWaitingPageViewProps) => {
   return (
     <div className="flex flex-col gap-8">
       <div className="h-[420px] w-[700px]">
@@ -41,4 +41,4 @@ export default function ReservationWaitingPageView({
       </Button>
     </div>
   );
-}
+};

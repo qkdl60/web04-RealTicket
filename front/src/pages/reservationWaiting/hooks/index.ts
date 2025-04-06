@@ -1,0 +1,1 @@
+export { useReservationWaitingPage } from './useReservationWaitingPage';

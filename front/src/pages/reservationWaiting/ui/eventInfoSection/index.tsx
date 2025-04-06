@@ -1,13 +1,13 @@
-import ReservationTimeInfo from '@/pages/ReservationWaitingPage/ReservationTimeInfo.tsx';
-
 import { EVENT_INFO_LABEL } from '@/constants/index.ts';
 import type { EventInfo } from '@/type/index.ts';
+
+import { ReservationTimeInfo } from '../reservationTimeInfo';
 
 type EventInfoSectionProps = {
   eventInfo: EventInfo;
   restTime: number;
 };
-export default function EventInfoSection({ eventInfo, restTime }: EventInfoSectionProps) {
+export const EventInfoSection = ({ eventInfo, restTime }: EventInfoSectionProps) => {
   return (
     <div className="flex flex-col gap-6">
       <h3 className="text-heading1 text-typo">{eventInfo.name}</h3>
@@ -24,4 +24,4 @@ export default function EventInfoSection({ eventInfo, restTime }: EventInfoSecti
       </div>
     </div>
   );
-}
+};

@@ -14,7 +14,11 @@ const ProgramDetailPage = lazy(() =>
 );
 
 const ReservationPage = lazy(() => import('@/pages/ReservationPage'));
-const ReservationWaitingPage = lazy(() => import('@/pages/ReservationWaitingPage'));
+const ReservationWaitingPage = lazy(() =>
+  import('@/pages/reservationWaiting').then(({ ReservationWaitingPage }) => ({
+    default: ReservationWaitingPage,
+  })),
+);
 const WaitingQueuePage = lazy(() =>
   import('@/pages/waitingQueue').then(({ WaitingQueuePage }) => ({ default: WaitingQueuePage })),
 );
