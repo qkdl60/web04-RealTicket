@@ -4,16 +4,13 @@ import { BASE_URL } from '@/api/axios.ts';
 
 import useSSE from '@/hooks/useSSE.tsx';
 
-import { calcProgressValue } from '@/pages/WaitingQueuePage/calcProgressValue';
-import { calcRestCount } from '@/pages/WaitingQueuePage/calcRestCount.ts';
-import { calcWaitingTime } from '@/pages/WaitingQueuePage/calcWaitingTime.ts';
-import { formatWaitingTime } from '@/pages/WaitingQueuePage/formatWaitingTime';
-
 import { API } from '@/constants/index.ts';
 import { useWaitingInfoStore } from '@/stores/booking/waitingInfoStore.ts';
 import { RePermissionResult } from '@/type/booking.ts';
 
-export default function useWaitingData(eventId: number) {
+import { calcProgressValue, calcRestCount, calcWaitingTime, formatWaitingTime } from '../utils';
+
+export const useWaitingData = (eventId: number) => {
   const initialWaitingTimeRef = useRef<number | null>(null);
   const myOrder = useWaitingInfoStore((state) => state.userOrder);
   const { data: waitingData, isLoading: isLoadingWaitingData } = useSSE<RePermissionResult>({
@@ -33,4 +30,4 @@ export default function useWaitingData(eventId: number) {
   const isMyTurn = restCount !== null && restCount <= 0;
 
   return { isLoadingWaitingData, myOrder, waitingTimeText, progressValue, totalWaiting, isMyTurn, restCount };
-}
+};

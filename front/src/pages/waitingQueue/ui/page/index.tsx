@@ -4,21 +4,16 @@ import Card from '@/components/common/Card.tsx';
 import Icon from '@/components/common/Icon.tsx';
 import Progressbar from '@/components/common/Progressbar.tsx';
 
-import LoadingPage from '@/pages/LoadingPage';
-import useResetUserOrder from '@/pages/WaitingQueuePage/useResetUserOrder.tsx';
-import useSuspenseEventQuery from '@/pages/WaitingQueuePage/useSuspenseEventQuery.tsx';
-import useWaitingData from '@/pages/WaitingQueuePage/useWaitingData.tsx';
+import LoadingPage from '@/pages/loadingPage';
 
 import { getDate, getTime } from '@/utils/date.ts';
 
 import { ROUTE_URL } from '@/constants/index.ts';
 
-const ALERT_MESSAGE_LIST = [
-  `입장 순서가 되면 자동으로 좌석 선택 페이지로 이동됩니다.`,
-  `브라우저를 닫거나 새로고침 하지 마세요. 입장 순서가 늦어질 수 있습니다.`,
-];
+import { ALERT_MESSAGE_LIST } from '../../const';
+import { useResetUserOrder, useSuspenseEventQuery, useWaitingData } from '../../hooks';
 
-export default function WaitingQueuePage() {
+export const WaitingQueuePage = () => {
   const { eventId } = useParams();
   useResetUserOrder();
 
@@ -97,4 +92,4 @@ export default function WaitingQueuePage() {
       </ul>
     </Card>
   );
-}
+};

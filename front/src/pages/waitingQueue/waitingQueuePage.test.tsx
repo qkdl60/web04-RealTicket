@@ -1,11 +1,11 @@
 import useSSE from '@/hooks/useSSE.tsx';
 
-import useWaitingData from '@/pages/WaitingQueuePage/useWaitingData.tsx';
-
 import { useWaitingInfoStore } from '@/stores/booking/waitingInfoStore.ts';
 import { RePermissionResult } from '@/type/booking.ts';
 import { act, renderHook } from '@testing-library/react';
 import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+
+import { useWaitingData } from './hooks';
 
 vi.mock('@/hooks/useSSE', () => ({
   default: vi.fn(),

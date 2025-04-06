@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useWaitingInfoStore } from '@/stores/booking/waitingInfoStore.ts';
 
-const useResetUserOrder = () => {
+export const useResetUserOrder = () => {
   const resetUserOrder = useWaitingInfoStore((state) => state.action.resetUserOrder);
 
   useEffect(() => {
@@ -13,5 +13,3 @@ const useResetUserOrder = () => {
 
   return resetUserOrder;
 };
-
-export default useResetUserOrder;
