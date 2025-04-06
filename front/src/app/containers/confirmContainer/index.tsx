@@ -2,7 +2,7 @@ import useConfirm from '@/hooks/useConfirm.tsx';
 
 import Button from '@/components/common/Button.tsx';
 
-export default function ConfirmContainer() {
+export function ConfirmContainer() {
   const { confirmValue } = useConfirm();
   if (confirmValue == null) {
     return null;

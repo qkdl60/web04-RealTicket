@@ -1,7 +1,5 @@
 import ToastEvent from '@/events/ToastEvent.ts';
 
-export { default as ToastContainer } from '@/app/containers/toastContainer';
-
 const toastEvent = ToastEvent.getInstance();
 export const toast = {
   success: (text: string) => {

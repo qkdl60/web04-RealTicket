@@ -12,7 +12,7 @@ interface ToastData {
   id: number;
 }
 
-export default function ToastContainer() {
+export function ToastContainer() {
   const [toastList, setToastList] = useState<ToastData[]>([]);
   const [, startTransition] = useTransition();
   const getId = () => Date.now();
