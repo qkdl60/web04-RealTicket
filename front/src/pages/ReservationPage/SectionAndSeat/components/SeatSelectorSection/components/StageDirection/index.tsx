@@ -1,4 +1,4 @@
-export default function StageDirection() {
+export const StageDirection = () => {
   return (
     <div className="text-center">
       <span className="cursor-default bg-surface-sub p-2 px-8 text-heading2 text-typo-display">
@@ -6,4 +6,4 @@ export default function StageDirection() {
       </span>
     </div>
   );
-}
+};

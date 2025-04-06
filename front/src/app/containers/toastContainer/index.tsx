@@ -16,15 +16,16 @@ export default function ToastContainer() {
   const [toastList, setToastList] = useState<ToastData[]>([]);
   const [, startTransition] = useTransition();
   const getId = () => Date.now();
-  const setSuccessToast = (text: string) =>
-    startTransition(() => setToastList((prev) => [{ type: 'success', text, id: getId() }, ...prev]));
-  const setWarningToast = (text: string) =>
-    startTransition(() => setToastList((prev) => [{ type: 'warning', text, id: getId() }, ...prev]));
-  const setErrorToast = (text: string) =>
-    startTransition(() => setToastList((prev) => [{ type: 'error', text, id: getId() }, ...prev]));
 
   useEffect(() => {
     const toastEvent = ToastEvent.getInstance();
+
+    const setSuccessToast = (text: string) =>
+      startTransition(() => setToastList((prev) => [{ type: 'success', text, id: getId() }, ...prev]));
+    const setWarningToast = (text: string) =>
+      startTransition(() => setToastList((prev) => [{ type: 'warning', text, id: getId() }, ...prev]));
+    const setErrorToast = (text: string) =>
+      startTransition(() => setToastList((prev) => [{ type: 'error', text, id: getId() }, ...prev]));
     toastEvent.on('success', setSuccessToast);
     toastEvent.on('warning', setWarningToast);
     toastEvent.on('error', setErrorToast);

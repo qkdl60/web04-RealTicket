@@ -2,7 +2,7 @@ import { PostSeatData } from '@/api/booking.ts';
 
 import { useMutationState } from '@tanstack/react-query';
 
-const useReservingMutationState = (mutationKey: string[]) => {
+export const useReservingMutationState = (mutationKey: string[]) => {
   const reservingList = useMutationState<PostSeatData>({
     filters: {
       mutationKey: mutationKey,
@@ -15,5 +15,3 @@ const useReservingMutationState = (mutationKey: string[]) => {
   });
   return reservingList;
 };
-
-export default useReservingMutationState;

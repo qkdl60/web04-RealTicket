@@ -11,14 +11,14 @@ import type { SeatCount } from '@/type/reservation.ts';
 import { useMutation } from '@tanstack/react-query';
 import { cx } from 'class-variance-authority';
 
-interface ISeatCountContentProps {
+type SeatCountSelectorProps = {
   seatCount: SeatCount;
   setSeatCount: (count: SeatCount) => void;
   goNextStep: () => void;
-}
+};
 //section 선택 페이지는 좌석 선택시에도 사용된다\
 
-export default function SeatCountSelector({ setSeatCount, goNextStep, seatCount }: ISeatCountContentProps) {
+export default function SeatCountSelector({ setSeatCount, goNextStep, seatCount }: SeatCountSelectorProps) {
   const { mutate: postSeatCountMutate, isPending } = useMutation({ mutationFn: postSeatCount });
   const selectSeatCount = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedCount = Number(event.target.value);

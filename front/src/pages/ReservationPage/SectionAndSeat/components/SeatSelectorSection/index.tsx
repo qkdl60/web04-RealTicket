@@ -8,20 +8,18 @@ import useSSE from '@/hooks/useSSE.tsx';
 import Loading from '@/components/common/Loading.tsx';
 
 import type { SelectedSeat } from '@/pages/ReservationPage/SectionAndSeat';
-import Seat from '@/pages/ReservationPage/SectionAndSeat/Seat.tsx';
-import StageDirection from '@/pages/ReservationPage/SectionAndSeat/StageDirection.tsx';
-import { type SeatState, getSeatState } from '@/pages/ReservationPage/SectionAndSeat/getSeatState.ts';
-import useReservingSeatListState from '@/pages/ReservationPage/SectionAndSeat/useReservingMutationState';
-import useSelectSeatMutation from '@/pages/ReservationPage/SectionAndSeat/useSelectSeatMutation.tsx';
+import { calcSeatNameList } from '@/pages/ReservationPage/SectionAndSeat/calcColumnCountList.ts';
+import { type SeatState, calcSeatState } from '@/pages/ReservationPage/SectionAndSeat/calcSeatState';
 
 import { API } from '@/constants/index.ts';
 import type { Section } from '@/type/index.ts';
 import { cx } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
 
-import { calcSeatNameList } from './calcColumnCountList.ts';
+import { Seat, StageDirection } from './components';
+import { useReservingMutationState, useSelectSeatMutation } from './hooks';
 
-interface SeatSelectorMapProps {
+interface SeatSelectorSectionProps {
   selectedSection: Section;
   selectedSectionIndex: number;
   setSelectedSeatList: (seats: SelectedSeat[]) => void;
@@ -30,13 +28,13 @@ interface SeatSelectorMapProps {
 }
 const PICK_SEAT_MUTATION_KEY = ['seat'];
 
-export default function SeatSelectorMap({
+export const SeatSelectorSection = ({
   selectedSection,
   selectedSectionIndex,
   setSelectedSeatList,
   maxSelectCount,
   selectedSeatList,
-}: SeatSelectorMapProps) {
+}: SeatSelectorSectionProps) => {
   const { eventId } = useParams();
   const { name, seats, colLen } = selectedSection;
   const { requestCancelSeat, requestReserveSeat } = useSelectSeatMutation(
@@ -47,7 +45,7 @@ export default function SeatSelectorMap({
     selectedSectionIndex,
   );
 
-  const reservingSeatList = useReservingSeatListState(PICK_SEAT_MUTATION_KEY);
+  const reservingSeatList = useReservingMutationState(PICK_SEAT_MUTATION_KEY);
   const { data, isLoading } = useSSE<{ seatStatus: boolean[][] }>({
     sseURL: `${BASE_URL}${API.BOOKING.GET_SEATS_SSE(Number(eventId))}`,
   });
@@ -86,7 +84,7 @@ export default function SeatSelectorMap({
         {canView ? (
           seats.map((seat, seatIndex) => {
             const seatName = seatNameList[seatIndex];
-            const stateState = getSeatState(
+            const stateState = calcSeatState(
               seat,
               seatName,
               reservingSeatList,
@@ -112,4 +110,4 @@ export default function SeatSelectorMap({
       </div>
     </>
   );
-}
+};

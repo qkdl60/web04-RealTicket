@@ -4,7 +4,7 @@ type CompleteButtonProps = {
   isCompleteSelectSeat: boolean;
   onClick: () => void;
 };
-function CompleteButton({ isCompleteSelectSeat, onClick }: CompleteButtonProps) {
+export const CompleteButton = ({ isCompleteSelectSeat, onClick }: CompleteButtonProps) => {
   return (
     <Button disabled={!isCompleteSelectSeat} onClick={onClick}>
       {isCompleteSelectSeat ? (
@@ -14,5 +14,4 @@ function CompleteButton({ isCompleteSelectSeat, onClick }: CompleteButtonProps) 
       )}
     </Button>
   );
-}
-export default CompleteButton;
+};

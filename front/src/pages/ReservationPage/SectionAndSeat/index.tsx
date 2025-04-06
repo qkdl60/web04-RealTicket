@@ -5,19 +5,21 @@ import usePreventLeave from '@/hooks/usePreventLeave.tsx';
 import Dimmed from '@/components/common/Dimmed.tsx';
 import Separator from '@/components/common/Separator.tsx';
 
-import SeatCountSelector from '@/pages/ReservationPage/SectionAndSeat/SeatCountSelector.tsx';
-import SeatSelectorMap from '@/pages/ReservationPage/SectionAndSeat/SeatSelectorMap.tsx';
-import SectionSelectorMap from '@/pages/ReservationPage/SectionAndSeat/SectionSelectorMap';
-import SelectedSeatInfo from '@/pages/ReservationPage/SectionAndSeat/SelectedSeatInfo.tsx';
 import useCompleteReservationMutation from '@/pages/ReservationPage/SectionAndSeat/useCompleteReservationMutation.tsx';
 import { formatEventInfo } from '@/pages/ReservationWaitingPage/formatEventInfo.ts';
 
 import type { EventDetail, PlaceInformation } from '@/type/index.ts';
 import type { SeatCount } from '@/type/reservation.ts';
 
-import CompleteButton from './CompleteButton';
-import EventInfoSection from './EventInfoSection';
-import SeatStatusGuide from './SeatStatusGuide';
+import {
+  CompleteButton,
+  EventInfoSection,
+  SeatCountSelector,
+  SeatSelectorSection,
+  SeatStatusGuide,
+  SectionSelectorMap,
+  SelectedSeatInfo,
+} from './components';
 import useChangeSeatCountMutation from './useChangeSeatCountMutation.tsx';
 
 export interface SelectedSeat {
@@ -81,7 +83,7 @@ export default function SectionAndSeat({
         {beSelectedSection ? (
           <>
             <SeatStatusGuide />
-            <SeatSelectorMap
+            <SeatSelectorSection
               selectedSeatList={selectedSeatList}
               setSelectedSeatList={setSelectedSeatList}
               selectedSectionIndex={selectedSectionIndex}

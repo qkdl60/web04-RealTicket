@@ -13,12 +13,12 @@ type SelectedSeatInfoProps = {
   seatCount: number;
   isChangingSeatCount: boolean;
 };
-function SelectedSeatInfo({
+export const SelectedSeatInfo = ({
   className,
   selectedSeatList,
   seatCount,
   isChangingSeatCount,
-}: SelectedSeatInfoProps) {
+}: SelectedSeatInfoProps) => {
   return (
     <div className={twMerge('flex flex-col gap-4', className)}>
       <h3 className="text-heading2">선택한 좌석</h3>
@@ -47,5 +47,4 @@ function SelectedSeatInfo({
       </div>
     </div>
   );
-}
-export default SelectedSeatInfo;
+};

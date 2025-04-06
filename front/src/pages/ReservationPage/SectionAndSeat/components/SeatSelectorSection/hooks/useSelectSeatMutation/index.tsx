@@ -6,9 +6,9 @@ import { toast } from '@/components/Toast/index.ts';
 
 import { useMutation } from '@tanstack/react-query';
 
-import type { SelectedSeat } from './index.ts';
+import type { SelectedSeat } from '../../../../index.tsx';
 
-const useSelectSeatMutation = (
+export const useSelectSeatMutation = (
   mutationKey: string[],
   eventId: number,
   selectedSeatList: SelectedSeat[],
@@ -74,5 +74,3 @@ const useSelectSeatMutation = (
   );
   return { requestCancelSeat, requestReserveSeat };
 };
-
-export default useSelectSeatMutation;

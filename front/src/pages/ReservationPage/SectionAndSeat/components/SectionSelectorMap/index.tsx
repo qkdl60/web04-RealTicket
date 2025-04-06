@@ -1,9 +1,8 @@
+import { getSectionData } from '@/pages/ReservationPage/SectionAndSeat/getSectionData.ts';
 import { parseSectionCoList } from '@/pages/ReservationPage/parseSectionCoList.ts';
 
 import { Layout } from '@/type/index.ts';
 import { twMerge } from 'tailwind-merge';
-
-import { getSectionData } from './getSectionData.ts';
 
 interface SectionSelectorMapProps {
   className?: string;
@@ -11,12 +10,12 @@ interface SectionSelectorMapProps {
   setSelectedSectionIndex: (id: number) => void;
   selectedSectionIndex: number | null;
 }
-function SectionSelectorMap({
+export const SectionSelectorMap = ({
   className,
   layout,
   setSelectedSectionIndex,
   selectedSectionIndex,
-}: SectionSelectorMapProps) {
+}: SectionSelectorMapProps) => {
   const { overview: overviewURL, overviewWidth, overviewHeight, overviewPoints } = layout;
   const viewBoxData = `0 0 ${overviewWidth} ${overviewHeight}`;
   const sectionCoList = parseSectionCoList(overviewPoints);
@@ -47,5 +46,4 @@ function SectionSelectorMap({
       })}
     </svg>
   );
-}
-export default SectionSelectorMap;
+};

@@ -12,7 +12,7 @@
  좌석 선택 완료시 예매 버튼 활성화 여부 확인
 
 */
-import ConfirmProvider from '@/providers/ConfirmProvider.tsx';
+import ConfirmProvider from '@/app/providers/confirmProvider';
 import { SeatCount } from '@/type/reservation.ts';
 import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';

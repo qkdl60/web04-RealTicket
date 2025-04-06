@@ -3,7 +3,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Outlet } from 'react-router-dom';
 
 import LoadingPage from '@/pages/LoadingPage';
-import NotFoundPage from '@/pages/NotFoundPage.tsx';
+import NotFoundPage from '@/pages/notFoundPage';
 
 import Navbar from './components/navbar';
 

@@ -1,18 +1,17 @@
-import { useEffect } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 
 import Card from '@/components/common/Card.tsx';
 import Icon from '@/components/common/Icon.tsx';
 import Progressbar from '@/components/common/Progressbar.tsx';
 
-import LoadingPage from '@/pages/LoadingPage.tsx';
+import LoadingPage from '@/pages/LoadingPage';
+import useResetUserOrder from '@/pages/WaitingQueuePage/useResetUserOrder.tsx';
 import useSuspenseEventQuery from '@/pages/WaitingQueuePage/useSuspenseEventQuery.tsx';
 import useWaitingData from '@/pages/WaitingQueuePage/useWaitingData.tsx';
 
 import { getDate, getTime } from '@/utils/date.ts';
 
 import { ROUTE_URL } from '@/constants/index.ts';
-import { useWaitingInfoStore } from '@/stores/booking/waitingInfoStore.ts';
 
 const ALERT_MESSAGE_LIST = [
   `입장 순서가 되면 자동으로 좌석 선택 페이지로 이동됩니다.`,
@@ -21,18 +20,12 @@ const ALERT_MESSAGE_LIST = [
 
 export default function WaitingQueuePage() {
   const { eventId } = useParams();
+  useResetUserOrder();
 
-  const resetUserOrder = useWaitingInfoStore((state) => state.action.resetUserOrder);
   const { name: eventName, place, runningDate, runningTime } = useSuspenseEventQuery(Number(eventId));
   const { isLoadingWaitingData, myOrder, waitingTimeText, progressValue, totalWaiting, isMyTurn, restCount } =
     useWaitingData(Number(eventId));
   const isInvalidAccess = !eventId || !myOrder;
-
-  useEffect(() => {
-    return () => {
-      resetUserOrder();
-    };
-  }, [resetUserOrder]);
 
   const eventInformation = [
     [
@@ -69,6 +62,7 @@ export default function WaitingQueuePage() {
       content: <span className="text-heading3 text-typo">{waitingTimeText}</span>,
     },
   ];
+
   if (isInvalidAccess) return <Navigate to="/" replace />;
   if (isMyTurn) return <Navigate to={ROUTE_URL.EVENT.DETAIL(Number(eventId))} replace />;
   if (isLoadingWaitingData) return <LoadingPage />;

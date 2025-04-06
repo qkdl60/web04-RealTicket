@@ -1,12 +1,12 @@
 import { RouterProvider } from 'react-router-dom';
 
 import ConfirmContainer from '@/components/Confirm/ConfirmContainer.tsx';
-import ToastContainer from '@/components/Toast/ToastContainer.tsx';
 
-import ConfirmProvider from '@/providers/ConfirmProvider.tsx';
-import QueryProvider from '@/providers/QueryProvider';
-import router from '@/routes/index';
+import ToastContainer from '@/app/containers/toastContainer';
+import router from '@/pages';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+import { ConfirmProvider, QueryProvider } from './providers';
 
 function App() {
   return (

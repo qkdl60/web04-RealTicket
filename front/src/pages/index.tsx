@@ -1,10 +1,10 @@
 import { lazy } from 'react';
 import { Navigate, createBrowserRouter } from 'react-router-dom';
 
+import WithLogin from '@/app/hocs/withLogin';
+import WithoutLogin from '@/app/hocs/withoutLogin';
 import { ROUTE_URL } from '@/constants/index.ts';
 import Layout from '@/layout/Layout';
-import WithLogin from '@/routes/components/withLogin';
-import WithoutLogin from '@/routes/components/withoutLogin';
 
 const LoginPage = lazy(() => import('@/pages/LoginPage'));
 const SignUpPage = lazy(() => import('@/pages/SignupPage'));
@@ -14,7 +14,7 @@ const AdminPage = lazy(() => import('@/pages/AdminPage'));
 const ReservationPage = lazy(() => import('@/pages/ReservationPage'));
 const ReservationWaitingPage = lazy(() => import('@/pages/ReservationWaitingPage'));
 const WaitingQueuePage = lazy(() => import('@/pages/WaitingQueuePage'));
-const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
+const NotFoundPage = lazy(() => import('@/pages/notFoundPage'));
 
 const router = createBrowserRouter([
   {

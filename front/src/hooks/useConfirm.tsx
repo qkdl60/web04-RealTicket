@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { ConfirmContext } from '@/providers/ConfirmProvider.tsx';
+import { ConfirmContext } from '@/app/providers/confirmProvider';
 
 interface ConfirmProps {
   title: string;

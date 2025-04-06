@@ -4,7 +4,7 @@ import type { EventInfo } from '@/type';
 type EventInfoSectionProps = {
   eventInfo: EventInfo;
 };
-export default function EventInfoSection({ eventInfo }: EventInfoSectionProps) {
+export const EventInfoSection = ({ eventInfo }: EventInfoSectionProps) => {
   return (
     <>
       <div className="flex flex-col items-start">
@@ -26,4 +26,4 @@ export default function EventInfoSection({ eventInfo }: EventInfoSectionProps) {
       </div>
     </>
   );
-}
+};

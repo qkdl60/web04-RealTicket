@@ -10,7 +10,7 @@ type SeatCountSelectorProps = {
   seatCount: number;
   changeSeatCount: (count: (typeof SEAT_COUNT_LIST)[number]) => void;
 };
-function SeatCountSelector({ seatCount, changeSeatCount }: SeatCountSelectorProps) {
+export const SeatCountSelector = memo(({ seatCount, changeSeatCount }: SeatCountSelectorProps) => {
   const { confirm } = useConfirm();
   const [isOpenSelect, setIsOpenSelect] = useState<boolean>(false);
 
@@ -55,8 +55,4 @@ function SeatCountSelector({ seatCount, changeSeatCount }: SeatCountSelectorProp
       />
     </label>
   );
-}
-export default memo(
-  SeatCountSelector,
-  (prev, next) => prev.seatCount === next.seatCount && prev.changeSeatCount === next.changeSeatCount,
-);
+});

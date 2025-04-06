@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { SeatState } from '@/pages/ReservationPage/SectionAndSeat/getSeatState.ts';
+import { SeatState } from '@/pages/ReservationPage/SectionAndSeat/calcSeatState';
 
 import { type VariantProps, cva } from 'class-variance-authority';
 
@@ -19,14 +19,22 @@ const seatVariants = cva('rounded', {
   },
 });
 
-type SeatProps = VariantProps<typeof seatVariants> & {
-  seatName: string;
-  onClick: (seatIndex: number, seatName: string, state: SeatState) => void;
-  seatIndex: number;
-};
+type SeatProps =
+  | (VariantProps<typeof seatVariants> & {
+      seatName: string;
+      onClick: (seatIndex: number, seatName: string, state: SeatState) => void;
+      seatIndex: number;
+    })
+  | (VariantProps<typeof seatVariants> & {
+      onClick?: undefined;
+      seatName?: undefined;
+      seatIndex?: undefined;
+    });
 
-function Seat({ state, seatName, onClick, seatIndex }: SeatProps) {
-  return (
+export const Seat = memo(function Seat({ state, seatName, onClick, seatIndex }: SeatProps) {
+  const isButton = onClick !== undefined;
+
+  return isButton ? (
     <div
       role="button"
       aria-label={seatName}
@@ -34,7 +42,7 @@ function Seat({ state, seatName, onClick, seatIndex }: SeatProps) {
       className={`h-6 w-6 ${seatVariants({ state })}`}
       onClick={() => onClick(seatIndex, seatName, state as SeatState)}
     />
+  ) : (
+    <div className={`pointer-events-none h-6 w-6 ${seatVariants({ state })} `} />
   );
-}
-// export default Seat;
-export default memo(Seat);
+});

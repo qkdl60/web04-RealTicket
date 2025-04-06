@@ -24,9 +24,9 @@ export default function useUserInfoButton() {
     queryFn: getReservation,
     staleTime: Infinity,
   });
-
   const shortUserId = userId?.slice(0, 12);
   const beReservation = reservationList!.length !== 0;
+
   const { mutate: requestDeleteReservation } = useMutation<AxiosResponse, CustomError, number>({
     mutationKey: RESERVATION_DELETE_MUTATION_KEY,
     mutationFn: deleteReservation,
@@ -39,6 +39,7 @@ export default function useUserInfoButton() {
       toast.error('예매내역 삭제에 실패했습니다.\n 잠시 후 다시 시도해주세요');
     },
   });
+
   const deletingReservationIdList = useMutationState({
     filters: { mutationKey: RESERVATION_DELETE_MUTATION_KEY, status: 'pending' },
     select: (mutation) => mutation.state.variables,

@@ -2,7 +2,7 @@ import { toast } from '@/components/Toast/index.ts';
 
 import { ROUTE_URL } from '@/constants/index.ts';
 import { auth } from '@/events/AuthEvent.ts';
-import router from '@/routes/index.tsx';
+import router from '@/pages';
 import axios, { AxiosError, isAxiosError } from 'axios';
 
 //TODO 타입 정의
