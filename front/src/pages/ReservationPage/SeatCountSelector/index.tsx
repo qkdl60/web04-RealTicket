@@ -26,7 +26,7 @@ export default function SeatCountSelector({ setSeatCount, goNextStep, seatCount 
     setSeatCount(selectedCount as SeatCount);
   };
 
-  const handleNextStep = async () => {
+  const handleSubmit = async () => {
     await postSeatCountMutate(seatCount);
     goNextStep();
   };
@@ -64,7 +64,7 @@ export default function SeatCountSelector({ setSeatCount, goNextStep, seatCount 
             <span className="text-label1 text-typo-display">취소</span>
           </Link>
         </Button>
-        <Button disabled={isPending} color="primary" onClick={handleNextStep}>
+        <Button disabled={isPending} color="primary" onClick={handleSubmit}>
           <span className={cx('text-typo-display', 'text-label1')}>확인</span>
         </Button>
       </div>

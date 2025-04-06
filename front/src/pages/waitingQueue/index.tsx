@@ -10,8 +10,8 @@ import { getDate, getTime } from '@/utils/date.ts';
 
 import { ROUTE_URL } from '@/constants/index.ts';
 
-import { ALERT_MESSAGE_LIST } from '../../const';
-import { useResetUserOrder, useSuspenseEventQuery, useWaitingData } from '../../hooks';
+import { ALERT_MESSAGE_LIST } from './const';
+import { useResetUserOrder, useSuspenseEventQuery, useWaitingData } from './hooks';
 
 export const WaitingQueuePage = () => {
   const { eventId } = useParams();

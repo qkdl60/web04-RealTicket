@@ -1,49 +1,32 @@
-import { useNavigate } from 'react-router-dom';
+import useForm from '@/hooks/useForm.tsx';
 
-import { type CustomError } from '@/api/axios.ts';
-import { type UserData, postSignup } from '@/api/user.ts';
-
-import useForm, { type Validate } from '@/hooks/useForm.tsx';
-
-import { toast } from '@/components/Toast/index.ts';
 import Button from '@/components/common/Button.tsx';
 import Field from '@/components/common/Field.tsx';
 import Icon from '@/components/common/Icon.tsx';
 import Input from '@/components/common/Input.tsx';
 
-import { ROUTE_URL } from '@/constants/index.ts';
-import { useMutation } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import { useSignupMutation } from './hooks';
+import { validatePassword, validatePasswordCheck } from './utils';
 
-type Form = {
+//TODO 타입 정의 이동
+export type Form = {
   id: string;
   password: string;
   checkPassword: string;
 };
-export default function SignUpPage() {
+export const SignUpPage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Form>();
-  const navigate = useNavigate();
-  const { mutate, error, isPending } = useMutation<AxiosResponse, CustomError, UserData>({
-    mutationFn: postSignup,
-    onError: async (error) => {
-      toast.error(`회윈가입에 실패했습니다.\n사유:${error.response?.data.message}`);
-    },
-    onSuccess: () => {
-      toast.success('화원가입에 성공했습니다.\n로그인 해주세요');
-      navigate(ROUTE_URL.USER.LOGIN);
-    },
-  });
+
+  const { signup, isPending, error } = useSignupMutation();
 
   const submit = async (data: Form) => {
     const { id, password } = data;
-    mutate({ loginId: id, loginPassword: password });
+    signup({ loginId: id, loginPassword: password });
   };
-  const is = false;
-  //TODO Id 중복 체크 필
   return (
     <div className="mx-auto flex items-center py-8">
       <form
@@ -58,7 +41,7 @@ export default function SignUpPage() {
           <Input
             disabled={isPending}
             {...register('id', {
-              validate: validate,
+              validate: validatePassword,
             })}
             placeholder="아이디를 입력해주세요."
           />
@@ -73,7 +56,7 @@ export default function SignUpPage() {
             disabled={isPending}
             autoComplete="off"
             {...register('password', {
-              validate: validate,
+              validate: validatePassword,
             })}
             placeholder="비밀번호를 입력해주세요."
           />
@@ -84,16 +67,15 @@ export default function SignUpPage() {
           errorMessage={errors.checkPassword ? errors.checkPassword : error?.response?.data.message}>
           <Input
             type="password"
-            disabled={is}
             autoComplete="off"
             {...register('checkPassword', {
-              validate: passwordCheckValidate,
+              validate: validatePasswordCheck,
             })}
             placeholder="비밀번호를 입력해주세요."
           />
         </Field>
 
-        <Button type="submit" disabled={is}>
+        <Button type="submit" disabled={isPending}>
           {isPending ? (
             <>
               <Icon iconName="Loading" className="animate-spin" />
@@ -106,19 +88,4 @@ export default function SignUpPage() {
       </form>
     </div>
   );
-}
-
-const validate: Validate<Form> = ({ value }) => {
-  const isRightLength = value.length >= 4 && value.length <= 12;
-  const patternReg = new RegExp(/^[a-z0-9]+$/);
-  const isRightPattern = patternReg.test(value);
-  if (!isRightLength) return '최소 4자리, 최대 12자리 입니다.';
-  if (!isRightPattern) return '소문자 영어, 숫자 조합으로 작성해주세요.';
-  return null;
-};
-const passwordCheckValidate: Validate<Form> = ({ value, formData }) => {
-  const { password } = formData;
-  const isEqual = password == value;
-  if (!isEqual) return '비밀번호와 일치하지 않습니다.';
-  return null;
 };

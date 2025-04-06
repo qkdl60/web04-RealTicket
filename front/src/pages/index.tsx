@@ -6,14 +6,16 @@ import WithoutLogin from '@/app/hocs/withoutLogin';
 import { ROUTE_URL } from '@/constants/index.ts';
 import Layout from '@/layout/Layout';
 
-const LoginPage = lazy(() => import('@/pages/LoginPage'));
-const SignUpPage = lazy(() => import('@/pages/SignupPage'));
+const LoginPage = lazy(() => import('@/pages/loginPage'));
+const SignUpPage = lazy(() => import('@/pages/signup').then(({ SignUpPage }) => ({ default: SignUpPage })));
 const ProgramsPage = lazy(() => import('@/pages/ProgramsPage'));
 const ProgramDetailPage = lazy(() => import('@/pages/ProgramDetailPage'));
-const AdminPage = lazy(() => import('@/pages/AdminPage'));
+const AdminPage = lazy(() => import('@/pages/adminPage'));
 const ReservationPage = lazy(() => import('@/pages/ReservationPage'));
 const ReservationWaitingPage = lazy(() => import('@/pages/ReservationWaitingPage'));
-const WaitingQueuePage = lazy(() => import('@/pages/WaitingQueuePage'));
+const WaitingQueuePage = lazy(() =>
+  import('@/pages/waitingQueue').then(({ WaitingQueuePage }) => ({ default: WaitingQueuePage })),
+);
 const NotFoundPage = lazy(() => import('@/pages/notFoundPage'));
 
 const router = createBrowserRouter([

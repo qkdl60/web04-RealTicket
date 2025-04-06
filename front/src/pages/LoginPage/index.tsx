@@ -11,7 +11,7 @@ import Field from '@/components/common/Field';
 import Icon from '@/components/common/Icon';
 import Input from '@/components/common/Input';
 
-import { lengthValidate } from '@/pages/LoginPage/validate.ts';
+import { lengthValidate } from '@/pages/loginPage/validate';
 
 import { LOGIN_FAILED_MESSAGE } from '@/constants/user.ts';
 import { useAuthStore } from '@/stores/auth/authStore.ts';
