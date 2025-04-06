@@ -3,14 +3,15 @@ import { Link } from 'react-router-dom';
 import { CustomError } from '@/api/axios.ts';
 import { getPrograms } from '@/api/program';
 
-import ProgramCard from '@/pages/ProgramsPage/ProgramCard.tsx';
-import type { Program } from '@/pages/ProgramsPage/ProgramCard.tsx';
+import type { Program } from '@/pages/main/ui/programCard';
 
 import { ROUTE_URL } from '@/constants/index.ts';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
+import { ProgramCard } from './ui';
+
 //TODO 반응형 레이아웃 적용
-export default function ProgramsPage() {
+export const MainPage = () => {
   const { data: programs } = useSuspenseQuery<Program[], CustomError>({
     queryKey: ['programs'],
     queryFn: getPrograms,
@@ -27,4 +28,4 @@ export default function ProgramsPage() {
       ))}
     </ul>
   );
-}
+};

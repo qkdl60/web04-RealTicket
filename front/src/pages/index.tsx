@@ -8,7 +8,7 @@ import Layout from '@/layout/Layout';
 
 const LoginPage = lazy(() => import('@/pages/loginPage'));
 const SignUpPage = lazy(() => import('@/pages/signup').then(({ SignUpPage }) => ({ default: SignUpPage })));
-const ProgramsPage = lazy(() => import('@/pages/ProgramsPage'));
+const MainPage = lazy(() => import('@/pages/main').then(({ MainPage }) => ({ default: MainPage })));
 const ProgramDetailPage = lazy(() => import('@/pages/ProgramDetailPage'));
 const AdminPage = lazy(() => import('@/pages/adminPage'));
 const ReservationPage = lazy(() => import('@/pages/ReservationPage'));
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: '', element: <Navigate to={ROUTE_URL.PROGRAM.DEFAULT} /> },
-      { path: ROUTE_URL.PROGRAM.DEFAULT, element: <ProgramsPage /> },
+      { path: ROUTE_URL.PROGRAM.DEFAULT, element: <MainPage /> },
       { path: `${ROUTE_URL.PROGRAM.DEFAULT}/:programId`, element: <ProgramDetailPage /> },
       {
         path: ROUTE_URL.USER.LOGIN,
