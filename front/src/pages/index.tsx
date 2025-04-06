@@ -6,7 +6,7 @@ import WithoutLogin from '@/app/hocs/withoutLogin';
 import { ROUTE_URL } from '@/constants/index.ts';
 import Layout from '@/layout/Layout';
 
-const LoginPage = lazy(() => import('@/pages/loginPage'));
+const LoginPage = lazy(() => import('@/pages/login').then(({ LoginPage }) => ({ default: LoginPage })));
 const SignUpPage = lazy(() => import('@/pages/signup').then(({ SignUpPage }) => ({ default: SignUpPage })));
 const MainPage = lazy(() => import('@/pages/main').then(({ MainPage }) => ({ default: MainPage })));
 const ProgramDetailPage = lazy(() => import('@/pages/ProgramDetailPage'));

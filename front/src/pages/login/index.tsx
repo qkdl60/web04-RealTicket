@@ -1,53 +1,28 @@
-import { useNavigate } from 'react-router-dom';
-
-import { type CustomError } from '@/api/axios.ts';
-import { type UserData, postLogin } from '@/api/user.ts';
-
 import useForm from '@/hooks/useForm';
 
-import { toast } from '@/components/Toast/index.ts';
 import Button from '@/components/common/Button';
 import Field from '@/components/common/Field';
 import Icon from '@/components/common/Icon';
 import Input from '@/components/common/Input';
 
-import { lengthValidate } from '@/pages/loginPage/validate';
-
-import { LOGIN_FAILED_MESSAGE } from '@/constants/user.ts';
-import { useAuthStore } from '@/stores/auth/authStore.ts';
 import type { LoginForm } from '@/type/user.ts';
-import { useMutation } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
 
-export default function LoginPage() {
-  type ResponseData = {
-    loginId: string;
-  };
+import { LOGIN_FAILED_MESSAGE } from './const';
+import { useLoginMutation } from './hooks';
+import { validateLength } from './utils';
 
+export const LoginPage = () => {
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm<LoginForm>();
-  const { login } = useAuthStore((state) => state.action);
 
-  const navigation = useNavigate();
-  const { mutate, isPending, error } = useMutation<AxiosResponse<ResponseData>, CustomError, UserData>({
-    mutationFn: postLogin,
-    onError: () => {
-      toast.error(`로그인 실패\n 사유 : ${LOGIN_FAILED_MESSAGE}`);
-    },
-    onSuccess: (data) => {
-      const { loginId } = data.data;
-      if (loginId && login) login(loginId);
-      toast.success('로그인 성공');
-      navigation('/');
-    },
-  });
+  const { login, isPending, error } = useLoginMutation();
 
   const submit = async (data: LoginForm) => {
     const { id, password } = data;
-    mutate({ loginId: id, loginPassword: password });
+    login({ loginId: id, loginPassword: password });
   };
 
   return (
@@ -63,7 +38,7 @@ export default function LoginPage() {
           <Input
             disabled={isPending}
             {...register('id', {
-              validate: lengthValidate,
+              validate: validateLength,
             })}
             placeholder="아이디를 입력해주세요."
           />
@@ -77,7 +52,7 @@ export default function LoginPage() {
             disabled={isPending}
             autoComplete="off"
             {...register('password', {
-              validate: lengthValidate,
+              validate: validateLength,
             })}
             placeholder="비밀번호를 입력해주세요."
           />
@@ -95,4 +70,4 @@ export default function LoginPage() {
       </form>
     </div>
   );
-}
+};
