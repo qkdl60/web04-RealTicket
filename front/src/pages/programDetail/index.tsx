@@ -1,15 +1,12 @@
 import Radio from '@/components/common/Radio.tsx';
 import Separator from '@/components/common/Separator';
 
-import GoReadyPageButton from '@/pages/ProgramDetailPage/GoReadyPageButton';
-import OptionContainer from '@/pages/ProgramDetailPage/OptionContainer.tsx';
-import ProgramInformation from '@/pages/ProgramDetailPage/ProgramInformation.tsx';
-import SelectionSummary from '@/pages/ProgramDetailPage/SelectionSummary.tsx';
-import useProgramDetailPage from '@/pages/ProgramDetailPage/useProgramDetailPage.tsx';
-
 import { getDate, getDay } from '@/utils/date.ts';
 
-export default function ProgramDetailPage() {
+import { useProgramDetailPage } from './hooks';
+import { GoReadyPageButton, OptionContainer, ProgramInformation, SelectionSummary } from './ui';
+
+export const ProgramDetailPage = () => {
   const {
     programDetail,
     selected,
@@ -64,4 +61,4 @@ export default function ProgramDetailPage() {
       </div>
     </div>
   );
-}
+};

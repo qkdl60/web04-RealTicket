@@ -8,7 +8,7 @@ type GoReadyPageButtonProps = {
   goReadyPage: () => void;
 };
 
-export default function GoReadyPageButton({ selectedEvent, goReadyPage }: GoReadyPageButtonProps) {
+export const GoReadyPageButton = ({ selectedEvent, goReadyPage }: GoReadyPageButtonProps) => {
   return (
     <Button size={'middle'} color={'success'} disabled={!selectedEvent} onClick={goReadyPage}>
       <span className={cx('text-label1', selectedEvent ? 'text-typo-display' : 'text-typo-disable')}>
@@ -16,4 +16,4 @@ export default function GoReadyPageButton({ selectedEvent, goReadyPage }: GoRead
       </span>
     </Button>
   );
-}
+};

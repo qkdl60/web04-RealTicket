@@ -7,7 +7,7 @@ type DateMenuProps = {
   caption: string;
 } & PropsWithChildren;
 
-export default function OptionContainer({ title, caption, children }: DateMenuProps) {
+export const OptionContainer = ({ title, caption, children }: DateMenuProps) => {
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex w-full flex-shrink flex-col px-4 py-2">
@@ -18,4 +18,4 @@ export default function OptionContainer({ title, caption, children }: DateMenuPr
       <ol className="option_list flex flex-grow flex-col gap-2">{children}</ol>
     </div>
   );
-}
+};

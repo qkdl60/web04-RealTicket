@@ -13,10 +13,9 @@ getSelectedEvent 유닛
 import { ReactElement } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import { getDateList } from '@/pages/ProgramDetailPage/getDateList.ts';
-import { getSelectedEvent } from '@/pages/ProgramDetailPage/getSelectedEvent.ts';
-import { getTimeList } from '@/pages/ProgramDetailPage/getTimeList.ts';
-import ProgramDetailPage from '@/pages/ProgramDetailPage/index.tsx';
+import { getDateList } from '@/pages/programDetail/utils/getDateList';
+import { getSelectedEvent } from '@/pages/programDetail/utils/getSelectedEvent';
+import { getTimeList } from '@/pages/programDetail/utils/getTimeList';
 
 import { server } from '@/mocks/server.ts';
 import { ProgramEvent } from '@/type/index.ts';
@@ -26,6 +25,8 @@ import { render } from '@testing-library/react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
+
+import { ProgramDetailPage } from './index.tsx';
 
 describe('ProgramDetailPage unittest', () => {
   const events: ProgramEvent[] = [

@@ -1,34 +1,26 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import type { CustomError } from '@/api/axios.ts';
-import { getProgramsDetail } from '@/api/program.ts';
-
-import { getDateList } from '@/pages/ProgramDetailPage/getDateList.ts';
-import { getSelectedEvent } from '@/pages/ProgramDetailPage/getSelectedEvent.ts';
-import { getTimeList } from '@/pages/ProgramDetailPage/getTimeList';
+import { useProgramDetailSuspenseQuery } from '@/pages/programDetail/hooks/useProgramDetailSuspenseQuery';
+import { getDateList } from '@/pages/programDetail/utils/getDateList';
+import { getSelectedEvent } from '@/pages/programDetail/utils/getSelectedEvent';
+import { getTimeList } from '@/pages/programDetail/utils/getTimeList';
 
 import { ROUTE_URL } from '@/constants/index.ts';
-import type { ProgramDetail } from '@/type/index.ts';
-import { useSuspenseQuery } from '@tanstack/react-query';
 
 type SelectedState = {
   date: Date | null;
   time: string | null;
 };
 
-export default function useProgramDetailPage() {
-  const { programId } = useParams();
-  const navigate = useNavigate();
-  const { data: programDetail } = useSuspenseQuery<ProgramDetail, CustomError>({
-    queryKey: [`program`, programId],
-    queryFn: getProgramsDetail(Number(programId)),
-  });
-  const { events: eventList } = programDetail;
+export const useProgramDetailPage = () => {
   const [selected, setSelected] = useState<SelectedState>({
     date: null,
     time: null,
   });
+  const navigate = useNavigate();
+  const { programDetail } = useProgramDetailSuspenseQuery();
+  const { events: eventList } = programDetail;
 
   const dateList = getDateList(eventList);
   const timeList = getTimeList(eventList, selected.date);
@@ -63,4 +55,4 @@ export default function useProgramDetailPage() {
     updateTime,
     goReadyPage,
   };
-}
+};

@@ -3,7 +3,7 @@ type ProgramInformationProps = {
   lastDate: string;
 } & Pick<Program, 'name' | 'runningTime' | 'genre' | 'actors' | 'place' | 'profileUrl'>;
 
-export default function ProgramInformation({
+export const ProgramInformation = ({
   name,
   runningTime,
   genre,
@@ -12,7 +12,7 @@ export default function ProgramInformation({
   profileUrl,
   startDate,
   lastDate,
-}: ProgramInformationProps) {
+}: ProgramInformationProps) => {
   const isOneDay = startDate === lastDate;
 
   return (
@@ -34,8 +34,8 @@ export default function ProgramInformation({
       </div>
     </div>
   );
-}
-
+};
+//TODO 타입 정리
 type Program = {
   id: number;
   name: string;

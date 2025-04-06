@@ -1,9 +1,9 @@
 import { RouterProvider } from 'react-router-dom';
 
-import { ConfirmContainer, ToastContainer } from '@/app/containers';
 import router from '@/pages';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
+import { ConfirmContainer, ToastContainer } from './containers';
 import { ConfirmProvider, QueryProvider } from './providers';
 import './styles/index.css';
 

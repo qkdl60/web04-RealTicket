@@ -9,8 +9,10 @@ import Layout from '@/layout/Layout';
 const LoginPage = lazy(() => import('@/pages/login').then(({ LoginPage }) => ({ default: LoginPage })));
 const SignUpPage = lazy(() => import('@/pages/signup').then(({ SignUpPage }) => ({ default: SignUpPage })));
 const MainPage = lazy(() => import('@/pages/main').then(({ MainPage }) => ({ default: MainPage })));
-const ProgramDetailPage = lazy(() => import('@/pages/ProgramDetailPage'));
-const AdminPage = lazy(() => import('@/pages/adminPage'));
+const ProgramDetailPage = lazy(() =>
+  import('@/pages/programDetail').then(({ ProgramDetailPage }) => ({ default: ProgramDetailPage })),
+);
+
 const ReservationPage = lazy(() => import('@/pages/ReservationPage'));
 const ReservationWaitingPage = lazy(() => import('@/pages/ReservationWaitingPage'));
 const WaitingQueuePage = lazy(() =>
@@ -41,14 +43,6 @@ const router = createBrowserRouter([
           <WithoutLogin>
             <SignUpPage />
           </WithoutLogin>
-        ),
-      },
-      {
-        path: '/admin',
-        element: (
-          <WithLogin>
-            <AdminPage />
-          </WithLogin>
         ),
       },
       {

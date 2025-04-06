@@ -5,7 +5,7 @@ import type { ProgramEvent } from '@/type/index.ts';
 type SelectionSummaryProps = {
   selectedEvent: ProgramEvent | undefined;
 };
-export default function SelectionSummary({ selectedEvent }: SelectionSummaryProps) {
+export const SelectionSummary = ({ selectedEvent }: SelectionSummaryProps) => {
   return (
     <div className="flex flex-col py-4">
       <span className="text-heading3 text-typo">선택된 일시 </span>
@@ -18,4 +18,4 @@ export default function SelectionSummary({ selectedEvent }: SelectionSummaryProp
       )}
     </div>
   );
-}
+};
