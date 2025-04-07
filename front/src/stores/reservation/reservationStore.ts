@@ -4,10 +4,19 @@ import { SeatCount } from '@/type/reservation.ts';
 import { create } from 'zustand';
 
 type ReservationStore = {
-  selectedSeatList: SelectedSeat[];
-  isCompleteReservation: boolean;
+  flag: {
+    isCompleteReservation: boolean;
+    isCheckCaptcha: boolean;
+    isCompleteSelectSeatCount: boolean;
+  };
+  seat: {
+    selectedSeatList: SelectedSeat[];
+  };
   seatCount: SeatCount;
-  selectedSectionIndex: number | null;
+
+  section: {
+    selectedSectionIndex: number | null;
+  };
   seatAction: {
     clearSeatList: () => void;
     addSeat: (selectedSeat: SelectedSeat) => void;
@@ -20,37 +29,67 @@ type ReservationStore = {
   };
   seatCountAction: {
     setSeatCount: (seatCount: SeatCount) => void;
-    initSeatCount: () => void;
   };
-  reservationAction: {
+  flagAction: {
     setIsCompleteReservation: (isCompleteReservation: boolean) => void;
+    setIsCheckCaptcha: (isCheckCaptcha: boolean) => void;
+    setIsCompleteSelectSeatCount: (isCompleteSelectSeatCount: boolean) => void;
   };
+  initReservation: () => void;
 };
 
 export const useReservationStore = create<ReservationStore>((set) => ({
-  selectedSeatList: [],
-  isCompleteReservation: false,
+  seat: {
+    selectedSeatList: [],
+  },
+
   seatCount: 1,
-  selectedSectionIndex: null,
+
+  section: {
+    selectedSectionIndex: null,
+  },
+  flag: {
+    isCompleteReservation: false,
+    isCheckCaptcha: false,
+    isCompleteSelectSeatCount: false,
+  },
+
   seatAction: {
-    clearSeatList: () => set({ selectedSeatList: [] }),
-    setSeatList: (seatList: SelectedSeat[]) => set({ selectedSeatList: seatList }),
+    clearSeatList: () => set({ seat: { selectedSeatList: [] } }),
+    setSeatList: (seatList: SelectedSeat[]) => set({ seat: { selectedSeatList: seatList } }),
     addSeat: (selectedSeat: SelectedSeat) =>
-      set((state) => ({ selectedSeatList: [...state.selectedSeatList, selectedSeat] })),
+      set((state) => ({ seat: { selectedSeatList: [...state.seat.selectedSeatList, selectedSeat] } })),
     removeSeat: (targetSeatName: string) =>
       set((state) => ({
-        selectedSeatList: state.selectedSeatList.filter((seat) => seat.name !== targetSeatName),
+        seat: {
+          selectedSeatList: state.seat.selectedSeatList.filter((seat) => seat.name !== targetSeatName),
+        },
       })),
-    initSeatList: () => set({ selectedSeatList: [], isCompleteReservation: false }),
+    initSeatList: () => set({ seat: { selectedSeatList: [] } }),
   },
   seatCountAction: {
     setSeatCount: (seatCount: SeatCount) => set({ seatCount }),
-    initSeatCount: () => set({ seatCount: 1 }),
   },
   sectionAction: {
-    setSelectedSectionIndex: (selectedSectionIndex: number) => set({ selectedSectionIndex }),
+    setSelectedSectionIndex: (selectedSectionIndex: number) => set({ section: { selectedSectionIndex } }),
   },
-  reservationAction: {
-    setIsCompleteReservation: (isCompleteReservation: boolean) => set({ isCompleteReservation }),
+  flagAction: {
+    setIsCompleteReservation: (isCompleteReservation: boolean) =>
+      set((state) => ({ flag: { ...state.flag, isCompleteReservation } })),
+    setIsCheckCaptcha: (isCheckCaptcha: boolean) =>
+      set((state) => ({ flag: { ...state.flag, isCheckCaptcha } })),
+    setIsCompleteSelectSeatCount: (isCompleteSelectSeatCount: boolean) =>
+      set((state) => ({ flag: { ...state.flag, isCompleteSelectSeatCount } })),
   },
+  initReservation: () =>
+    set({
+      seat: { selectedSeatList: [] },
+      seatCount: 1,
+      section: { selectedSectionIndex: null },
+      flag: {
+        isCompleteReservation: false,
+        isCheckCaptcha: false,
+        isCompleteSelectSeatCount: false,
+      },
+    }),
 }));

@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import usePreventLeave from '@/hooks/usePreventLeave.tsx';
 
@@ -7,9 +7,11 @@ import Dimmed from '@/components/common/Dimmed.tsx';
 import Separator from '@/components/common/Separator.tsx';
 
 import useCompleteReservationMutation from '@/pages/ReservationPage/SectionAndSeat/useCompleteReservationMutation.tsx';
+import { useEventAndPlaceDate } from '@/pages/reservationWaiting/hooks/useEventAndPlaceDate.tsx';
+import { formatEventInfo } from '@/pages/reservationWaiting/utils/formatEventInfo.ts';
 
+import { ROUTE_URL } from '@/constants/index.ts';
 import { useReservationStore } from '@/stores/reservation/reservationStore.ts';
-import { EventInfo, Layout } from '@/type/index.ts';
 
 import {
   CompleteButton,
@@ -28,37 +30,39 @@ export interface SelectedSeat {
   name: string;
 }
 
-type SectionAndSeatProps = {
-  eventInfo: EventInfo;
-  layout: Layout;
-  goNextStep: () => void;
-};
-
-export default function SectionAndSeat({ goNextStep, layout, eventInfo }: SectionAndSeatProps) {
-  usePreventLeave();
+export default function SectionAndSeat() {
   const { eventId } = useParams();
   const {
     seatCount,
-    selectedSeatList,
-    selectedSectionIndex,
+    seat: { selectedSeatList },
+    section: { selectedSectionIndex },
+    flag: { isCompleteReservation },
     seatAction: { initSeatList },
     seatCountAction: { setSeatCount },
-    reservationAction: { setIsCompleteReservation },
+    flagAction: { setIsCompleteReservation },
   } = useReservationStore();
+  usePreventLeave({ isBlocker: isCompleteReservation });
 
   useEffect(() => {
     initSeatList();
   }, [initSeatList]);
+  const navigate = useNavigate();
+  const { event, placeInfo } = useEventAndPlaceDate(Number(eventId));
+  const eventInfo = formatEventInfo(event);
+  const layout = placeInfo.layout;
+  const sections = layout.sections;
 
   const completeReservation = useCompleteReservationMutation();
-  const { sections } = layout;
 
   const isCompleteSelectSeat = seatCount === selectedSeatList.length;
-  const selectedSection = selectedSectionIndex !== null ? sections[selectedSectionIndex] : null;
+  const selectedSection = selectedSectionIndex !== null && sections ? sections[selectedSectionIndex] : null;
   const isSelectedSection = selectedSection !== null;
 
   const { changeSeatCount, isChangingSeatCount } = useChangeSeatCountMutation(setSeatCount, initSeatList);
 
+  const goNextStep = useCallback(() => {
+    navigate(`${ROUTE_URL.EVENT.DETAIL(Number(eventId))}/reservation/result`);
+  }, [navigate, eventId]);
   const onComplete = useCallback(() => {
     completeReservation({
       eventId: Number(eventId),
@@ -78,15 +82,15 @@ export default function SectionAndSeat({ goNextStep, layout, eventInfo }: Sectio
         {isSelectedSection ? (
           <>
             <SeatStatusGuide />
-            <SeatSelectorSection selectedSection={selectedSection} />
+            <SeatSelectorSection />
           </>
         ) : (
-          <SectionSelectorMap layout={layout} />
+          <SectionSelectorMap layout={layout!} />
         )}
       </div>
       <Separator direction="col" />
       <div className="flex flex-col gap-6">
-        <SectionSelectorMap className="flex-grow-0" layout={layout} />
+        <SectionSelectorMap className="flex-grow-0" layout={layout!} />
         <Separator direction="row" />
         <SeatCountSelector seatCount={seatCount} changeSeatCount={changeSeatCount} />
         <Separator direction="row" />

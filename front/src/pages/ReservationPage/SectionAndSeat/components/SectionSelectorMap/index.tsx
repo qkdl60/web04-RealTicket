@@ -14,7 +14,7 @@ export const SectionSelectorMap = ({ className, layout }: SectionSelectorMapProp
   const viewBoxData = `0 0 ${overviewWidth} ${overviewHeight}`;
   const sectionCoList = parseSectionCoList(overviewPoints);
   const {
-    selectedSectionIndex,
+    section: { selectedSectionIndex },
     sectionAction: { setSelectedSectionIndex },
   } = useReservationStore();
 

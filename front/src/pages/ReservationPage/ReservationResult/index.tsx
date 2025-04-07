@@ -1,27 +1,29 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import Button from '@/components/common/Button.tsx';
 import Icon from '@/components/common/Icon.tsx';
 import Separator from '@/components/common/Separator.tsx';
 
+import { useSuspenseEventQuery } from '@/pages/waitingQueue/hooks/useSuspenseEventQuery.tsx';
+
 import { getDate, getTime } from '@/utils/date.ts';
 import { getPriceWon } from '@/utils/getPriceWon.ts';
 
 import { useReservationStore } from '@/stores/reservation/reservationStore.ts';
-import { EventDetail } from '@/type/index.ts';
 
 const ALERT_MESSAGE_LIST = [
   '에매하신 내용은 상단 유저 정보를 통해서 확인 할 수 있습니다.',
   '공연 당일 예매 내역 및 신분증을 지참해주세요.',
   '공연 시작 후에는 입장이 제한 될 수 있습니다.',
 ];
-type ReservationResultProps = {
-  event: EventDetail;
-};
 
-export default function ReservationResult({ event }: ReservationResultProps) {
-  //예매 내역 확인 후 진입ㅛ
-  const { selectedSeatList } = useReservationStore();
+export default function ReservationResult() {
+  //예매 내역 확인 후
+  const { eventId } = useParams();
+  const event = useSuspenseEventQuery(Number(eventId));
+  const {
+    seat: { selectedSeatList },
+  } = useReservationStore();
   const { name: eventName, runningDate, place, price } = event;
   const placeName = place.name;
   return (

@@ -23,6 +23,7 @@ export default function SeatCountSelector({ goNextStep }: SeatCountSelectorProps
   const { mutate: postSeatCountMutate, isPending } = useMutation({ mutationFn: postSeatCount });
   const selectSeatCount = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedCount = Number(event.target.value);
+
     if (selectedCount == seatCount) return;
     setSeatCount(selectedCount as SeatCount);
   };

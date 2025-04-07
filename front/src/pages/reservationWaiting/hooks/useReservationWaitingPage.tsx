@@ -8,12 +8,11 @@ import { usePermission } from './usePermission';
 
 export const useReservationWaitingPage = () => {
   const { eventId } = useParams();
-  const { event, placeInfo, isPlaceInfoPending } = useEventAndPlaceDate(Number(eventId));
+  const { event, placeInfo } = useEventAndPlaceDate(Number(eventId));
   const { permissionAndGoNextPage, isPermissionFetching } = usePermission(Number(eventId));
   const { serverTime } = useEventTimer();
 
-  const isReadyPlaceInfo = !isPlaceInfoPending && !!placeInfo;
-  const overviewImageURL = placeInfo?.layout.overview;
+  const overviewImageURL = placeInfo.layout.overview;
   const eventInfo = formatEventInfo(event);
   const reservationOpenDate = event.reservationOpenDate;
   const restTime = new Date(reservationOpenDate).getTime() - serverTime;
@@ -25,7 +24,6 @@ export const useReservationWaitingPage = () => {
     restTime,
     eventInfo,
     canGoNextPage,
-    isReadyPlaceInfo,
     overviewImageURL,
     permissionAndGoNextPage,
   };

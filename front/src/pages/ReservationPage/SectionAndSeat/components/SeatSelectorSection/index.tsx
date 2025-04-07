@@ -9,29 +9,26 @@ import Loading from '@/components/common/Loading.tsx';
 
 import { calcSeatNameList } from '@/pages/ReservationPage/SectionAndSeat/calcColumnCountList.ts';
 import { type SeatState, calcSeatState } from '@/pages/ReservationPage/SectionAndSeat/calcSeatState';
+import { useEventAndPlaceDate } from '@/pages/reservationWaiting/hooks/useEventAndPlaceDate.tsx';
 
 import { API } from '@/constants/index.ts';
 import { useReservationStore } from '@/stores/reservation/reservationStore.ts';
-import type { Section } from '@/type/index.ts';
 import { cx } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
 
 import { Seat, StageDirection } from './components';
 import { useReservingMutationState, useSelectSeatMutation } from './hooks';
 
-interface SeatSelectorSectionProps {
-  selectedSection: Section;
-}
 const PICK_SEAT_MUTATION_KEY = ['seat'];
 
-export const SeatSelectorSection = ({ selectedSection }: SeatSelectorSectionProps) => {
+export const SeatSelectorSection = () => {
   const { eventId } = useParams();
-  const { name, seats, colLen } = selectedSection;
+
   const {
-    selectedSeatList,
-    selectedSectionIndex,
-    seatAction: { setSeatList },
+    seat: { selectedSeatList },
+    section: { selectedSectionIndex },
     seatCount,
+    seatAction: { setSeatList },
   } = useReservationStore();
   const { requestCancelSeat, requestReserveSeat } = useSelectSeatMutation(
     PICK_SEAT_MUTATION_KEY,
@@ -40,13 +37,18 @@ export const SeatSelectorSection = ({ selectedSection }: SeatSelectorSectionProp
     setSeatList,
     selectedSectionIndex!,
   );
-
   const reservingSeatList = useReservingMutationState(PICK_SEAT_MUTATION_KEY);
-  const { data, isLoading } = useSSE<{ seatStatus: boolean[][] }>({
+  const { data: SSEData, isLoading } = useSSE<{ seatStatus: boolean[][] }>({
     sseURL: `${BASE_URL}${API.BOOKING.GET_SEATS_SSE(Number(eventId))}`,
   });
 
-  const seatStatusList = data && data.seatStatus;
+  const { placeInfo } = useEventAndPlaceDate(Number(eventId));
+  const layout = placeInfo.layout;
+  const sections = layout.sections;
+  const selectedSection = sections[selectedSectionIndex!];
+  const { name, seats, colLen } = selectedSection;
+
+  const seatStatusList = SSEData && SSEData.seatStatus;
   const selectedSeatStatus = seatStatusList ? seatStatusList[selectedSectionIndex!] : [];
   const canView = isLoading === false && seatStatusList && seatStatusList.length !== 0;
   const selectedSeatCount = selectedSeatList.length;

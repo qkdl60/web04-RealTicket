@@ -5,7 +5,6 @@ import { EventInfo } from '@/type/index.ts';
 import { EventInfoSection } from '../eventInfoSection';
 
 type ReservationWaitingPageViewProps = {
-  isReadyPlaceInfo: boolean;
   overviewImageURL: string | undefined;
   eventInfo: EventInfo;
   restTime: number;
@@ -14,7 +13,6 @@ type ReservationWaitingPageViewProps = {
   permissionAndGoNextPage: () => void;
 };
 export const ReservationWaitingPageView = ({
-  isReadyPlaceInfo,
   overviewImageURL,
   eventInfo,
   restTime,
@@ -25,11 +23,7 @@ export const ReservationWaitingPageView = ({
   return (
     <div className="flex flex-col gap-8">
       <div className="h-[420px] w-[700px]">
-        {isReadyPlaceInfo ? (
-          <img className="h-full w-full" src={overviewImageURL} alt="좌석 배치도" />
-        ) : (
-          <div>loading</div>
-        )}
+        <img className="h-full w-full" src={overviewImageURL} alt="좌석 배치도" />
       </div>
       <EventInfoSection eventInfo={eventInfo} restTime={restTime} />
       <Button disabled={!canGoNextPage} className="my-4" onClick={permissionAndGoNextPage}>

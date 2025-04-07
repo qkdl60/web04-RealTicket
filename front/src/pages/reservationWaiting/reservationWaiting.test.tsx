@@ -29,7 +29,6 @@ describe('오픈 시간 버튼 상태 테스트', () => {
       <ReservationWaitingPageView
         eventInfo={eventInfo}
         isReservationOpen={false}
-        isReadyPlaceInfo={true}
         overviewImageURL={''}
         restTime={1000}
         canGoNextPage={false}
@@ -45,7 +44,6 @@ describe('오픈 시간 버튼 상태 테스트', () => {
       <ReservationWaitingPageView
         eventInfo={eventInfo}
         isReservationOpen={true}
-        isReadyPlaceInfo={true}
         overviewImageURL={''}
         restTime={-100}
         canGoNextPage={true}

@@ -13,7 +13,6 @@
 
 */
 import { ConfirmProvider } from '@/app/providers/confirmProvider';
-import { SeatCount } from '@/type/reservation.ts';
 import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
@@ -60,47 +59,48 @@ vi.mock(`@/api/booking`, () => ({
   postSeat: vi.fn().mockResolvedValue({ data: true }),
   postSeatCount: vi.fn().mockResolvedValue({ data: true }),
 }));
-const mockProps = {
-  seatCount: 2 as SeatCount,
-  goNextStep: vi.fn(),
-  setReservationResult: vi.fn(),
-  event: {
-    id: 1,
-    name: 'test',
-    price: 10000,
-    place: {
-      id: 1,
-      name: 'test',
-    },
-    runningTime: 100,
-    runningDate: new Date(),
-    reservationOpenDate: new Date(),
-    reservationCloseDate: new Date(),
-  },
-  placeInformation: {
-    id: 1,
-    layout: {
-      overview: 'test',
-      overviewWidth: 100,
-      overviewHeight: 100,
-      overviewPoints: '[{"id":"A","points":[[931,1050],[2431,1050],[2431,1661.374],[931,1661.374]]}]',
-      sections: [
-        {
-          id: 1,
-          name: 'A',
-          seats: [true, true, true],
-          colLen: 3,
-        },
-      ],
-    },
-  },
-  setSeatCount: vi.fn(),
-};
+//TODO 모킹 확인 필요
+// const mockProps = {
+//   seatCount: 2 as SeatCount,
+//   goNextStep: vi.fn(),
+//   setReservationResult: vi.fn(),
+//   event: {
+//     id: 1,
+//     name: 'test',
+//     price: 10000,
+//     place: {
+//       id: 1,
+//       name: 'test',
+//     },
+//     runningTime: 100,
+//     runningDate: new Date(),
+//     reservationOpenDate: new Date(),
+//     reservationCloseDate: new Date(),
+//   },
+//   placeInformation: {
+//     id: 1,
+//     layout: {
+//       overview: 'test',
+//       overviewWidth: 100,
+//       overviewHeight: 100,
+//       overviewPoints: '[{"id":"A","points":[[931,1050],[2431,1050],[2431,1661.374],[931,1661.374]]}]',
+//       sections: [
+//         {
+//           id: 1,
+//           name: 'A',
+//           seats: [true, true, true],
+//           colLen: 3,
+//         },
+//       ],
+//     },
+//   },
+//   setSeatCount: vi.fn(),
+// };
 const user = userEvent.setup();
 
 describe('좌석 선택 테스트', () => {
   it('섹션 선택 후 좌석 선택 배치 및 좌석 상태 확인 선택, 취소 기능 테스트', async () => {
-    withRender(<SectionAndSeat {...mockProps} />);
+    withRender(<SectionAndSeat />);
     const sectionList = screen.getAllByRole('radio', { name: 'A 섹션 선택' });
     const section = sectionList[0];
     await user.click(section);
@@ -116,7 +116,7 @@ describe('좌석 선택 테스트', () => {
   });
 
   it('좌석 선택 후 좌석 개수 변경 시 좌석 선택 초기화', async () => {
-    withRender(<SectionAndSeat {...mockProps} />);
+    withRender(<SectionAndSeat />);
     const sectionList = screen.getAllByRole('radio', { name: 'A 섹션 선택' });
     const section = sectionList[0];
     await user.click(section);
@@ -136,7 +136,7 @@ describe('좌석 선택 테스트', () => {
   });
 
   it('좌석 개수 이상 좌석 선택x, 모든 좌석 선택 완료시 완료 버튼 활성화 ', async () => {
-    withRender(<SectionAndSeat {...mockProps} seatCount={1 as SeatCount} />);
+    withRender(<SectionAndSeat />);
     const sectionList = screen.getAllByRole('radio', { name: 'A 섹션 선택' });
     const section = sectionList[0];
     await user.click(section);

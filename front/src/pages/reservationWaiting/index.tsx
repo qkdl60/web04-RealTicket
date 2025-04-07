@@ -13,7 +13,7 @@ export const ReservationWaitingPage = () => {
     restTime,
     eventInfo,
     canGoNextPage,
-    isReadyPlaceInfo,
+
     overviewImageURL,
     permissionAndGoNextPage,
   } = useReservationWaitingPage();
@@ -22,7 +22,6 @@ export const ReservationWaitingPage = () => {
     <ReservationWaitingPageView
       eventInfo={eventInfo}
       isReservationOpen={isReservationOpen}
-      isReadyPlaceInfo={isReadyPlaceInfo}
       overviewImageURL={overviewImageURL}
       restTime={restTime}
       canGoNextPage={canGoNextPage}

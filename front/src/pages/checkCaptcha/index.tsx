@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { LoadCanvasTemplate, loadCaptchaEnginge, validateCaptcha } from 'react-simple-captcha';
 
 import Button from '@/components/common/Button.tsx';
@@ -7,11 +7,12 @@ import Field from '@/components/common/Field.tsx';
 import Input from '@/components/common/Input.tsx';
 import Separator from '@/components/common/Separator.tsx';
 
+import { ROUTE_URL } from '@/constants/index.ts';
+import { RESERVATION_STEP } from '@/constants/reservation.ts';
+import { useReservationStore } from '@/stores/reservation/reservationStore.ts';
+
 import './index.css';
 
-interface CaptchaProps {
-  goNextStep: () => void;
-}
 //TODO 취소 버튼 관리
 const CAPTCHA_TEXT_LENGTH = 6;
 const HELP_MESSAGE_LIST = [
@@ -19,17 +20,28 @@ const HELP_MESSAGE_LIST = [
   '문자가 정확히 보기 어려우시면 보안문자 우측의 새로고침 버튼을 눌러주세요.',
 ];
 
-export default function Captcha({ goNextStep }: CaptchaProps) {
+export const CaptchaPage = () => {
   const [inputData, setInputData] = useState<string>('');
+  const navigate = useNavigate();
+  const { eventId } = useParams();
   const [isValid, setIsValid] = useState<boolean>(true);
+  const setIsCheckCaptcha = useReservationStore((state) => state.flagAction.setIsCheckCaptcha);
+  const initReservationStore = useReservationStore((state) => state.initReservation);
   const InputRef = useRef(null);
   useEffect(() => {
     loadCaptchaEnginge(CAPTCHA_TEXT_LENGTH, 'white', 'black', 'upper');
-  }, []);
+    initReservationStore();
+  }, [initReservationStore]);
+
   const changeInput = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     const upperValue = value.toUpperCase();
     setInputData(upperValue);
+  };
+
+  const goNextStep = () => {
+    setIsCheckCaptcha(true);
+    navigate(`${ROUTE_URL.EVENT.DEFAULT}/${eventId}/reservation/${RESERVATION_STEP.SELECT_COUNT}`);
   };
   const validateAndGoNextStep = () => {
     if (validateCaptcha(inputData)) {
@@ -84,4 +96,4 @@ export default function Captcha({ goNextStep }: CaptchaProps) {
       </div>
     </div>
   );
-}
+};
