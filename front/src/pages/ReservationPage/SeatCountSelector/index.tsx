@@ -6,19 +6,20 @@ import { postSeatCount } from '@/api/booking.ts';
 import Button from '@/components/common/Button';
 import Separator from '@/components/common/Separator.tsx';
 
+import { useSeatCount } from '@/pages/ReservationPage/SeatCountSelector/useSeatCount.tsx';
+
 import { SEAT_COUNT_LIST } from '@/constants/reservation.ts';
 import type { SeatCount } from '@/type/reservation.ts';
 import { useMutation } from '@tanstack/react-query';
 import { cx } from 'class-variance-authority';
 
 type SeatCountSelectorProps = {
-  seatCount: SeatCount;
-  setSeatCount: (count: SeatCount) => void;
   goNextStep: () => void;
 };
 //section 선택 페이지는 좌석 선택시에도 사용된다\
 
-export default function SeatCountSelector({ setSeatCount, goNextStep, seatCount }: SeatCountSelectorProps) {
+export default function SeatCountSelector({ goNextStep }: SeatCountSelectorProps) {
+  const { seatCount, setSeatCount } = useSeatCount();
   const { mutate: postSeatCountMutate, isPending } = useMutation({ mutationFn: postSeatCount });
   const selectSeatCount = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedCount = Number(event.target.value);

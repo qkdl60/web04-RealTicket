@@ -1,10 +1,12 @@
+import { memo } from 'react';
+
 import Button from '@/components/common/Button.tsx';
 
 type CompleteButtonProps = {
   isCompleteSelectSeat: boolean;
   onClick: () => void;
 };
-export const CompleteButton = ({ isCompleteSelectSeat, onClick }: CompleteButtonProps) => {
+export const CompleteButton = memo(({ isCompleteSelectSeat, onClick }: CompleteButtonProps) => {
   return (
     <Button disabled={!isCompleteSelectSeat} onClick={onClick}>
       {isCompleteSelectSeat ? (
@@ -14,4 +16,4 @@ export const CompleteButton = ({ isCompleteSelectSeat, onClick }: CompleteButton
       )}
     </Button>
   );
-};
+});

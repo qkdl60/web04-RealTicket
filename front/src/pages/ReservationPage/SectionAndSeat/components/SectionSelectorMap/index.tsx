@@ -1,24 +1,22 @@
 import { getSectionData } from '@/pages/ReservationPage/SectionAndSeat/getSectionData.ts';
 import { parseSectionCoList } from '@/pages/ReservationPage/parseSectionCoList.ts';
 
+import { useReservationStore } from '@/stores/reservation/reservationStore.ts';
 import { Layout } from '@/type/index.ts';
 import { twMerge } from 'tailwind-merge';
 
 interface SectionSelectorMapProps {
   className?: string;
   layout: Layout;
-  setSelectedSectionIndex: (id: number) => void;
-  selectedSectionIndex: number | null;
 }
-export const SectionSelectorMap = ({
-  className,
-  layout,
-  setSelectedSectionIndex,
-  selectedSectionIndex,
-}: SectionSelectorMapProps) => {
+export const SectionSelectorMap = ({ className, layout }: SectionSelectorMapProps) => {
   const { overview: overviewURL, overviewWidth, overviewHeight, overviewPoints } = layout;
   const viewBoxData = `0 0 ${overviewWidth} ${overviewHeight}`;
   const sectionCoList = parseSectionCoList(overviewPoints);
+  const {
+    selectedSectionIndex,
+    sectionAction: { setSelectedSectionIndex },
+  } = useReservationStore();
 
   return (
     <svg role="radiogroup" viewBox={viewBoxData} className={twMerge('w-full', className)}>
@@ -30,7 +28,7 @@ export const SectionSelectorMap = ({
           <g
             key={id}
             className="hover:cursor-pointer"
-            onClick={() => setSelectedSectionIndex?.(index)}
+            onClick={() => setSelectedSectionIndex(index)}
             role="radio"
             aria-label={`${id} 섹션 선택`}>
             <path className={isActive ? 'fill-primary' : 'fill-surface-sub'} d={pathD} />

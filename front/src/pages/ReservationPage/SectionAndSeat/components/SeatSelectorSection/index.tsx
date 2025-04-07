@@ -7,11 +7,11 @@ import useSSE from '@/hooks/useSSE.tsx';
 
 import Loading from '@/components/common/Loading.tsx';
 
-import type { SelectedSeat } from '@/pages/ReservationPage/SectionAndSeat';
 import { calcSeatNameList } from '@/pages/ReservationPage/SectionAndSeat/calcColumnCountList.ts';
 import { type SeatState, calcSeatState } from '@/pages/ReservationPage/SectionAndSeat/calcSeatState';
 
 import { API } from '@/constants/index.ts';
+import { useReservationStore } from '@/stores/reservation/reservationStore.ts';
 import type { Section } from '@/type/index.ts';
 import { cx } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
@@ -21,28 +21,24 @@ import { useReservingMutationState, useSelectSeatMutation } from './hooks';
 
 interface SeatSelectorSectionProps {
   selectedSection: Section;
-  selectedSectionIndex: number;
-  setSelectedSeatList: (seats: SelectedSeat[]) => void;
-  maxSelectCount: number;
-  selectedSeatList: SelectedSeat[];
 }
 const PICK_SEAT_MUTATION_KEY = ['seat'];
 
-export const SeatSelectorSection = ({
-  selectedSection,
-  selectedSectionIndex,
-  setSelectedSeatList,
-  maxSelectCount,
-  selectedSeatList,
-}: SeatSelectorSectionProps) => {
+export const SeatSelectorSection = ({ selectedSection }: SeatSelectorSectionProps) => {
   const { eventId } = useParams();
   const { name, seats, colLen } = selectedSection;
+  const {
+    selectedSeatList,
+    selectedSectionIndex,
+    seatAction: { setSeatList },
+    seatCount,
+  } = useReservationStore();
   const { requestCancelSeat, requestReserveSeat } = useSelectSeatMutation(
     PICK_SEAT_MUTATION_KEY,
     Number(eventId),
     selectedSeatList,
-    setSelectedSeatList,
-    selectedSectionIndex,
+    setSeatList,
+    selectedSectionIndex!,
   );
 
   const reservingSeatList = useReservingMutationState(PICK_SEAT_MUTATION_KEY);
@@ -51,7 +47,7 @@ export const SeatSelectorSection = ({
   });
 
   const seatStatusList = data && data.seatStatus;
-  const selectedSeatStatus = seatStatusList ? seatStatusList[selectedSectionIndex] : [];
+  const selectedSeatStatus = seatStatusList ? seatStatusList[selectedSectionIndex!] : [];
   const canView = isLoading === false && seatStatusList && seatStatusList.length !== 0;
   const selectedSeatCount = selectedSeatList.length;
 
@@ -61,14 +57,14 @@ export const SeatSelectorSection = ({
         requestCancelSeat(seatIndex, seatName);
         return;
       }
-      if (maxSelectCount <= selectedSeatCount) return;
+      if (seatCount <= selectedSeatCount) return;
       requestReserveSeat(seatIndex, seatName);
     },
-    [maxSelectCount, selectedSeatCount, requestCancelSeat, requestReserveSeat],
+    [seatCount, selectedSeatCount, requestCancelSeat, requestReserveSeat],
   );
 
   const seatNameList = useMemo(() => {
-    return calcSeatNameList(seats, colLen, name, Number(eventId), selectedSectionIndex);
+    return calcSeatNameList(seats, colLen, name, Number(eventId), selectedSectionIndex!);
   }, [colLen, name, seats, eventId, selectedSectionIndex]);
 
   return (
@@ -89,7 +85,7 @@ export const SeatSelectorSection = ({
               seatName,
               reservingSeatList,
               seatIndex,
-              selectedSectionIndex,
+              selectedSectionIndex!,
               selectedSeatList,
               selectedSeatStatus,
             );

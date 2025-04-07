@@ -10,12 +10,7 @@ import { changeSeatCountDebounce } from '@/utils/debounce.ts';
 import { SeatCount } from '@/type/reservation.ts';
 import { useMutation } from '@tanstack/react-query';
 
-import type { SelectedSeat } from './index.tsx';
-
-function useChangeSeatCountMutation(
-  setSeatCount: (count: SeatCount) => void,
-  setSelectedSeatList: (list: SelectedSeat[]) => void,
-) {
+function useChangeSeatCountMutation(setSeatCount: (count: SeatCount) => void, initSeatList: () => void) {
   const [isChangingSeatCount, setIsChangingSeatCount] = useState<boolean>(false);
   const { mutate: postSeatCountMutate } = useMutation({
     mutationFn: postSeatCount,
@@ -27,7 +22,7 @@ function useChangeSeatCountMutation(
       changeSeatCountDebounce(() => {
         postSeatCountMutate(count, {
           onSuccess: () => {
-            setSelectedSeatList([]);
+            initSeatList();
             setSeatCount(count);
           },
           onSettled: () => {
@@ -36,7 +31,7 @@ function useChangeSeatCountMutation(
         });
       });
     },
-    [setSeatCount, postSeatCountMutate, setSelectedSeatList],
+    [setSeatCount, postSeatCountMutate, initSeatList],
   );
 
   return { changeSeatCount, isChangingSeatCount };

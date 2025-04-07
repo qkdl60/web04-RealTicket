@@ -16,12 +16,16 @@ export const useEventAndPlaceDate = (eventId: number) => {
   });
   const { place } = event;
 
-  const { data: placeInfo, isPending: isPlaceInfoPending } = useQuery<PlaceInformation, CustomError>({
+  const { data: placeInfo, isPending } = useQuery<PlaceInformation, CustomError>({
     queryKey: [`place`, place.id],
     queryFn: getPlaceInformation(Number(place.id)),
     enabled: !!event,
     staleTime: Infinity,
   });
-
-  return { event, placeInfo, isPlaceInfoPending };
+  const isLoadingPlaceInfo = isPending === true || placeInfo === undefined;
+  if (isLoadingPlaceInfo) {
+    return { event, placeInfo: null, isPlaceInfoPending: true };
+  } else {
+    return { event, placeInfo, isPlaceInfoPending: false };
+  }
 };

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useCallback, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 import usePreventLeave from '@/hooks/usePreventLeave.tsx';
 
@@ -6,10 +7,9 @@ import Dimmed from '@/components/common/Dimmed.tsx';
 import Separator from '@/components/common/Separator.tsx';
 
 import useCompleteReservationMutation from '@/pages/ReservationPage/SectionAndSeat/useCompleteReservationMutation.tsx';
-import { formatEventInfo } from '@/pages/reservationWaiting/utils/formatEventInfo.ts';
 
-import type { EventDetail, PlaceInformation } from '@/type/index.ts';
-import type { SeatCount } from '@/type/reservation.ts';
+import { useReservationStore } from '@/stores/reservation/reservationStore.ts';
+import { EventInfo, Layout } from '@/type/index.ts';
 
 import {
   CompleteButton,
@@ -29,84 +29,64 @@ export interface SelectedSeat {
 }
 
 type SectionAndSeatProps = {
-  seatCount: SeatCount;
+  eventInfo: EventInfo;
+  layout: Layout;
   goNextStep: () => void;
-  setReservationResult: (result: SelectedSeat[]) => void;
-  event: EventDetail;
-  placeInformation: PlaceInformation;
-  setSeatCount: (count: SeatCount) => void;
 };
 
-export default function SectionAndSeat({
-  seatCount,
-  event,
-  placeInformation,
-  setReservationResult,
-  setSeatCount,
-  goNextStep,
-}: SectionAndSeatProps) {
+export default function SectionAndSeat({ goNextStep, layout, eventInfo }: SectionAndSeatProps) {
   usePreventLeave();
-  const [selectedSectionIndex, setSelectedSectionIndex] = useState<number | null>(null);
-  const [selectedSeatList, setSelectedSeatList] = useState<SelectedSeat[]>([]);
-  const completeReservation = useCompleteReservationMutation();
+  const { eventId } = useParams();
+  const {
+    seatCount,
+    selectedSeatList,
+    selectedSectionIndex,
+    seatAction: { initSeatList },
+    seatCountAction: { setSeatCount },
+    reservationAction: { setIsCompleteReservation },
+  } = useReservationStore();
 
-  const { layout } = placeInformation;
+  useEffect(() => {
+    initSeatList();
+  }, [initSeatList]);
+
+  const completeReservation = useCompleteReservationMutation();
   const { sections } = layout;
-  const { id: eventId } = event;
 
   const isCompleteSelectSeat = seatCount === selectedSeatList.length;
-  const selectedSection = selectedSectionIndex !== null && sections[selectedSectionIndex];
-  const beSelectedSection = selectedSectionIndex !== null && selectedSection;
-  const eventInfo = formatEventInfo(event);
+  const selectedSection = selectedSectionIndex !== null ? sections[selectedSectionIndex] : null;
+  const isSelectedSection = selectedSection !== null;
 
-  const { changeSeatCount, isChangingSeatCount } = useChangeSeatCountMutation(
-    setSeatCount,
-    setSelectedSeatList,
-  );
+  const { changeSeatCount, isChangingSeatCount } = useChangeSeatCountMutation(setSeatCount, initSeatList);
 
-  const onComplete = () => {
+  const onComplete = useCallback(() => {
     completeReservation({
-      eventId,
+      eventId: Number(eventId),
       selectedSeatList,
       onSuccess: () => {
-        setReservationResult(selectedSeatList);
+        setIsCompleteReservation(true);
         goNextStep();
       },
     });
-  };
+  }, [completeReservation, eventId, goNextStep, selectedSeatList, setIsCompleteReservation]);
 
   return (
     <div className="flex w-full gap-4">
       <div className="m-auto flex w-[70%] flex-col gap-8 px-4 py-2">
         {isChangingSeatCount && <Dimmed />}
         <EventInfoSection eventInfo={eventInfo} />
-        {beSelectedSection ? (
+        {isSelectedSection ? (
           <>
             <SeatStatusGuide />
-            <SeatSelectorSection
-              selectedSeatList={selectedSeatList}
-              setSelectedSeatList={setSelectedSeatList}
-              selectedSectionIndex={selectedSectionIndex}
-              selectedSection={selectedSection}
-              maxSelectCount={seatCount}
-            />
+            <SeatSelectorSection selectedSection={selectedSection} />
           </>
         ) : (
-          <SectionSelectorMap
-            layout={layout}
-            selectedSectionIndex={selectedSectionIndex}
-            setSelectedSectionIndex={setSelectedSectionIndex}
-          />
+          <SectionSelectorMap layout={layout} />
         )}
       </div>
       <Separator direction="col" />
       <div className="flex flex-col gap-6">
-        <SectionSelectorMap
-          className="flex-grow-0"
-          layout={layout}
-          selectedSectionIndex={selectedSectionIndex}
-          setSelectedSectionIndex={setSelectedSectionIndex}
-        />
+        <SectionSelectorMap className="flex-grow-0" layout={layout} />
         <Separator direction="row" />
         <SeatCountSelector seatCount={seatCount} changeSeatCount={changeSeatCount} />
         <Separator direction="row" />

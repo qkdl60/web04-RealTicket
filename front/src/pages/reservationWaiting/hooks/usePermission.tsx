@@ -7,16 +7,15 @@ import { useWaitingInfoStore } from '@/stores/booking/waitingInfoStore.ts';
 import type { PermissionResult } from '@/type/booking.ts';
 import { useIsFetching, useQueryClient } from '@tanstack/react-query';
 
-const PERMISSION_QUERY_KEY = ['permission'];
 export const usePermission = (eventId: number) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const setUserOrder = useWaitingInfoStore((state) => state.action.setUserOrder);
-  const isPermissionFetching = useIsFetching({ queryKey: PERMISSION_QUERY_KEY });
+  const isPermissionFetching = useIsFetching({ queryKey: ['permission'] });
 
   const permissionAndGoNextPage = async () => {
     const { enteringStatus, userOrder } = await queryClient.fetchQuery<PermissionResult>({
-      queryKey: PERMISSION_QUERY_KEY,
+      queryKey: ['permission'],
       queryFn: getPermission(Number(eventId)),
       staleTime: 0,
     });

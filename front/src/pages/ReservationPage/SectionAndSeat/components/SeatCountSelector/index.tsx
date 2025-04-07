@@ -4,10 +4,11 @@ import Select from 'react-select';
 import useConfirm from '@/hooks/useConfirm';
 
 import { SEAT_COUNT_LIST } from '@/constants/reservation';
+import { SeatCount } from '@/type/reservation.ts';
 
 const SELECT_OPTION_LIST = SEAT_COUNT_LIST.map((count) => ({ value: count, label: `${count}매` }));
 type SeatCountSelectorProps = {
-  seatCount: number;
+  seatCount: SeatCount;
   changeSeatCount: (count: (typeof SEAT_COUNT_LIST)[number]) => void;
 };
 export const SeatCountSelector = memo(({ seatCount, changeSeatCount }: SeatCountSelectorProps) => {

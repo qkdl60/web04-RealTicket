@@ -7,6 +7,7 @@ import type { SelectedSeat } from './index.tsx';
 function useCompleteReservationMutation() {
   const queryClient = useQueryClient();
   const { mutate: confirmReservation } = useMutation({ mutationFn: postReservation });
+
   const completeReservation = ({
     eventId,
     onSuccess,
