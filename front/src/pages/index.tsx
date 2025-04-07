@@ -1,5 +1,7 @@
-import { lazy, useEffect } from 'react';
+import { lazy } from 'react';
 import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
+
+import NotFoundPage from '@/pages/notFoundPage';
 
 import WithLogin from '@/app/hocs/withLogin';
 // import { WithReservationGuard } from '@/app/hocs/withResrvationGuard/index.tsx';
@@ -7,14 +9,6 @@ import WithoutLogin from '@/app/hocs/withoutLogin';
 import { ROUTE_URL } from '@/constants/index.ts';
 import { RESERVATION_STEP } from '@/constants/reservation.ts';
 import Layout from '@/layout/Layout';
-
-const WithTest = ({ children }: { children: React.ReactNode }) => {
-  useEffect(() => {
-    console.log('hi');
-  }, []);
-
-  return children;
-};
 
 const LoginPage = lazy(() => import('@/pages/login').then(({ LoginPage }) => ({ default: LoginPage })));
 const SignUpPage = lazy(() => import('@/pages/signup').then(({ SignUpPage }) => ({ default: SignUpPage })));
@@ -33,7 +27,11 @@ const ReservationWaitingPage = lazy(() =>
 const WaitingQueuePage = lazy(() =>
   import('@/pages/waitingQueue').then(({ WaitingQueuePage }) => ({ default: WaitingQueuePage })),
 );
-const NotFoundPage = lazy(() => import('@/pages/notFoundPage'));
+const SelectSeatCountPage = lazy(() =>
+  import('@/pages/selectSeatCount').then(({ SelectSeatCountPage }) => ({
+    default: SelectSeatCountPage,
+  })),
+);
 
 const router = createBrowserRouter([
   {
@@ -73,15 +71,15 @@ const router = createBrowserRouter([
         element: (
           // <WithLogin>
           //   <WithReservationGuard>
-          <WithTest>
-            <Outlet />
-          </WithTest>
+
+          <Outlet />
+
           //   </WithReservationGuard>
           // </WithLogin>
         ),
         children: [
           { path: RESERVATION_STEP.CAPTCHA, element: <CaptchaPage /> },
-          { path: RESERVATION_STEP.SELECT_COUNT, element: <div>seatCount</div> },
+          { path: RESERVATION_STEP.SELECT_COUNT, element: <SelectSeatCountPage /> },
           { path: RESERVATION_STEP.SELECT_SECTION_SEAT, element: <div>booking</div> },
           { path: RESERVATION_STEP.RESULT, element: <div>result</div> },
         ],

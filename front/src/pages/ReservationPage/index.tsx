@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 import ReservationResult from '@/pages/ReservationPage/ReservationResult';
-import SeatCountSelector from '@/pages/ReservationPage/SeatCountSelector';
 import SectionAndSeat from '@/pages/ReservationPage/SectionAndSeat';
+import SeatCountSelector from '@/pages/selectSeatCount';
 
 // import { Captcha } from '@/pages/checkCaptcha';
 

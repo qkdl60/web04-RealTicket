@@ -1,33 +1,42 @@
 import { ChangeEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { postSeatCount } from '@/api/booking.ts';
 
 import Button from '@/components/common/Button';
 import Separator from '@/components/common/Separator.tsx';
 
-import { useSeatCount } from '@/pages/ReservationPage/SeatCountSelector/useSeatCount.tsx';
-
-import { SEAT_COUNT_LIST } from '@/constants/reservation.ts';
+import { ROUTE_URL } from '@/constants/index.ts';
+import { RESERVATION_STEP, SEAT_COUNT_LIST } from '@/constants/reservation.ts';
+import { useReservationStore } from '@/stores/reservation/reservationStore.ts';
 import type { SeatCount } from '@/type/reservation.ts';
 import { useMutation } from '@tanstack/react-query';
 import { cx } from 'class-variance-authority';
 
-type SeatCountSelectorProps = {
-  goNextStep: () => void;
-};
-//section 선택 페이지는 좌석 선택시에도 사용된다\
+import { HELP_MESSAGE_LIST } from './const';
 
-export default function SeatCountSelector({ goNextStep }: SeatCountSelectorProps) {
-  const { seatCount, setSeatCount } = useSeatCount();
+export const SelectSeatCountPage = () => {
+  const { eventId } = useParams();
+  const navigate = useNavigate();
+  const {
+    seatCount,
+    seatCountAction: { setSeatCount },
+  } = useReservationStore();
+  const setIsCompleteSelectSeatCount = useReservationStore(
+    (state) => state.flagAction.setIsCompleteSelectSeatCount,
+  );
+
   const { mutate: postSeatCountMutate, isPending } = useMutation({ mutationFn: postSeatCount });
   const selectSeatCount = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedCount = Number(event.target.value);
-
     if (selectedCount == seatCount) return;
     setSeatCount(selectedCount as SeatCount);
   };
-
+  const goNextStep = () => {
+    setIsCompleteSelectSeatCount(true);
+    navigate(`${ROUTE_URL.EVENT.DEFAULT}/${eventId}/reservation/${RESERVATION_STEP.SELECT_SECTION_SEAT}`);
+  };
+  //TODO 로딩 표시 필요
   const handleSubmit = async () => {
     await postSeatCountMutate(seatCount);
     goNextStep();
@@ -72,5 +81,4 @@ export default function SeatCountSelector({ goNextStep }: SeatCountSelectorProps
       </div>
     </div>
   );
-}
-const HELP_MESSAGE_LIST = ['최대 4매까지 선택 가능합니다.'];
+};
