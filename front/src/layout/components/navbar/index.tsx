@@ -1,4 +1,4 @@
-import { useAuthStore } from '@/stores/auth/authStore.ts';
+import { useAuthStore } from '@/shared/stores';
 
 import GuestLoginButton from './components/guestLoginButton';
 import HeaderLogo from './components/headerLogo';

@@ -6,7 +6,7 @@ import { postLogin } from '@/api/user.ts';
 
 import { LOGIN_FAILED_MESSAGE } from '@/constants/user.ts';
 import { toast } from '@/shared/libs';
-import { useAuthStore } from '@/stores/auth/authStore.ts';
+import { useAuthStore } from '@/shared/stores';
 import { useMutation } from '@tanstack/react-query';
 
 //TODO 타입 정의 이동

@@ -1,7 +1,7 @@
 import { ROUTE_URL } from '@/constants/index.ts';
 import router from '@/pages';
 import { toast } from '@/shared/libs';
-import { useAuthStore } from '@/stores/auth/authStore.ts';
+import { useAuthStore } from '@/shared/stores';
 import axios, { AxiosError, isAxiosError } from 'axios';
 
 //TODO 타입 정의

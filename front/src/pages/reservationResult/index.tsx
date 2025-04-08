@@ -5,8 +5,8 @@ import { useSuspenseEventQuery } from '@/pages/waitingQueue/hooks/useSuspenseEve
 import { getDate, getTime } from '@/utils/date.ts';
 import { getPriceWon } from '@/utils/getPriceWon.ts';
 
+import { useReservationStore } from '@/feature/reservation/stores/reservationStore';
 import { Button, Icon, Separator } from '@/shared/components';
-import { useReservationStore } from '@/stores/reservation/reservationStore.ts';
 
 import { ALERT_MESSAGE_LIST } from './const';
 

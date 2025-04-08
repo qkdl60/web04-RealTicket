@@ -1,6 +1,6 @@
 import useSSE from '@/hooks/useSSE.tsx';
 
-import { useWaitingInfoStore } from '@/stores/booking/waitingInfoStore.ts';
+import { useWaitingInfoStore } from '@/feature/reservation/stores';
 import { RePermissionResult } from '@/type/booking.ts';
 import { act, renderHook } from '@testing-library/react';
 import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';

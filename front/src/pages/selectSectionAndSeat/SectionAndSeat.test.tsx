@@ -1,7 +1,7 @@
 import { BrowserRouter } from 'react-router-dom';
 
 import { ConfirmProvider } from '@/app/providers/confirmProvider';
-import { useReservationStore } from '@/stores/reservation/reservationStore';
+import { useReservationStore } from '@/feature/reservation/stores/reservationStore';
 import { act, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';

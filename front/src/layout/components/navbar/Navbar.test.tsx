@@ -12,8 +12,8 @@
 import { BrowserRouter } from 'react-router-dom';
 
 import Navbar from '@/layout/components/navbar';
-import { useAuthStore } from '@/stores/auth/authStore';
-import type { AuthState } from '@/stores/auth/authStore';
+import { useAuthStore } from '@/shared/stores';
+import type { AuthState } from '@/shared/stores';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';

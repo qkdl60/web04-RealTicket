@@ -1,6 +1,6 @@
 import { getSectionData } from '@/pages/selectSectionAndSeat/utils/getSectionData';
 
-import { useReservationStore } from '@/stores/reservation/reservationStore.ts';
+import { useReservationStore } from '@/feature/reservation/stores/reservationStore';
 import { Layout } from '@/type/index.ts';
 import { twMerge } from 'tailwind-merge';
 

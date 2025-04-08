@@ -7,8 +7,8 @@ import { useEventAndPlaceDate } from '@/pages/reservationWaiting/hooks/useEventA
 import { formatEventInfo } from '@/pages/reservationWaiting/utils/formatEventInfo.ts';
 
 import { ROUTE_URL } from '@/constants/index.ts';
+import { useReservationStore } from '@/feature/reservation/stores/reservationStore';
 import { Dimmed, Separator } from '@/shared/components';
-import { useReservationStore } from '@/stores/reservation/reservationStore.ts';
 
 import { useChangeSeatCountMutation, useCompleteReservationMutation } from './hooks';
 import {

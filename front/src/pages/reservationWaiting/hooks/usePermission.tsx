@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getPermission } from '@/api/booking.ts';
 
 import { ROUTE_URL } from '@/constants/index.ts';
-import { useWaitingInfoStore } from '@/stores/booking/waitingInfoStore.ts';
+import { useWaitingInfoStore } from '@/feature/reservation/stores';
 import type { PermissionResult } from '@/type/booking.ts';
 import { useIsFetching, useQueryClient } from '@tanstack/react-query';
 

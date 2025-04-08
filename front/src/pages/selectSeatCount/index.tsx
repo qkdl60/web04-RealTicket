@@ -5,8 +5,8 @@ import { postSeatCount } from '@/api/booking.ts';
 
 import { ROUTE_URL } from '@/constants/index.ts';
 import { RESERVATION_STEP, SEAT_COUNT_LIST } from '@/constants/reservation.ts';
+import { useReservationStore } from '@/feature/reservation/stores/reservationStore';
 import { Button, Separator } from '@/shared/components';
-import { useReservationStore } from '@/stores/reservation/reservationStore.ts';
 import type { SeatCount } from '@/type/reservation.ts';
 import { useMutation } from '@tanstack/react-query';
 import { cx } from 'class-variance-authority';

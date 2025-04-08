@@ -5,7 +5,7 @@ import { BASE_URL } from '@/api/axios.ts';
 import useSSE from '@/hooks/useSSE.tsx';
 
 import { API } from '@/constants/index.ts';
-import { useWaitingInfoStore } from '@/stores/booking/waitingInfoStore.ts';
+import { useWaitingInfoStore } from '@/feature/reservation/stores';
 import { RePermissionResult } from '@/type/booking.ts';
 
 import { calcProgressValue, calcRestCount, calcWaitingTime, formatWaitingTime } from '../utils';

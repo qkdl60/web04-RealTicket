@@ -4,8 +4,8 @@ import { LoadCanvasTemplate, loadCaptchaEnginge, validateCaptcha } from 'react-s
 
 import { ROUTE_URL } from '@/constants/index.ts';
 import { RESERVATION_STEP } from '@/constants/reservation.ts';
+import { useReservationStore } from '@/feature/reservation/stores/reservationStore';
 import { Button, Field, Input, Separator } from '@/shared/components';
-import { useReservationStore } from '@/stores/reservation/reservationStore.ts';
 
 import './index.css';
 

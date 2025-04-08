@@ -5,7 +5,7 @@ import { deleteReservation, getReservation } from '@/api/reservation.ts';
 import { postLogout } from '@/api/user.ts';
 
 import { toast } from '@/shared/libs';
-import { useAuthStore } from '@/stores/auth/authStore.ts';
+import { useAuthStore } from '@/shared/stores';
 import { Reservation } from '@/type/reservation.ts';
 import { useMutation, useMutationState, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { AxiosResponse } from 'axios';

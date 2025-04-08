@@ -1,5 +1,5 @@
 import * as Icons from '@/assets/icons';
-import type { IconName } from '@/shared/type';
+import type { IconName } from '@/shared/types';
 //TODO 최적화 필요, 필요한 icon만 호출되도록, 캐시
 import { VariantProps, cva, cx } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';

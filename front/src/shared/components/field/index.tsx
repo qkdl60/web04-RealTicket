@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 
-import { FieldContext } from '@/contexts/FieldContext.tsx';
+import { FieldContext } from '@/shared/contexts';
 
 type FieldProps = PropsWithChildren & {
   label: string;
