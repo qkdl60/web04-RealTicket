@@ -1,9 +1,7 @@
-import Icon from '@/components/common/Icon.tsx';
-import Loading from '@/components/common/Loading.tsx';
-
 import { padEndArray } from '@/utils/padArray.ts';
 
-import { SelectedSeat } from '@/type/booking.ts';
+import { Icon, Loading } from '@/shared/components';
+import type { SelectedSeat } from '@/type/booking.ts';
 import { twMerge } from 'tailwind-merge';
 
 type SelectedSeatInfoProps = {

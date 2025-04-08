@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import Button from '@/components/common/Button.tsx';
+import { Button } from '@/shared/components';
 
 type CompleteButtonProps = {
   isCompleteSelectSeat: boolean;

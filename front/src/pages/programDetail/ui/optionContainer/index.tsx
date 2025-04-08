@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react';
 
-import Separator from '@/components/common/Separator.tsx';
+import { Separator } from '@/shared/components';
 
 type DateMenuProps = {
   title: string;

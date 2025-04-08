@@ -1,6 +1,6 @@
 import useConfirm from '@/hooks/useConfirm.tsx';
 
-import Button from '@/components/common/Button.tsx';
+import { Button } from '@/shared/components';
 
 export function ConfirmContainer() {
   const { confirmValue } = useConfirm();

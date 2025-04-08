@@ -1,14 +1,11 @@
 import { Link, useParams } from 'react-router-dom';
 
-import Button from '@/components/common/Button.tsx';
-import Icon from '@/components/common/Icon.tsx';
-import Separator from '@/components/common/Separator.tsx';
-
 import { useSuspenseEventQuery } from '@/pages/waitingQueue/hooks/useSuspenseEventQuery.tsx';
 
 import { getDate, getTime } from '@/utils/date.ts';
 import { getPriceWon } from '@/utils/getPriceWon.ts';
 
+import { Button, Icon, Separator } from '@/shared/components';
 import { useReservationStore } from '@/stores/reservation/reservationStore.ts';
 
 import { ALERT_MESSAGE_LIST } from './const';

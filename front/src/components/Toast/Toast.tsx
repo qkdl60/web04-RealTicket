@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import Button from '@/components/common/Button.tsx';
-import Icon, { IconName } from '@/components/common/Icon.tsx';
-
 import type { ToastType } from '@/app/containers/toastContainer';
+import { Button, Icon } from '@/shared/components';
+import { IconName } from '@/shared/type/index.ts';
 import { cva, cx } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
 

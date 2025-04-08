@@ -1,6 +1,5 @@
-import Button from '@/components/common/Button.tsx';
-
-import { EventInfo } from '@/type/index.ts';
+import { Button } from '@/shared/components';
+import type { EventInfo } from '@/type/index.ts';
 
 import { EventInfoSection } from '../eventInfoSection';
 

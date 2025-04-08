@@ -1,8 +1,6 @@
-import Button from '@/components/common/Button.tsx';
-import Icon from '@/components/common/Icon.tsx';
-
 import { getDate, getTime } from '@/utils/date.ts';
 
+import { Button, Icon } from '@/shared/components';
 import type { Reservation } from '@/type/reservation.ts';
 
 interface ReservationCardProps extends Reservation {

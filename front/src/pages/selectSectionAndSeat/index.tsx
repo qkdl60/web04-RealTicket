@@ -3,13 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import usePreventLeave from '@/hooks/usePreventLeave.tsx';
 
-import Dimmed from '@/components/common/Dimmed.tsx';
-import Separator from '@/components/common/Separator.tsx';
-
 import { useEventAndPlaceDate } from '@/pages/reservationWaiting/hooks/useEventAndPlaceDate.tsx';
 import { formatEventInfo } from '@/pages/reservationWaiting/utils/formatEventInfo.ts';
 
 import { ROUTE_URL } from '@/constants/index.ts';
+import { Dimmed, Separator } from '@/shared/components';
 import { useReservationStore } from '@/stores/reservation/reservationStore.ts';
 
 import { useChangeSeatCountMutation, useCompleteReservationMutation } from './hooks';

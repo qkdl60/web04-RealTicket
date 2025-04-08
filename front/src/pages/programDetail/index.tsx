@@ -1,7 +1,6 @@
-import Radio from '@/components/common/Radio.tsx';
-import Separator from '@/components/common/Separator';
-
 import { getDate, getDay } from '@/utils/date.ts';
+
+import { Radio, Separator } from '@/shared/components';
 
 import { useProgramDetailPage } from './hooks';
 import { GoReadyPageButton, OptionContainer, ProgramInformation, SelectionSummary } from './ui';

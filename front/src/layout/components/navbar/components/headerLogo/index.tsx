@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import Icon from '@/components/common/Icon.tsx';
+import { Icon } from '@/shared/components';
 
 export default function HeaderLogo() {
   return (

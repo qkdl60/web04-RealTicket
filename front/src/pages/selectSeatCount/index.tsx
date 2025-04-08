@@ -3,11 +3,9 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { postSeatCount } from '@/api/booking.ts';
 
-import Button from '@/components/common/Button';
-import Separator from '@/components/common/Separator.tsx';
-
 import { ROUTE_URL } from '@/constants/index.ts';
 import { RESERVATION_STEP, SEAT_COUNT_LIST } from '@/constants/reservation.ts';
+import { Button, Separator } from '@/shared/components';
 import { useReservationStore } from '@/stores/reservation/reservationStore.ts';
 import type { SeatCount } from '@/type/reservation.ts';
 import { useMutation } from '@tanstack/react-query';

@@ -2,8 +2,9 @@ import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Outlet } from 'react-router-dom';
 
-import LoadingPage from '@/pages/loadingPage';
 import NotFoundPage from '@/pages/notFoundPage';
+
+import { Loading } from '@/shared/components';
 
 import Navbar from './components/navbar';
 
@@ -14,7 +15,7 @@ export default function Layout() {
       <div className="mx-auto flex max-w-[1080px] justify-center p-8 pt-4">
         {/* //TODO reset error */}
         <ErrorBoundary fallback={<NotFoundPage />}>
-          <Suspense fallback={<LoadingPage />}>
+          <Suspense fallback={<Loading />}>
             <Outlet />
           </Suspense>
         </ErrorBoundary>

@@ -1,10 +1,6 @@
 import useForm from '@/hooks/useForm';
 
-import Button from '@/components/common/Button';
-import Field from '@/components/common/Field';
-import Icon from '@/components/common/Icon';
-import Input from '@/components/common/Input';
-
+import { Button, Field, Icon, Input } from '@/shared/components';
 import type { LoginForm } from '@/type/user.ts';
 
 import { LOGIN_FAILED_MESSAGE } from './const';

@@ -1,5 +1,4 @@
-import Button from '@/components/common/Button.tsx';
-
+import { Button } from '@/shared/components';
 import type { ProgramEvent } from '@/type/index.ts';
 import { cx } from 'class-variance-authority';
 

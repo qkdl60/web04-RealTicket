@@ -1,5 +1,6 @@
 import { Seat } from '@/components/Seat';
-import Separator from '@/components/common/Separator.tsx';
+
+import { Separator } from '@/shared/components';
 
 import { SEAT_STATE_INFO_LIST } from '../../const';
 

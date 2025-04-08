@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import Button from '@/components/common/Button.tsx';
-import Icon from '@/components/common/Icon.tsx';
+import { Button, Icon } from '@/shared/components';
 
 export default function NotFoundPage() {
   return (

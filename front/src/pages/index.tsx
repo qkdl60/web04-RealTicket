@@ -1,11 +1,10 @@
 import { lazy } from 'react';
 import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 
+import { WithLogin, WithoutLogin } from '@/components/hocs';
+
 import NotFoundPage from '@/pages/notFoundPage';
 
-import WithLogin from '@/app/hocs/withLogin';
-// import { WithReservationGuard } from '@/app/hocs/withResrvationGuard/index.tsx';
-import WithoutLogin from '@/app/hocs/withoutLogin';
 import { ROUTE_URL } from '@/constants/index.ts';
 import { RESERVATION_STEP } from '@/constants/reservation.ts';
 import Layout from '@/layout/Layout';

@@ -1,14 +1,9 @@
 import { Navigate, useParams } from 'react-router-dom';
 
-import Card from '@/components/common/Card.tsx';
-import Icon from '@/components/common/Icon.tsx';
-import Progressbar from '@/components/common/Progressbar.tsx';
-
-import LoadingPage from '@/pages/loadingPage';
-
 import { getDate, getTime } from '@/utils/date.ts';
 
 import { ROUTE_URL } from '@/constants/index.ts';
+import { Card, Icon, Loading, Progressbar } from '@/shared/components';
 
 import { ALERT_MESSAGE_LIST } from './const';
 import { useResetUserOrder, useSuspenseEventQuery, useWaitingData } from './hooks';
@@ -60,7 +55,7 @@ export const WaitingQueuePage = () => {
 
   if (isInvalidAccess) return <Navigate to="/" replace />;
   if (isMyTurn) return <Navigate to={ROUTE_URL.EVENT.DETAIL(Number(eventId))} replace />;
-  if (isLoadingWaitingData) return <LoadingPage />;
+  if (isLoadingWaitingData) return <Loading />;
 
   return (
     <Card>

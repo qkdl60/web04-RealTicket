@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import Button from '@/components/common/Button.tsx';
+import { Button } from '@/shared/components';
 
 export default function SignupButton() {
   return (

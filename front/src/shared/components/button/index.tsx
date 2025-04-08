@@ -1,0 +1,55 @@
+import { ButtonHTMLAttributes, ForwardedRef, forwardRef } from 'react';
+
+import { VariantProps, cva } from 'class-variance-authority';
+import { twMerge } from 'tailwind-merge';
+
+import { Slot } from '../slot';
+
+const baseButtonClass =
+  'button p-2 flex items-center justify-center gap-x-2 rounded relative overflow-visible';
+const disabledClass =
+  'disabled:bg-surface-disabled disabled:border-surface-disabled disabled:opacity-50 disabled:cursor-not-allowed';
+
+const buttonVariants = cva([baseButtonClass, disabledClass], {
+  variants: {
+    color: {
+      default: ['border-surface', 'bg-surface', 'hover:bg-surface/90'],
+      success: ['border-success', 'bg-success', 'hover:bg-success/90'],
+      primary: ['border-primary', 'bg-primary', 'hover:bg-primary/90'],
+      error: ['border-error', 'bg-error', 'hover:bg-error/90'],
+      cancel: ['bg-surface-cancel', 'hover:bg-surface-cancel/90'],
+    },
+    intent: {
+      default: [],
+      outline: ['bg-transparent', 'border', 'hover:bg-transparent', 'hover:opacity-60'],
+      ghost: ['bg-transparent', 'border-transparent', 'hover:bg-transparent hover:opacity-60'],
+    },
+    size: {
+      full: ['w-full'],
+      middle: ['w-fit', 'px-4'],
+      fit: ['w-fit'],
+    },
+  },
+  defaultVariants: {
+    color: 'default',
+    intent: 'default',
+    size: 'full',
+  },
+});
+
+type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color'> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean;
+  };
+
+export const Button = forwardRef(function Button(
+  { className, children, intent, size, color, asChild, ...rest }: ButtonProps,
+  ref: ForwardedRef<HTMLButtonElement>,
+) {
+  const Element = asChild ? Slot : 'button';
+  return (
+    <Element className={twMerge(buttonVariants({ color, intent, size }), className)} ref={ref} {...rest}>
+      {children}
+    </Element>
+  );
+});
