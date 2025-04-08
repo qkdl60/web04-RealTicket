@@ -5,9 +5,8 @@ import { BASE_URL } from '@/api/axios.ts';
 
 import useSSE from '@/hooks/useSSE.tsx';
 
-import { Seat } from '@/components/Seat';
-
 import { API } from '@/constants/index.ts';
+import { Seat } from '@/feature/reservation/ui/seat';
 import { Loading } from '@/shared/components';
 import { useReservationStore } from '@/stores/reservation/reservationStore.ts';
 import type { SeatState } from '@/type/booking.ts';

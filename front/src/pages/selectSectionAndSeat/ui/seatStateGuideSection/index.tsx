@@ -1,5 +1,4 @@
-import { Seat } from '@/components/Seat';
-
+import { Seat } from '@/feature/reservation/ui/seat';
 import { Separator } from '@/shared/components';
 
 import { SEAT_STATE_INFO_LIST } from '../../const';

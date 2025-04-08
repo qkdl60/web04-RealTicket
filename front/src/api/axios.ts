@@ -1,7 +1,7 @@
 import { ROUTE_URL } from '@/constants/index.ts';
-import { auth } from '@/events/AuthEvent.ts';
 import router from '@/pages';
 import { toast } from '@/shared/libs';
+import { useAuthStore } from '@/stores/auth/authStore.ts';
 import axios, { AxiosError, isAxiosError } from 'axios';
 
 //TODO 타입 정의
@@ -64,7 +64,7 @@ apiClient.interceptors.response.use(
     if (isError(error)) {
       if (isAuthenticateError(error)) {
         toast.error('로그인이 필요합니다.\n로그인 후 이용해주세요.');
-        auth.logout();
+        useAuthStore.getState().action.logout();
         router.navigate(ROUTE_URL.USER.LOGIN, { replace: true });
       } else if (isAuthorizationError(error)) {
         toast.error('잘못된 접근입니다.\n다시 시도해주세요.');
