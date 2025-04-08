@@ -1,13 +1,12 @@
 import { lazy } from 'react';
 import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 
-import { WithLogin, WithoutLogin } from '@/components/hocs';
-
 import NotFoundPage from '@/pages/notFoundPage';
 
 import { ROUTE_URL } from '@/constants/index.ts';
 import { RESERVATION_STEP } from '@/constants/reservation.ts';
 import Layout from '@/layout/Layout';
+import { WithLogin, WithoutLogin } from '@/shared/hocs';
 
 const LoginPage = lazy(() => import('@/pages/login').then(({ LoginPage }) => ({ default: LoginPage })));
 const SignUpPage = lazy(() => import('@/pages/signup').then(({ SignUpPage }) => ({ default: SignUpPage })));
