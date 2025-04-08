@@ -1,0 +1,23 @@
+import { Seat } from '@/components/Seat';
+import Separator from '@/components/common/Separator.tsx';
+
+import { SEAT_STATE_INFO_LIST } from '../../const';
+
+export const SeatStateGuideSection = () => {
+  return (
+    <>
+      <Separator direction="row" />
+      <div className="flex justify-evenly">
+        {SEAT_STATE_INFO_LIST.map(({ state, description }) => {
+          return (
+            <div className="flex items-center gap-4 text-display1 text-typo">
+              <Seat state={state} />
+              {description}
+            </div>
+          );
+        })}
+      </div>
+      <Separator direction="row" />
+    </>
+  );
+};

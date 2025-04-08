@@ -1,7 +1,6 @@
 import { memo } from 'react';
 
-import { SeatState } from '@/pages/ReservationPage/SectionAndSeat/calcSeatState';
-
+import { SeatState } from '@/type/booking.ts';
 import { type VariantProps, cva } from 'class-variance-authority';
 
 const seatVariants = cva('rounded', {

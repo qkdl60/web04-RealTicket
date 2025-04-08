@@ -15,7 +15,7 @@ export const useEventAndPlaceDate = (eventId: number) => {
   const {
     data: { event, placeInfo },
   } = useSuspenseQuery<EventAndPlaceDate, CustomError>({
-    queryKey: ['event', eventId],
+    queryKey: ['eventAndPlaceDate', eventId],
     queryFn: getEventDetailAndPlaceInfo(Number(eventId)),
     staleTime: Infinity,
   });

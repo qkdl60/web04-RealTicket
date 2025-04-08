@@ -9,3 +9,16 @@ export interface RePermissionResult {
   totalWaiting: number;
   throughputRate: number;
 }
+
+export type SeatStateInfo = {
+  state: SeatState;
+  description: string;
+};
+
+export type SeatState = 'empty' | 'mine' | 'reserving' | 'others' | 'available';
+
+export type SelectedSeat = {
+  sectionIndex: number;
+  seatIndex: number;
+  name: string;
+};

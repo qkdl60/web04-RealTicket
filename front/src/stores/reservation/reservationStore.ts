@@ -1,5 +1,4 @@
-import { SelectedSeat } from '@/pages/ReservationPage/SectionAndSeat/index.tsx';
-
+import { SelectedSeat } from '@/type/booking.ts';
 import { SeatCount } from '@/type/reservation.ts';
 import { create } from 'zustand';
 
@@ -42,7 +41,6 @@ export const useReservationStore = create<ReservationStore>((set) => ({
   seat: {
     selectedSeatList: [],
   },
-
   seatCount: 1,
 
   section: {
@@ -56,9 +54,14 @@ export const useReservationStore = create<ReservationStore>((set) => ({
 
   seatAction: {
     clearSeatList: () => set({ seat: { selectedSeatList: [] } }),
-    setSeatList: (seatList: SelectedSeat[]) => set({ seat: { selectedSeatList: seatList } }),
-    addSeat: (selectedSeat: SelectedSeat) =>
-      set((state) => ({ seat: { selectedSeatList: [...state.seat.selectedSeatList, selectedSeat] } })),
+    setSeatList: (seatList: SelectedSeat[]) => {
+      set({ seat: { selectedSeatList: seatList } });
+    },
+    addSeat: (selectedSeat: SelectedSeat) => {
+      set((state) => {
+        return { seat: { selectedSeatList: [...state.seat.selectedSeatList, selectedSeat] } };
+      });
+    },
     removeSeat: (targetSeatName: string) =>
       set((state) => ({
         seat: {

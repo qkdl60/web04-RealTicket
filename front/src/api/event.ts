@@ -15,6 +15,7 @@ export const getEventDetailAndPlaceInfo = (eventId: number) => async () => {
     queryKey: ['event', eventId],
     queryFn: getEventDetail(eventId),
   });
+
   const placeId = event.place.id;
   const placeInfo = await queryClient.ensureQueryData({
     queryKey: ['place', placeId],

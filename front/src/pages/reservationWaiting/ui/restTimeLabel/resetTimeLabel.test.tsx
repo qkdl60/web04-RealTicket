@@ -7,7 +7,6 @@ import { RestTimeLabel } from './';
 describe('남은 시간별 텍스트 형태', () => {
   it('남은 시간이 100초 이상일 때', () => {
     render(<RestTimeLabel restTime={140_000} />);
-    console.log(screen.debug());
     expect(screen.queryByText(/00시간 02분 20초/)).toBeInTheDocument();
   });
   it('남은 시간이 100초 미만일 때', () => {
