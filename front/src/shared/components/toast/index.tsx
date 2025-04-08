@@ -1,10 +1,23 @@
 import { useEffect, useState } from 'react';
 
-import type { ToastType } from '@/app/containers/toastContainer';
 import { Button, Icon } from '@/shared/components';
 import { IconName } from '@/shared/type/index.ts';
+import type { ToastType } from '@/shared/types';
 import { cva, cx } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
+
+const toastVariant = cva(
+  `flex gap-4 px-4 py-3 relative h-fit w-[300px] items-center rounded border whitespace-pre-line z-20`,
+  {
+    variants: {
+      type: {
+        error: `bg-error`,
+        success: 'bg-success',
+        warning: `bg-warning`,
+      },
+    },
+  },
+);
 
 interface ToastProps {
   className?: string;
@@ -19,7 +32,7 @@ const typeIconNameMap: Record<ToastType, IconName> = {
   warning: 'Alert',
 };
 
-export default function Toast({ type, text, close }: ToastProps) {
+export const Toast = ({ type, text, close }: ToastProps) => {
   const [isClose, setIsClose] = useState<boolean>(false);
 
   useEffect(() => {
@@ -47,17 +60,4 @@ export default function Toast({ type, text, close }: ToastProps) {
       </Button>
     </div>
   );
-}
-
-const toastVariant = cva(
-  `flex gap-4 px-4 py-3 relative h-fit w-[300px] items-center rounded border whitespace-pre-line z-20`,
-  {
-    variants: {
-      type: {
-        error: `bg-error`,
-        success: 'bg-success',
-        warning: `bg-warning`,
-      },
-    },
-  },
-);
+};

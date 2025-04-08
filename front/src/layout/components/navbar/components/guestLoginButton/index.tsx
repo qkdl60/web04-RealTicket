@@ -2,9 +2,8 @@ import { getGuestLogin } from '@/api/user.ts';
 
 import useConfirm from '@/hooks/useConfirm.tsx';
 
-import { toast } from '@/components/Toast/index.ts';
-
 import { Button, Icon } from '@/shared/components';
+import { toast } from '@/shared/libs';
 import { useAuthStore } from '@/stores/auth/authStore.ts';
 import type { Guest } from '@/type/user.ts';
 import { useIsFetching } from '@tanstack/react-query';

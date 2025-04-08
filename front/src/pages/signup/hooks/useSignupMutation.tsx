@@ -3,9 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { CustomError } from '@/api/axios.ts';
 import { UserData, postSignup } from '@/api/user.ts';
 
-import { toast } from '@/components/Toast/index.ts';
-
 import { ROUTE_URL } from '@/constants/index.ts';
+import { toast } from '@/shared/libs';
 import { useMutation } from '@tanstack/react-query';
 import type { AxiosResponse } from 'axios';
 

@@ -2,8 +2,7 @@ import { useCallback } from 'react';
 
 import { postSeat } from '@/api/booking.ts';
 
-import { toast } from '@/components/Toast/index.ts';
-
+import { toast } from '@/shared/libs';
 import type { SelectedSeat } from '@/type/booking.ts';
 import { useMutation } from '@tanstack/react-query';
 

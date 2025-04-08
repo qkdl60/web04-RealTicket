@@ -4,9 +4,8 @@ import { CustomError } from '@/api/axios.ts';
 import { UserData } from '@/api/user.ts';
 import { postLogin } from '@/api/user.ts';
 
-import { toast } from '@/components/Toast/index.ts';
-
 import { LOGIN_FAILED_MESSAGE } from '@/constants/user.ts';
+import { toast } from '@/shared/libs';
 import { useAuthStore } from '@/stores/auth/authStore.ts';
 import { useMutation } from '@tanstack/react-query';
 

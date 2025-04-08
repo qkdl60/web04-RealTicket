@@ -1,9 +1,8 @@
 import { PropsWithChildren, useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 
-import { toast } from '@/components/Toast/index.ts';
-
 import { RESERVATION_STEP } from '@/constants/reservation.ts';
+import { toast } from '@/shared/libs';
 import { useWaitingInfoStore } from '@/stores/booking/waitingInfoStore.ts';
 import { useReservationStore } from '@/stores/reservation/reservationStore.ts';
 

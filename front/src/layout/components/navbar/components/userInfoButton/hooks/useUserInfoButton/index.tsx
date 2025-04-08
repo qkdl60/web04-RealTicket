@@ -4,8 +4,7 @@ import type { CustomError } from '@/api/axios.ts';
 import { deleteReservation, getReservation } from '@/api/reservation.ts';
 import { postLogout } from '@/api/user.ts';
 
-import { toast } from '@/components/Toast/index.ts';
-
+import { toast } from '@/shared/libs';
 import { useAuthStore } from '@/stores/auth/authStore.ts';
 import { Reservation } from '@/type/reservation.ts';
 import { useMutation, useMutationState, useQuery, useQueryClient } from '@tanstack/react-query';

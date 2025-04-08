@@ -1,10 +1,8 @@
 import { useEffect, useState, useTransition } from 'react';
 
-import Toast from '@/components/Toast/Toast.tsx';
-
-import ToastEvent from '@/events/ToastEvent.ts';
-
-export type ToastType = 'success' | 'warning' | 'error';
+import { Toast } from '@/shared/components';
+import { ToastEvent } from '@/shared/events';
+import { ToastType } from '@/shared/types';
 
 interface ToastData {
   type: ToastType;
