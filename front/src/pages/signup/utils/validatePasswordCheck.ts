@@ -1,6 +1,6 @@
-import { Validate } from '@/hooks/useForm.tsx';
-
 import { Form } from '@/pages/signup';
+
+import { Validate } from '@/shared/hooks/useForm';
 
 export const validatePasswordCheck: Validate<Form> = ({ value, formData }) => {
   const { password } = formData;

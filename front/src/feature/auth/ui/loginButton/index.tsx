@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { Button } from '@/shared/components';
 
-export default function LoginButton() {
+export function LoginButton() {
   return (
     <Button color={'primary'} size={'middle'} asChild>
       <Link to="/login">

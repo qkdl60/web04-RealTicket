@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { Button } from '@/shared/components';
 
-export default function SignupButton() {
+export function SignupButton() {
   return (
     <Button intent={'outline'} color={'primary'} size={'middle'} asChild>
       <Link to={'/signup'}>

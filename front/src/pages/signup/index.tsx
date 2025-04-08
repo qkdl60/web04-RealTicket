@@ -1,6 +1,5 @@
-import useForm from '@/hooks/useForm.tsx';
-
 import { Button, Field, Icon, Input } from '@/shared/components';
+import { useForm } from '@/shared/hooks';
 
 import { useSignupMutation } from './hooks';
 import { validatePassword, validatePasswordCheck } from './utils';

@@ -1,8 +1,7 @@
 import { getGuestLogin } from '@/api/user.ts';
 
-import useConfirm from '@/hooks/useConfirm.tsx';
-
 import { Button, Icon } from '@/shared/components';
+import { useConfirm } from '@/shared/hooks';
 import { toast } from '@/shared/libs';
 import { useAuthStore } from '@/shared/stores';
 import type { Guest } from '@/type/user.ts';
@@ -10,7 +9,7 @@ import { useIsFetching } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
 const GUEST_LOGIN_QUERY_KEY = ['guest'];
-export default function GuestLoginButton() {
+export function GuestLoginButton() {
   const { login } = useAuthStore((state) => state.action);
   const isGuestLoginPending = !!useIsFetching({ queryKey: GUEST_LOGIN_QUERY_KEY });
   const { confirm } = useConfirm();

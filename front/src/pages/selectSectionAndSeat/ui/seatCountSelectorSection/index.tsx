@@ -1,9 +1,8 @@
 import { memo, useState } from 'react';
 import Select from 'react-select';
 
-import useConfirm from '@/hooks/useConfirm';
-
 import { SEAT_COUNT_LIST } from '@/constants/reservation';
+import { useConfirm } from '@/shared/hooks';
 import { SeatCount } from '@/type/reservation.ts';
 
 const SELECT_OPTION_LIST = SEAT_COUNT_LIST.map((count) => ({ value: count, label: `${count}매` }));

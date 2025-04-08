@@ -4,7 +4,7 @@ interface useSSEProps {
   sseURL: string;
 }
 //에러 핸들링 필요, axios 레벨에서 가능?
-export default function useSSE<T>({ sseURL }: useSSEProps) {
+export function useSSE<T>({ sseURL }: useSSEProps) {
   const eventSourceRef = useRef<EventSource | null>(null);
 
   const [data, setData] = useState<T | null>(null);

@@ -12,7 +12,7 @@ export type Validate<T> = ({ value, formData }: { value: string; formData: T }) 
 interface IResisterConfig<T> {
   validate: Validate<T>;
 }
-export default function useForm<T extends Record<string, unknown>>() {
+export function useForm<T extends Record<string, unknown>>() {
   const itemRefListRef = useRef<null | Map<string, HTMLElement>>(null);
   const itemValidationListRef = useRef<Record<string, Validate<T>>>({});
   const [formState, setFormState] = useState<IFormState>({

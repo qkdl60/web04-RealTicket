@@ -1,7 +1,6 @@
 import { InputHTMLAttributes, forwardRef } from 'react';
 
-import { useFieldContext } from '@/hooks/useFieldContext';
-
+import { useFieldContext } from '@/shared/hooks';
 import { cx } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
 

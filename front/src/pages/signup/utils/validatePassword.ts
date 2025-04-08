@@ -1,6 +1,6 @@
-import { Validate } from '@/hooks/useForm.tsx';
-
 import type { Form } from '@/pages/signup';
+
+import { Validate } from '@/shared/hooks/useForm';
 
 export const validatePassword: Validate<Form> = ({ value }) => {
   const isRightLength = value.length >= 4 && value.length <= 12;

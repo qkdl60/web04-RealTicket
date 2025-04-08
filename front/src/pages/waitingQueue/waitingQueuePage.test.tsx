@@ -1,16 +1,15 @@
-import useSSE from '@/hooks/useSSE.tsx';
-
 import { useWaitingInfoStore } from '@/feature/reservation/stores';
+import { useSSE } from '@/shared/hooks';
 import { RePermissionResult } from '@/type/booking.ts';
 import { act, renderHook } from '@testing-library/react';
 import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useWaitingData } from './hooks';
 
-vi.mock('@/hooks/useSSE', () => ({
-  default: vi.fn(),
+vi.mock('@/shared/hooks', () => ({
+  useSSE: vi.fn(),
 }));
-vi.mock(`@/stores/booking/waitingInfoStore.ts`, () => ({
+vi.mock(`@/feature/reservation/stores`, () => ({
   useWaitingInfoStore: vi.fn(),
 }));
 

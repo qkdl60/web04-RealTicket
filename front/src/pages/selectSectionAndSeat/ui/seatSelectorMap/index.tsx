@@ -3,12 +3,11 @@ import { useParams } from 'react-router-dom';
 
 import { BASE_URL } from '@/api/axios.ts';
 
-import useSSE from '@/hooks/useSSE.tsx';
-
 import { API } from '@/constants/index.ts';
 import { useReservationStore } from '@/feature/reservation/stores/reservationStore';
 import { Seat } from '@/feature/reservation/ui/seat';
 import { Loading } from '@/shared/components';
+import { useSSE } from '@/shared/hooks';
 import type { SeatState } from '@/type/booking.ts';
 import { Section } from '@/type/index.ts';
 import { cx } from 'class-variance-authority';

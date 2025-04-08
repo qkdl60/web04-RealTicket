@@ -1,5 +1,4 @@
-import type { Validate } from '@/hooks/useForm.tsx';
-
+import type { Validate } from '@/shared/hooks/useForm';
 import type { LoginForm } from '@/type/user.ts';
 
 export const validateLength: Validate<LoginForm> = ({ value }) => {

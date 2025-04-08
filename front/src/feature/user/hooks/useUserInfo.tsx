@@ -12,7 +12,7 @@ import type { AxiosResponse } from 'axios';
 
 const RESERVATION_DELETE_MUTATION_KEY = ['reservation'];
 
-export default function useUserInfoButton() {
+export function useUserInfo() {
   const { userId } = useAuthStore((state) => state.auth);
   const { logout } = useAuthStore((state) => state.action);
   const queryClient = useQueryClient();

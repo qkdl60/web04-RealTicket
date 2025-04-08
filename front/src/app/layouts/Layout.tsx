@@ -5,13 +5,12 @@ import { Outlet } from 'react-router-dom';
 import NotFoundPage from '@/pages/notFoundPage';
 
 import { Loading } from '@/shared/components';
-
-import Navbar from './components/navbar';
+import { Header } from '@/widgets/header';
 
 export default function Layout() {
   return (
     <>
-      <Navbar />
+      <Header />
       <div className="mx-auto flex max-w-[1080px] justify-center p-8 pt-4">
         {/* //TODO reset error */}
         <ErrorBoundary fallback={<NotFoundPage />}>

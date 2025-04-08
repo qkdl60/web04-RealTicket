@@ -1,12 +1,11 @@
 import { useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import usePreventLeave from '@/hooks/usePreventLeave.tsx';
-
 import { useEventAndPlaceDate } from '@/pages/reservationWaiting/hooks/useEventAndPlaceDate.tsx';
 import { formatEventInfo } from '@/pages/reservationWaiting/utils/formatEventInfo.ts';
 
 import { ROUTE_URL } from '@/constants/index.ts';
+import { usePreventLeave } from '@/feature/reservation/hooks';
 import { useReservationStore } from '@/feature/reservation/stores/reservationStore';
 import { Dimmed, Separator } from '@/shared/components';
 

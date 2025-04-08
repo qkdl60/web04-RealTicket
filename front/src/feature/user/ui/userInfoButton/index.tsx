@@ -1,11 +1,11 @@
-import ReservationCard from '@/layout/components/navbar/components/userInfoButton/components/reservationCard';
-import useUserInfoButton from '@/layout/components/navbar/components/userInfoButton/hooks/useUserInfoButton';
+import ReservationCard from '@/feature/reservation/ui/reservationCard';
+import { useUserInfo } from '@/feature/user/hooks';
 import { Button, Icon, Popover, Separator } from '@/shared/components';
 import { cx } from 'class-variance-authority';
 
 const POPOVER_WIDTH = 460;
 
-export default function UserInfoButton() {
+export function UserInfoButton() {
   const widthClass = `w-[${POPOVER_WIDTH}px]`;
   const {
     shortUserId,
@@ -14,7 +14,7 @@ export default function UserInfoButton() {
     deletingReservationIdList,
     requestDeleteReservation,
     handleLogOut,
-  } = useUserInfoButton();
+  } = useUserInfo();
 
   return (
     <Popover.Root>

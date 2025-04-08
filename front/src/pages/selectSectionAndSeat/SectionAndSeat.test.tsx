@@ -30,11 +30,16 @@ const withRender = (children: React.ReactNode) =>
     </BrowserRouter>,
   );
 
-vi.mock('@react-router-dom', () => ({
-  useNavigate: vi.fn().mockReturnValue(vi.fn()),
-}));
-vi.mock('@/hooks/useConfirm', () => ({
-  default: vi.fn().mockReturnValue({
+vi.mock('@react-router-dom', async (importOriginal) => {
+  const actual = (await importOriginal()) as typeof import('react-router-dom');
+  return {
+    ...actual,
+    useNavigate: vi.fn().mockReturnValue(vi.fn()),
+    useBlocker: vi.fn().mockReturnValue(undefined),
+  };
+});
+vi.mock('@/shared/hooks', () => ({
+  useConfirm: vi.fn().mockReturnValue({
     confirm: vi.fn().mockReturnValue(true),
   }),
 }));
@@ -84,20 +89,23 @@ vi.mock('@tanstack/react-query', () => ({
   useQueryClient: vi.fn(),
   useMutationState: vi.fn().mockReturnValue([]),
 }));
-vi.mock('@/hooks/usePreventLeave', () => ({
-  default: vi.fn().mockImplementation(() => {
+vi.mock('@/feature/reservation/hooks', () => ({
+  usePreventLeave: vi.fn().mockImplementation(() => {
     return {
       block: vi.fn(), // 페이지 이동을 차단하는 함수
       unblock: vi.fn(), // 차단 해제 함수
     };
   }),
 }));
-vi.mock('@/hooks/useSSE', () => ({
-  default: vi.fn().mockReturnValue({
+vi.mock('@/shared/hooks', () => ({
+  useSSE: vi.fn().mockReturnValue({
     data: {
       seatStatus: [[true, true, true]],
     },
     isLoading: false,
+  }),
+  useConfirm: vi.fn().mockReturnValue({
+    confirm: vi.fn().mockReturnValue(true),
   }),
 }));
 vi.mock(`@/api/booking`, () => ({

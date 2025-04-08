@@ -15,7 +15,7 @@ interface ConfirmProps {
     };
   };
 }
-export default function useConfirm() {
+export function useConfirm() {
   const confirmContext = useContext(ConfirmContext);
 
   if (confirmContext === null) throw Error('ConfirmContext는 ConfirmProvider내에서 사용가능합니다. ');

@@ -11,39 +11,18 @@
  */
 import { BrowserRouter } from 'react-router-dom';
 
-import Navbar from '@/layout/components/navbar';
+import { ConfirmProvider } from '@/app/providers/index.ts';
 import { useAuthStore } from '@/shared/stores';
-import type { AuthState } from '@/shared/stores';
+import Header from '@/widgets/header';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
-interface AuthStoreState extends AuthState {
-  setAuth: (auth: { isLogin: boolean }) => void;
-}
-
-type Selector = (state: AuthStoreState) => AuthState;
-
-type Mock = {
-  mockImplementation: (fn: (selector: Selector) => AuthState) => void;
-};
-
 // Mock the auth store
-vi.mock('@/stores/auth/authStore', () => ({
-  useAuthStore: vi.fn((selector) =>
-    selector({
-      auth: { isLogin: false },
-      action: {
-        login: vi.fn(),
-        logout: vi.fn(),
-      },
-      setAuth: vi.fn(),
-    }),
-  ),
-}));
 
 // Mock useQueryClient, useIsFetching, useQuery, useMutation, and useMutationState
 vi.mock('@tanstack/react-query', () => ({
+  QueryClient: vi.fn(),
   useQueryClient: () => ({
     invalidateQueries: vi.fn(),
   }),
@@ -71,39 +50,26 @@ vi.mock('@/hooks/useConfirm', () => ({
 }));
 
 const renderWithRouter = (ui: React.ReactElement) => {
-  return render(<BrowserRouter>{ui}</BrowserRouter>);
+  return render(
+    <BrowserRouter>
+      <ConfirmProvider>{ui}</ConfirmProvider>
+    </BrowserRouter>,
+  );
 };
 
 describe('Navbar view 확인', () => {
-  (useAuthStore as unknown as Mock).mockImplementation((selector: Selector) =>
-    selector({
-      auth: { isLogin: false, userId: null },
-      action: {
-        login: vi.fn(),
-        logout: vi.fn(),
-      },
-      setAuth: vi.fn(),
-    }),
-  );
   it('로그 아웃 상태 버튼 확인', () => {
     // Mock auth store to return logged out state
-    renderWithRouter(<Navbar />);
+    renderWithRouter(<Header />);
     expect(screen.getByText('로그인')).toBeInTheDocument();
     expect(screen.getByText('회원가입')).toBeInTheDocument();
     expect(screen.getByText('게스트로 입장하기')).toBeInTheDocument();
   });
 
   it('로그인 상태 버튼 확인', () => {
-    // Mock auth store to return logged in state
-    (useAuthStore as unknown as Mock).mockImplementation((selector: Selector) =>
-      selector({
-        auth: { isLogin: true, userId: 'test-user-id' },
-        action: { login: vi.fn(), logout: vi.fn() },
-        setAuth: vi.fn(),
-      }),
-    );
+    useAuthStore.getState().action.login('test-user-id');
 
-    renderWithRouter(<Navbar />);
+    renderWithRouter(<Header />);
     expect(screen.getByText('test-user-id 님')).toBeInTheDocument();
   });
 });
