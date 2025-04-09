@@ -1,12 +1,11 @@
-import { toast } from '@/components/Toast/index.ts';
-
-import { ROUTE_URL } from '@/constants/index.ts';
-import { auth } from '@/events/AuthEvent.ts';
-import router from '@/routes/index.tsx';
+import router from '@/pages';
+import { ROUTE_URL } from '@/shared/const';
+import { toast } from '@/shared/libs';
+import { useAuthStore } from '@/shared/stores';
 import axios, { AxiosError, isAxiosError } from 'axios';
 
 //TODO 타입 정의
-const isDevelopEnvironment = import.meta.env.VITE_ENVIRONMENT === 'dev';
+const isDevelopEnvironment = import.meta.env.DEV;
 // const isDevelopEnvironment = true;
 
 export const BASE_URL = import.meta.env.VITE_API_URL + (isDevelopEnvironment ? '' : '/api');
@@ -65,7 +64,7 @@ apiClient.interceptors.response.use(
     if (isError(error)) {
       if (isAuthenticateError(error)) {
         toast.error('로그인이 필요합니다.\n로그인 후 이용해주세요.');
-        auth.logout();
+        useAuthStore.getState().action.logout();
         router.navigate(ROUTE_URL.USER.LOGIN, { replace: true });
       } else if (isAuthorizationError(error)) {
         toast.error('잘못된 접근입니다.\n다시 시도해주세요.');

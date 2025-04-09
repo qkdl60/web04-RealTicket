@@ -1,0 +1,1 @@
+export { ReservationWaitingPageView } from './reservationWaitingPageView';

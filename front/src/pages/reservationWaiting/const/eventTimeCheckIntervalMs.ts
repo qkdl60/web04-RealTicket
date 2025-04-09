@@ -1,0 +1,1 @@
+export const EVENT_TIME_CHECK_INTERVAL_MS = 1000;

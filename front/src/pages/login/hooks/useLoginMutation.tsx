@@ -1,0 +1,37 @@
+import { useNavigate } from 'react-router-dom';
+
+import { CustomError } from '@/api/axios.ts';
+import { UserData } from '@/api/user.ts';
+import { postLogin } from '@/api/user.ts';
+
+import { LOGIN_FAILED_MESSAGE } from '@/shared/const/user';
+import { toast } from '@/shared/libs';
+import { useAuthStore } from '@/shared/stores';
+import { useMutation } from '@tanstack/react-query';
+
+export type LoginResponse = {
+  loginId: string;
+};
+
+export const useLoginMutation = () => {
+  const { login } = useAuthStore((state) => state.action);
+  const navigation = useNavigate();
+  const {
+    mutate: requestLogin,
+    isPending,
+    error,
+  } = useMutation<LoginResponse, CustomError, UserData>({
+    mutationFn: postLogin,
+    onError: () => {
+      toast.error(`로그인 실패\n 사유 : ${LOGIN_FAILED_MESSAGE}`);
+    },
+    onSuccess: (data) => {
+      const { loginId } = data;
+      if (loginId && login) login(loginId);
+      toast.success('로그인 성공');
+      navigation('/');
+    },
+  });
+
+  return { login: requestLogin, isPending, error };
+};

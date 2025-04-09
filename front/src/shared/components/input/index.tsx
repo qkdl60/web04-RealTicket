@@ -1,0 +1,35 @@
+import { InputHTMLAttributes, forwardRef } from 'react';
+
+import { useFieldContext } from '@/shared/hooks';
+import { cx } from 'class-variance-authority';
+import { twMerge } from 'tailwind-merge';
+
+export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(function Input(
+  { className, checked, ...rest },
+  ref,
+) {
+  const { isValid, htmlFor } = useFieldContext();
+  const isNullHtmlFor = htmlFor === null;
+
+  const isValidClass = isValid
+    ? 'border-surface-sub focus-within:outline-surface focus:outline-surface'
+    : 'border-error focus:outline-error focus-visible:outline-error';
+  return (
+    <input
+      id={!isNullHtmlFor ? htmlFor : undefined}
+      ref={ref}
+      checked={checked}
+      className={twMerge(
+        cx(
+          'w-full appearance-none rounded px-4 py-2',
+          'border text-display2 text-typo outline-none',
+          'outline-offset-0 placeholder:text-caption2 placeholder:text-typo-sub',
+          checked && 'border-success',
+          isValidClass,
+        ),
+        className,
+      )}
+      {...rest}
+    />
+  );
+});
