@@ -1,7 +1,7 @@
 import { camelCase, kebabCase } from 'es-toolkit/compat';
 import { expect, test } from 'vitest';
 
-import { transformKey } from '../utils/transform';
+import { transformKey } from '../shared/libs/transform';
 
 // 테스트용 데이터
 const kebabTestData = {

@@ -1,7 +1,6 @@
-import { getDate, getTime } from '@/utils/date.ts';
-
 import { Button, Icon } from '@/shared/components';
-import type { Reservation } from '@/type/reservation.ts';
+import { getDate, getTime } from '@/shared/libs';
+import type { Reservation } from '@/shared/types/reservation';
 
 interface ReservationCardProps extends Reservation {
   handleDeleteReservation: () => void;

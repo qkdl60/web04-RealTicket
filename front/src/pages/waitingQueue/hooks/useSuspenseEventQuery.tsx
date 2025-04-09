@@ -1,6 +1,6 @@
 import { getEventDetail } from '@/api/event.ts';
 
-import { EventDetail } from '@/type/index.ts';
+import { EventDetail } from '@/shared/types/data';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 //TODO feature 이동

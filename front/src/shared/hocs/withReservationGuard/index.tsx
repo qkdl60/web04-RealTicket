@@ -1,8 +1,8 @@
 import { PropsWithChildren, useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 
-import { RESERVATION_STEP } from '@/constants/reservation.ts';
 import { useReservationStore, useWaitingInfoStore } from '@/feature/reservation/stores';
+import { RESERVATION_STEP } from '@/shared/const/reservation';
 import { toast } from '@/shared/libs';
 
 export const WithReservationGuard = ({ children }: PropsWithChildren) => {

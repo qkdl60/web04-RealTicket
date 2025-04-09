@@ -3,10 +3,8 @@ import { useCallback } from 'react';
 
 import { postSeatCount } from '@/api/booking.ts';
 
-import { changeSeatCountDebounce } from '@/utils/debounce.ts';
-
-import { toast } from '@/shared/libs';
-import { SeatCount } from '@/type/reservation.ts';
+import { changeSeatCountDebounce, toast } from '@/shared/libs';
+import { SeatCount } from '@/shared/types/reservation';
 import { useMutation } from '@tanstack/react-query';
 
 export const useChangeSeatCountMutation = (

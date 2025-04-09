@@ -2,10 +2,10 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { LoadCanvasTemplate, loadCaptchaEnginge, validateCaptcha } from 'react-simple-captcha';
 
-import { ROUTE_URL } from '@/constants/index.ts';
-import { RESERVATION_STEP } from '@/constants/reservation.ts';
 import { useReservationStore } from '@/feature/reservation/stores/reservationStore';
 import { Button, Field, Input, Separator } from '@/shared/components';
+import { ROUTE_URL } from '@/shared/const';
+import { RESERVATION_STEP } from '@/shared/const/reservation';
 
 import './index.css';
 

@@ -1,5 +1,5 @@
-import { API } from '@/constants';
 import { mockProgramDetails, mockPrograms } from '@/mocks/data/program.ts';
+import { API } from '@/shared/const';
 import { HttpResponse, http } from 'msw';
 
 // Mock data

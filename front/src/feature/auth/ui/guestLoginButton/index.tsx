@@ -4,7 +4,7 @@ import { Button, Icon } from '@/shared/components';
 import { useConfirm } from '@/shared/hooks';
 import { toast } from '@/shared/libs';
 import { useAuthStore } from '@/shared/stores';
-import type { Guest } from '@/type/user.ts';
+import type { Guest } from '@/shared/types/user';
 import { useIsFetching } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 

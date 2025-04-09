@@ -1,9 +1,9 @@
 import { memo, useState } from 'react';
 import Select from 'react-select';
 
-import { SEAT_COUNT_LIST } from '@/constants/reservation';
+import { SEAT_COUNT_LIST } from '@/shared/const/reservation';
 import { useConfirm } from '@/shared/hooks';
-import { SeatCount } from '@/type/reservation.ts';
+import { SeatCount } from '@/shared/types/reservation';
 
 const SELECT_OPTION_LIST = SEAT_COUNT_LIST.map((count) => ({ value: count, label: `${count}매` }));
 type SeatCountSelectorSectionProps = {

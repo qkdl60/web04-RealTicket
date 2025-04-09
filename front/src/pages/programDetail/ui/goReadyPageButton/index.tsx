@@ -1,5 +1,5 @@
 import { Button } from '@/shared/components';
-import type { ProgramEvent } from '@/type/index.ts';
+import type { ProgramEvent } from '@/shared/types/data';
 import { cx } from 'class-variance-authority';
 
 type GoReadyPageButtonProps = {

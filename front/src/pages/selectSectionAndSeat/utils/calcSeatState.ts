@@ -1,6 +1,6 @@
 import type { PostSeatData } from '@/api/booking.ts';
 
-import type { SeatState, SelectedSeat } from '@/type/booking.ts';
+import type { SeatState, SelectedSeat } from '@/shared/types/booking';
 
 export const calcSeatState = (
   seat: boolean,

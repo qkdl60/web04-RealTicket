@@ -1,4 +1,4 @@
-import { getCache, setCache } from '@/utils/cache.ts';
+import { getCache, setCache } from '@/shared/libs';
 
 export const calcSeatNameList = (
   seatList: boolean[],

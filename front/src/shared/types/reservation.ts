@@ -1,4 +1,4 @@
-import { SEAT_COUNT_LIST } from '@/constants/reservation.ts';
+import { SEAT_COUNT_LIST } from '@/shared/const/reservation';
 
 export interface Reservation {
   id: number;

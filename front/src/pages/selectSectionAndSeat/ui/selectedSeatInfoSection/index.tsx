@@ -1,7 +1,6 @@
-import { padEndArray } from '@/utils/padArray.ts';
-
 import { Icon, Loading } from '@/shared/components';
-import type { SelectedSeat } from '@/type/booking.ts';
+import { padEndArray } from '@/shared/libs';
+import type { SelectedSeat } from '@/shared/types/booking';
 import { twMerge } from 'tailwind-merge';
 
 type SelectedSeatInfoProps = {

@@ -2,14 +2,13 @@ import { apiClient } from '@/api/axios.ts';
 import { getPlaceInformation } from '@/api/place.ts';
 import { queryClient } from '@/api/queryClient';
 
-import { API } from '@/constants';
-import { EventDetail } from '@/type/index.ts';
+import { API } from '@/shared/const';
+import { EventDetail } from '@/shared/types/data';
 
 export const getMockEventDetail = (id: number) => () => apiClient.get(API.EVENT.GET_EVENT_DETAIL_MOCK(id));
 export const getEventDetail = (id: number) => () =>
   apiClient.get<EventDetail>(API.EVENT.GET_EVENT_DETAIL(id)).then((res) => res.data);
 
-//TODO 분리
 export const getEventDetailAndPlaceInfo = (eventId: number) => async () => {
   const event = await queryClient.ensureQueryData({
     queryKey: ['event', eventId],

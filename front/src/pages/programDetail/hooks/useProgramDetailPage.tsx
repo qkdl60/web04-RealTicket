@@ -6,7 +6,7 @@ import { getDateList } from '@/pages/programDetail/utils/getDateList';
 import { getSelectedEvent } from '@/pages/programDetail/utils/getSelectedEvent';
 import { getTimeList } from '@/pages/programDetail/utils/getTimeList';
 
-import { ROUTE_URL } from '@/constants/index.ts';
+import { ROUTE_URL } from '@/shared/const';
 
 type SelectedState = {
   date: Date | null;

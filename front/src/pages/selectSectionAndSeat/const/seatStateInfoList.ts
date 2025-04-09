@@ -1,4 +1,4 @@
-import { SeatStateInfo } from '@/type/booking.ts';
+import { SeatStateInfo } from '@/shared/types/booking';
 
 export const SEAT_STATE_INFO_LIST: SeatStateInfo[] = [
   {

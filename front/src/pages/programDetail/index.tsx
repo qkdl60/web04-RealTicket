@@ -1,6 +1,5 @@
-import { getDate, getDay } from '@/utils/date.ts';
-
 import { Radio, Separator } from '@/shared/components';
+import { getDate, getDay } from '@/shared/libs';
 
 import { useProgramDetailPage } from './hooks';
 import { GoReadyPageButton, OptionContainer, ProgramInformation, SelectionSummary } from './ui';

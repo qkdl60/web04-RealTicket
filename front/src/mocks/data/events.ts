@@ -1,4 +1,4 @@
-import { EventDetail } from '@/type/index.ts';
+import { EventDetail } from '@/shared/types/data';
 
 export const mockEventInformation: EventDetail = {
   id: 2,

@@ -1,6 +1,6 @@
 import { postReservation } from '@/api/reservation.ts';
 
-import type { SelectedSeat } from '@/type/booking.ts';
+import type { SelectedSeat } from '@/shared/types/booking';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useCompleteReservationMutation = () => {

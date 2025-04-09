@@ -1,5 +1,5 @@
-import { EVENT_INFO_LABEL } from '@/constants/index.ts';
-import type { EventInfo } from '@/type/index.ts';
+import { EVENT_INFO_LABEL } from '@/shared/const';
+import type { EventInfo } from '@/shared/types/data';
 
 import { ReservationTimeInfo } from '../reservationTimeInfo';
 

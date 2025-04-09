@@ -1,7 +1,6 @@
-import { getDate, getTime } from '@/utils/date.ts';
-
-import type { EventInfo } from '@/type/index.ts';
-import type { EventDetail } from '@/type/index.ts';
+import { getDate, getTime } from '@/shared/libs';
+import type { EventInfo } from '@/shared/types/data';
+import type { EventDetail } from '@/shared/types/data';
 
 export const formatEventInfo = (event: EventDetail): EventInfo => {
   const { name: eventName, runningTime, runningDate, reservationOpenDate, place } = event;

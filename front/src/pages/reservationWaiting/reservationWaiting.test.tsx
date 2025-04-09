@@ -7,7 +7,7 @@ RestTime 시간별 텍스트 변경
 TODO 훅 테스트 추가 
 
 */
-import { EventInfo } from '@/type/index.ts';
+import { EventInfo } from '@/shared/types/data';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';

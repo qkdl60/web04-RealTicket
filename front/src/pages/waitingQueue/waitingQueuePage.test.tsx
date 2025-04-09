@@ -1,6 +1,6 @@
 import { useWaitingInfoStore } from '@/feature/reservation/stores';
 import { useSSE } from '@/shared/hooks';
-import { RePermissionResult } from '@/type/booking.ts';
+import { RePermissionResult } from '@/shared/types/booking';
 import { act, renderHook } from '@testing-library/react';
 import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 

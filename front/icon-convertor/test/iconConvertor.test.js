@@ -5,7 +5,6 @@ import { expect, test } from 'vitest';
 import { svgoConfig } from '../svgo.config.js';
 import { svgrConfig } from '../svgr.config.js';
 
-//TODO 테스트 코드 작성
 const SVG_STRING = `
 <svg width='24' height='24' viewBox='0 0 24 24' fill='none'>
 <path stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>

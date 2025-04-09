@@ -1,6 +1,6 @@
 import { Button, Field, Icon, Input } from '@/shared/components';
 import { useForm } from '@/shared/hooks';
-import type { LoginForm } from '@/type/user.ts';
+import type { LoginForm } from '@/shared/types/user';
 
 import { LOGIN_FAILED_MESSAGE } from './const';
 import { useLoginMutation } from './hooks';

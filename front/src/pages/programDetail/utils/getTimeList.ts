@@ -1,6 +1,5 @@
-import { getDate, getTime } from '@/utils/date.ts';
-
-import type { ProgramEvent } from '@/type/index.ts';
+import { getDate, getTime } from '@/shared/libs';
+import type { ProgramEvent } from '@/shared/types/data';
 
 export function getTimeList(EventList: ProgramEvent[], selectedDate: Date | null) {
   const filteredEventList = filterEventsByDate(EventList, selectedDate);

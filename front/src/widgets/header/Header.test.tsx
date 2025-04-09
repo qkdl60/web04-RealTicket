@@ -13,7 +13,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { ConfirmProvider } from '@/app/providers/index.ts';
 import { useAuthStore } from '@/shared/stores';
-import Header from '@/widgets/header';
+import { Header } from '@/widgets/header';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';

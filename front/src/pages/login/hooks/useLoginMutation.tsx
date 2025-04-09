@@ -4,12 +4,11 @@ import { CustomError } from '@/api/axios.ts';
 import { UserData } from '@/api/user.ts';
 import { postLogin } from '@/api/user.ts';
 
-import { LOGIN_FAILED_MESSAGE } from '@/constants/user.ts';
+import { LOGIN_FAILED_MESSAGE } from '@/shared/const/user';
 import { toast } from '@/shared/libs';
 import { useAuthStore } from '@/shared/stores';
 import { useMutation } from '@tanstack/react-query';
 
-//TODO 타입 정의 이동
 export type LoginResponse = {
   loginId: string;
 };

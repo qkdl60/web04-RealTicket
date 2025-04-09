@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { postSeat } from '@/api/booking.ts';
 
 import { toast } from '@/shared/libs';
-import type { SelectedSeat } from '@/type/booking.ts';
+import type { SelectedSeat } from '@/shared/types/booking';
 import { useMutation } from '@tanstack/react-query';
 
 export const useSelectSeatMutation = (

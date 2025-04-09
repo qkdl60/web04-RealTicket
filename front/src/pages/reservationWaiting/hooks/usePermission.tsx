@@ -2,9 +2,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { getPermission } from '@/api/booking.ts';
 
-import { ROUTE_URL } from '@/constants/index.ts';
 import { useWaitingInfoStore } from '@/feature/reservation/stores';
-import type { PermissionResult } from '@/type/booking.ts';
+import { ROUTE_URL } from '@/shared/const';
+import type { PermissionResult } from '@/shared/types/booking';
 import { useIsFetching, useQueryClient } from '@tanstack/react-query';
 
 export const usePermission = (eventId: number) => {

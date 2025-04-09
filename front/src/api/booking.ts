@@ -1,6 +1,6 @@
 import { apiClient } from '@/api/axios.ts';
 
-import { API } from '@/constants/index.ts';
+import { API } from '@/shared/const';
 
 export const getPermission = (id: number) => () =>
   apiClient.get(API.BOOKING.GET_PERMISSION(id)).then((res) => res.data);

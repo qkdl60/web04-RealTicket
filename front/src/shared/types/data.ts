@@ -1,4 +1,4 @@
-import { EVENT_INFO_LABEL } from '@/constants';
+import { EVENT_INFO_LABEL } from '@/shared/const';
 
 //TODO domain 별 타입 분리
 export interface Program {

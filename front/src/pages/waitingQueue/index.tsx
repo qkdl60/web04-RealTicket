@@ -1,9 +1,8 @@
 import { Navigate, useParams } from 'react-router-dom';
 
-import { getDate, getTime } from '@/utils/date.ts';
-
-import { ROUTE_URL } from '@/constants/index.ts';
 import { Card, Icon, Loading, Progressbar } from '@/shared/components';
+import { ROUTE_URL } from '@/shared/const';
+import { getDate, getTime } from '@/shared/libs';
 
 import { ALERT_MESSAGE_LIST } from './const';
 import { useResetUserOrder, useSuspenseEventQuery, useWaitingData } from './hooks';

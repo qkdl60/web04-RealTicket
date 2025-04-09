@@ -1,5 +1,5 @@
-import { SelectedSeat } from '@/type/booking.ts';
-import { SeatCount } from '@/type/reservation.ts';
+import { SelectedSeat } from '@/shared/types/booking';
+import { SeatCount } from '@/shared/types/reservation';
 import { create } from 'zustand';
 
 type ReservationStore = {

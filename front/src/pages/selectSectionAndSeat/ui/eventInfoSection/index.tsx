@@ -1,5 +1,5 @@
-import { EVENT_INFO_LABEL } from '@/constants';
-import type { EventInfo } from '@/type';
+import { EVENT_INFO_LABEL } from '@/shared/const';
+import type { EventInfo } from '@/shared/types/data';
 
 type EventInfoSectionProps = {
   eventInfo: EventInfo;

@@ -1,6 +1,6 @@
 import { PostReservationData } from '@/api/reservation';
 
-import { API } from '@/constants';
+import { API } from '@/shared/const';
 import { HttpResponse, http } from 'msw';
 
 // Mock data

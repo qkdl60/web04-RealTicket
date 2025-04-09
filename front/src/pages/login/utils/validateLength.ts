@@ -1,5 +1,5 @@
 import type { Validate } from '@/shared/hooks/useForm';
-import type { LoginForm } from '@/type/user.ts';
+import type { LoginForm } from '@/shared/types/user';
 
 export const validateLength: Validate<LoginForm> = ({ value }) => {
   const isRightLength = value.length >= 4 && value.length <= 12;

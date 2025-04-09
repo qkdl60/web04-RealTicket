@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { SeatState } from '@/type/booking.ts';
+import { SeatState } from '@/shared/types/booking';
 import { type VariantProps, cva } from 'class-variance-authority';
 
 const seatVariants = cva('rounded', {

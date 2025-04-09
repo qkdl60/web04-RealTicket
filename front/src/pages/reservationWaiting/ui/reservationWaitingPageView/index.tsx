@@ -1,5 +1,5 @@
 import { Button } from '@/shared/components';
-import type { EventInfo } from '@/type/index.ts';
+import type { EventInfo } from '@/shared/types/data';
 
 import { EventInfoSection } from '../eventInfoSection';
 

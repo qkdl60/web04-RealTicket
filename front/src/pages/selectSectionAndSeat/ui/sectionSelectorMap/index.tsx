@@ -1,7 +1,7 @@
 import { getSectionData } from '@/pages/selectSectionAndSeat/utils/getSectionData';
 
 import { useReservationStore } from '@/feature/reservation/stores/reservationStore';
-import { Layout } from '@/type/index.ts';
+import { Layout } from '@/shared/types/data';
 import { twMerge } from 'tailwind-merge';
 
 import { parseSectionCoList } from '../../utils';

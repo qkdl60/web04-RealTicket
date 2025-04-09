@@ -5,7 +5,7 @@ import { getPrograms } from '@/api/program';
 
 import type { Program } from '@/pages/main/ui/programCard';
 
-import { ROUTE_URL } from '@/constants/index.ts';
+import { ROUTE_URL } from '@/shared/const';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { ProgramCard } from './ui';

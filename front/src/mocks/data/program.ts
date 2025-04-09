@@ -1,4 +1,4 @@
-import type { Program, ProgramDetail } from '@/type';
+import type { Program, ProgramDetail } from '@/shared/types/data';
 
 export const mockPrograms: Program[] = [
   {

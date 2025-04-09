@@ -3,13 +3,13 @@ import { useParams } from 'react-router-dom';
 
 import { BASE_URL } from '@/api/axios.ts';
 
-import { API } from '@/constants/index.ts';
 import { useReservationStore } from '@/feature/reservation/stores/reservationStore';
 import { Seat } from '@/feature/reservation/ui/seat';
 import { Loading } from '@/shared/components';
+import { API } from '@/shared/const';
 import { useSSE } from '@/shared/hooks';
-import type { SeatState } from '@/type/booking.ts';
-import { Section } from '@/type/index.ts';
+import type { SeatState } from '@/shared/types/booking';
+import { Section } from '@/shared/types/data';
 import { cx } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
 

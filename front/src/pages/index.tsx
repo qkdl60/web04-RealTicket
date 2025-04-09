@@ -4,8 +4,8 @@ import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 import NotFoundPage from '@/pages/notFoundPage';
 
 import Layout from '@/app/layouts/Layout';
-import { ROUTE_URL } from '@/constants/index.ts';
-import { RESERVATION_STEP } from '@/constants/reservation.ts';
+import { ROUTE_URL } from '@/shared/const';
+import { RESERVATION_STEP } from '@/shared/const/reservation';
 import { WithLogin, WithoutLogin } from '@/shared/hocs';
 
 const LoginPage = lazy(() => import('@/pages/login').then(({ LoginPage }) => ({ default: LoginPage })));

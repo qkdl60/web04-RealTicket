@@ -1,5 +1,5 @@
-import { ROUTE_URL } from '@/constants/index.ts';
 import router from '@/pages';
+import { ROUTE_URL } from '@/shared/const';
 import { toast } from '@/shared/libs';
 import { useAuthStore } from '@/shared/stores';
 import axios, { AxiosError, isAxiosError } from 'axios';

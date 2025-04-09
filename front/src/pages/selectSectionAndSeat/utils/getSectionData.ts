@@ -1,7 +1,5 @@
-import { calculatePolygonCentroid } from '@/utils/svg.ts';
-import { getPathD } from '@/utils/svg.ts';
-
-import type { SectionCoordinate } from '@/type';
+import { calculatePolygonCentroid, getPathD } from '@/shared/libs';
+import type { SectionCoordinate } from '@/shared/types/data';
 
 export const getSectionData = (section: SectionCoordinate) => {
   const { id, points } = section;
