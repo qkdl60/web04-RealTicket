@@ -16,7 +16,13 @@ vi.mock(`@/feature/reservation/stores`, () => ({
 describe('useWaitingData 상황별 return 값 테스트', () => {
   const mockEventId = 1;
   const mockUserOrder = 8;
+  let onMessageCallback: (data: RePermissionResult) => void = () => {};
   beforeEach(() => {
+    act(() => {
+      (useSSE as unknown as ReturnType<typeof vi.fn>).mockImplementation(({ onMessage }) => {
+        onMessageCallback = onMessage;
+      });
+    });
     vi.clearAllMocks();
     (useWaitingInfoStore as unknown as Mock<typeof useWaitingInfoStore>).mockImplementation((selector) =>
       selector({ userOrder: mockUserOrder, action: { resetUserOrder: vi.fn(), setUserOrder: vi.fn() } }),
@@ -28,9 +34,10 @@ describe('useWaitingData 상황별 return 값 테스트', () => {
       throughputRate: 2,
       headOrder: 1,
     };
-    (useSSE as ReturnType<typeof vi.fn>).mockReturnValue({ data: mockWaitingData, isLoading: false });
-
     const { result } = renderHook(() => useWaitingData(mockEventId));
+    act(() => {
+      onMessageCallback?.(mockWaitingData);
+    });
     expect(result.current).toEqual({
       isLoadingWaitingData: false,
       myOrder: mockUserOrder,
@@ -48,26 +55,27 @@ describe('useWaitingData 상황별 return 값 테스트', () => {
       throughputRate: 2,
       headOrder: 1,
     };
-    (useSSE as ReturnType<typeof vi.fn>).mockReturnValue({
-      data: initialData,
-      isLoading: false,
-    });
+
     const { result, rerender } = renderHook(() => useWaitingData(mockEventId));
-    const initialResult = result.current;
+
+    act(() => {
+      onMessageCallback(initialData);
+    });
+
+    const initialResult = { ...result.current };
 
     const secondData: RePermissionResult = {
       totalWaiting: 10,
       throughputRate: 2,
       headOrder: 9,
     };
-    (useSSE as ReturnType<typeof vi.fn>).mockReturnValue({
-      data: secondData,
-      isLoading: false,
-    });
+
     act(() => {
       rerender();
+      onMessageCallback(secondData);
     });
-    const secondResult = result.current;
+
+    const secondResult = { ...result.current };
     expect(initialResult).toEqual({
       isLoadingWaitingData: false,
       myOrder: mockUserOrder,
