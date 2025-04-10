@@ -1,6 +1,6 @@
 import { BASE_URL } from '@/api/axios.ts';
 
-import { mockPlaceInformation } from '@/mocks/data/place.ts';
+import { mockBigPlaceInformation, mockPlaceInformation } from '@/mocks/data/place.ts';
 import { HttpResponse, http } from 'msw';
 
 export const placeHandlers = [
@@ -9,7 +9,9 @@ export const placeHandlers = [
     if (isNaN(Number(id))) {
       return new HttpResponse(null, { status: 400 });
     }
-
+    if (Number(id) === 1) {
+      return HttpResponse.json(mockBigPlaceInformation);
+    }
     return HttpResponse.json(mockPlaceInformation);
   }),
 ];

@@ -1,21 +1,32 @@
 import { BASE_URL } from '@/api/axios.ts';
 
-import { seats } from '@/mocks/data/seats.ts';
+import { bigSeats, seats } from '@/mocks/data/seats.ts';
 import { http } from 'msw';
 
 const random = () => {
   const r = Math.random();
   return r > 0.5 ? true : false;
 };
+const getRandom = () => {
+  return Math.floor(Math.random() * 3);
+};
 export const bookingHandler = [
-  http.get(`${BASE_URL}/booking/seat/:id`, () => {
+  http.get(`${BASE_URL}/booking/seat/:id`, ({ params }) => {
+    const id = Number(params.id);
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
       start(controller) {
+        let seatStatus: boolean[][];
         const interval = setInterval(() => {
-          seats[0][0] = random();
+          if (id !== 1) {
+            seats[0][0] = random();
+            seatStatus = seats;
+          } else {
+            const random = getRandom();
+            seatStatus = bigSeats[random];
+          }
           const data = {
-            seatStatus: seats,
+            seatStatus: seatStatus,
           };
           controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
         }, 1000);
