@@ -35,4 +35,14 @@ export const bookingHandler = [
       },
     });
   }),
+  http.post(`${BASE_URL}/booking`, async () => {
+    return new Response(JSON.stringify({ message: '좌석 예약 성공' }), {
+      status: 200,
+    });
+  }),
+  http.post(`${BASE_URL}/booking/count`, async () => {
+    return new Response(null, {
+      status: 200,
+    });
+  }),
 ];

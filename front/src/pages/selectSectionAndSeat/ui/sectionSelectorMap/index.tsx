@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { getSectionData } from '@/pages/selectSectionAndSeat/utils/getSectionData';
 
 import { useReservationStore } from '@/feature/reservation/stores/reservationStore';
@@ -10,7 +12,7 @@ interface SectionSelectorMapProps {
   className?: string;
   layout: Layout;
 }
-export const SectionSelectorMap = ({ className, layout }: SectionSelectorMapProps) => {
+export const SectionSelectorMap = memo(({ className, layout }: SectionSelectorMapProps) => {
   const { overview: overviewURL, overviewWidth, overviewHeight, overviewPoints } = layout;
   const viewBoxData = `0 0 ${overviewWidth} ${overviewHeight}`;
   const sectionCoList = parseSectionCoList(overviewPoints);
@@ -45,4 +47,4 @@ export const SectionSelectorMap = ({ className, layout }: SectionSelectorMapProp
       })}
     </svg>
   );
-};
+});

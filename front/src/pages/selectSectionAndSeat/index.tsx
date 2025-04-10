@@ -1,68 +1,38 @@
-import { useCallback } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { useEventAndPlaceDate } from '@/pages/reservationWaiting/hooks/useEventAndPlaceDate.tsx';
 import { formatEventInfo } from '@/pages/reservationWaiting/utils/formatEventInfo.ts';
 
 import { usePreventLeave } from '@/feature/reservation/hooks';
 import { useReservationStore } from '@/feature/reservation/stores/reservationStore';
-import { Dimmed, Separator } from '@/shared/components';
-import { ROUTE_URL } from '@/shared/const';
+import { Dimmed, Loading, Separator } from '@/shared/components';
 
-import { useChangeSeatCountMutation, useCompleteReservationMutation } from './hooks';
+import { useChangeSeatCountMutation } from './hooks';
 import {
   CompleteButton,
   EventInfoSection,
-  SeatCountSelectorSection,
-  SeatSelectorMap,
+  SeatCountSelectorSection, // SeatSelectorMap,
   SeatStateGuideSection,
   SectionSelectorMap,
   SelectedSeatInfo,
 } from './ui';
+import { DemoSeatSelectorMap } from './ui/seatSelectorMap/DemoSeatSelectorMap.tsx';
 
 export const SelectSectionAndSeatPage = () => {
   const { eventId } = useParams();
-  const {
-    seatCount,
-    seat: { selectedSeatList },
-    section: { selectedSectionIndex },
-    flag: { isCompleteReservation },
-    seatAction: { initSeatList },
-    seatCountAction: { setSeatCount },
-    flagAction: { setIsCompleteReservation },
-  } = useReservationStore();
 
+  const selectedSectionIndex = useReservationStore((s) => s.section.selectedSectionIndex);
+  const isCompleteReservation = useReservationStore((s) => s.flag.isCompleteReservation);
   usePreventLeave({ isBlocker: isCompleteReservation });
 
-  const navigate = useNavigate();
   const { event, placeInfo } = useEventAndPlaceDate(Number(eventId));
-  const { changeSeatCount, isChangingSeatCount } = useChangeSeatCountMutation(setSeatCount, initSeatList);
-  const completeReservation = useCompleteReservationMutation();
-
+  const { changeSeatCount, isChangingSeatCount } = useChangeSeatCountMutation();
   const eventInfo = formatEventInfo(event);
   const layout = placeInfo.layout;
   const sections = layout.sections;
-  const isCompleteSelectSeat = seatCount === selectedSeatList.length;
+
   const selectedSection = selectedSectionIndex !== null ? sections[selectedSectionIndex] : null;
   const isSelectedSection = selectedSection !== null;
-
-  const goNextStep = useCallback(() => {
-    setIsCompleteReservation(true);
-    setTimeout(() => {
-      navigate(`${ROUTE_URL.EVENT.DETAIL(Number(eventId))}/reservation/result`);
-    }, 0);
-  }, [navigate, eventId, setIsCompleteReservation]);
-
-  const onComplete = useCallback(() => {
-    completeReservation({
-      eventId: Number(eventId),
-      selectedSeatList,
-      onSuccess: () => {
-        setIsCompleteReservation(true);
-        goNextStep();
-      },
-    });
-  }, [completeReservation, eventId, goNextStep, selectedSeatList, setIsCompleteReservation]);
 
   return (
     <div className="flex w-full gap-4">
@@ -72,7 +42,8 @@ export const SelectSectionAndSeatPage = () => {
         {isSelectedSection ? (
           <>
             <SeatStateGuideSection />
-            <SeatSelectorMap section={selectedSection} />
+            {/* <SeatSelectorMap section={selectedSection} /> */}
+            <DemoSeatSelectorMap section={selectedSection} />
           </>
         ) : (
           <SectionSelectorMap layout={layout} />
@@ -80,18 +51,16 @@ export const SelectSectionAndSeatPage = () => {
       </div>
       <Separator direction="col" />
       <div className="flex flex-col gap-6">
-        <SectionSelectorMap className="flex-grow-0" layout={layout!} />
+        <SectionSelectorMap className="flex-grow-0" layout={layout} />
         <Separator direction="row" />
-        <SeatCountSelectorSection seatCount={seatCount} changeSeatCount={changeSeatCount} />
+        <SeatCountSelectorSection changeSeatCount={changeSeatCount} />
         <Separator direction="row" />
-        <SelectedSeatInfo
-          className="flex-grow"
-          selectedSeatList={selectedSeatList}
-          seatCount={seatCount}
-          isChangingSeatCount={isChangingSeatCount}
-        />
+        <div className="relative flex-grow">
+          {isChangingSeatCount && <Loading className="z-10 bg-black/30" />}
+          <SelectedSeatInfo />
+        </div>
         <Separator direction="row" />
-        <CompleteButton isCompleteSelectSeat={isCompleteSelectSeat} onClick={onComplete} />
+        <CompleteButton eventId={eventId!} />
       </div>
     </div>
   );

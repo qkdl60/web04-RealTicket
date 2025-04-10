@@ -41,7 +41,7 @@ export const SeatSelectorMap = ({ section }: { section: Section }) => {
   useSSE<{ seatStatus: boolean[][] }>({
     sseURL: `${BASE_URL}${API.BOOKING.GET_SEATS_SSE(Number(eventId))}`,
     onMessage: (data) => {
-      console.log(`Message`, data);
+      // console.log(`Message`, data);
       setSeatStatusList(data.seatStatus);
     },
   });
