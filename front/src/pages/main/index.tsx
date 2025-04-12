@@ -10,7 +10,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { ProgramCard } from './ui';
 
-//TODO 반응형 레이아웃 적용
+//TODO 반응형 레이아웃 적용,
 export const MainPage = () => {
   const { data: programs } = useSuspenseQuery<Program[], CustomError>({
     queryKey: ['programs'],
@@ -18,10 +18,10 @@ export const MainPage = () => {
   });
 
   return (
-    <ul className="grid grid-cols-[repeat(4,minmax(auto,_1fr))] gap-6 overflow-auto">
+    <ul className="grid h-full w-full grid-cols-[repeat(4,200px)] justify-between gap-y-6 pb-8 max-[960px]:grid-cols-[repeat(3,200px)] max-[720px]:grid-cols-[repeat(2,200px)] max-[480px]:grid-cols-[repeat(1,200px)] max-[480px]:justify-center">
       {programs.map((program) => (
         <li key={program.id}>
-          <Link to={ROUTE_URL.PROGRAM.PROGRAM_DETAIL(program.id)}>
+          <Link className="" to={ROUTE_URL.PROGRAM.PROGRAM_DETAIL(program.id)}>
             <ProgramCard {...program} />
           </Link>
         </li>

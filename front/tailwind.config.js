@@ -18,11 +18,17 @@ export default {
   ],
   theme: {
     extend: {
+      gridColumnStart: {
+        ...COLUMN_LENGTH_LIST.reduce((acc, length) => {
+          acc[`${length}`] = `${length}`;
+          return acc;
+        }, {}),
+      },
       gridTemplateColumns: {
-        ...COLUMN_LENGTH_LIST.reduce(
-          (acc, length) => ({ ...acc, [length]: `repeat(${length}, minmax(0, 1fr))` }),
-          {},
-        ),
+        ...COLUMN_LENGTH_LIST.reduce((acc, length) => {
+          acc[length] = `repeat(${length}, 24px)`;
+          return acc;
+        }, {}),
       },
       colors,
       fontSize,
