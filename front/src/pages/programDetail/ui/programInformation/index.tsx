@@ -1,6 +1,7 @@
 type ProgramInformationProps = {
   startDate: string;
   lastDate: string;
+  direction?: 'row' | 'column';
 } & Pick<Program, 'name' | 'runningTime' | 'genre' | 'actors' | 'place' | 'profileUrl'>;
 
 export const ProgramInformation = ({
@@ -12,6 +13,7 @@ export const ProgramInformation = ({
   profileUrl,
   startDate,
   lastDate,
+  direction = 'row',
 }: ProgramInformationProps) => {
   const isOneDay = startDate === lastDate;
 
@@ -20,7 +22,7 @@ export const ProgramInformation = ({
       <img src={profileUrl || 'https://picsum.photos/200/300'} width={200} height={300} alt={`${name}`} />
       <div className="flex flex-grow flex-col gap-8">
         <h3 className="text-heading1 text-typo">{name}</h3>
-        <div className="flex gap-8 text-display1 text-typo">
+        <div className={`flex ${direction === 'row' ? 'gap-8' : 'flex-col gap-4'} text-display1 text-typo`}>
           <div className="flex flex-col gap-4">
             <div>공연 기간 : {isOneDay ? startDate : `${startDate} ~ ${lastDate}`}</div>
             <div>공연 장소 : {place.name}</div>
