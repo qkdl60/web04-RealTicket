@@ -1,1 +1,2 @@
-export { ReservationWaitingPageView } from './reservationWaitingPageView';
+export { DesktopReservationWaitingPageView } from './deskTopView';
+export { MobileReservationWaitingPageView } from './mobileView';

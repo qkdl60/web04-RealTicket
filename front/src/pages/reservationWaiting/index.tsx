@@ -1,5 +1,11 @@
+import {
+  DesktopReservationWaitingPageView,
+  MobileReservationWaitingPageView,
+} from '@/pages/reservationWaiting/ui/index.ts';
+
+import { ResponsiveView } from '@/shared/components';
+
 import { useReservationWaitingPage } from './hooks';
-import { ReservationWaitingPageView } from './ui';
 
 /*
 
@@ -8,24 +14,31 @@ view 와 logic 분리
 - 단점 컴포넌트가 너무 많아지고 props 도 길어질 수 있다.  컴포넌트가 depth가 깊어진다. 
  */
 export const ReservationWaitingPage = () => {
-  const {
-    isReservationOpen,
-    restTime,
-    eventInfo,
-    canGoNextPage,
-
-    overviewImageURL,
-    permissionAndGoNextPage,
-  } = useReservationWaitingPage();
+  const { isReservationOpen, restTime, eventInfo, canGoNextPage, overviewImageURL, permissionAndGoNextPage } =
+    useReservationWaitingPage();
 
   return (
-    <ReservationWaitingPageView
-      eventInfo={eventInfo}
-      isReservationOpen={isReservationOpen}
-      overviewImageURL={overviewImageURL}
-      restTime={restTime}
-      canGoNextPage={canGoNextPage}
-      permissionAndGoNextPage={permissionAndGoNextPage}
+    <ResponsiveView
+      desktop={
+        <DesktopReservationWaitingPageView
+          eventInfo={eventInfo}
+          isReservationOpen={isReservationOpen}
+          overviewImageURL={overviewImageURL}
+          restTime={restTime}
+          canGoNextPage={canGoNextPage}
+          permissionAndGoNextPage={permissionAndGoNextPage}
+        />
+      }
+      mobile={
+        <MobileReservationWaitingPageView
+          eventInfo={eventInfo}
+          isReservationOpen={isReservationOpen}
+          overviewImageURL={overviewImageURL}
+          restTime={restTime}
+          canGoNextPage={canGoNextPage}
+          permissionAndGoNextPage={permissionAndGoNextPage}
+        />
+      }
     />
   );
 };

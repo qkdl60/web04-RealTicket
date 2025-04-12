@@ -1,17 +1,10 @@
+import { ReservationWaitingPageViewProps } from '@/pages/reservationWaiting/types/index.ts';
+
 import { Button } from '@/shared/components';
-import type { EventInfo } from '@/shared/types/data';
 
 import { EventInfoSection } from '../eventInfoSection';
 
-type ReservationWaitingPageViewProps = {
-  overviewImageURL: string | undefined;
-  eventInfo: EventInfo;
-  restTime: number;
-  canGoNextPage: boolean;
-  isReservationOpen: boolean;
-  permissionAndGoNextPage: () => void;
-};
-export const ReservationWaitingPageView = ({
+export const DesktopReservationWaitingPageView = ({
   overviewImageURL,
   eventInfo,
   restTime,
