@@ -14,3 +14,4 @@ export * from './toast';
 export * from './logoButton';
 export * from './responsiveView';
 export * from './sidebar';
+export * from './mobileBottomContainer';

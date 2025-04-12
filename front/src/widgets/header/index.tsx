@@ -28,7 +28,7 @@ export function Header() {
           <Popover.Root>
             <Popover.Trigger
               render={(toggle) => (
-                <Button onClick={toggle} size="middle" intent="ghost">
+                <Button onClick={toggle} size="fit" intent="ghost">
                   <Icon iconName="Menu" />
                 </Button>
               )}

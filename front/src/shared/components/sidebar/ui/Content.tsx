@@ -55,7 +55,7 @@ export function Content({ children, position = 'left', widthSize = '180px' }: Co
           )}
           onTransitionEnd={handleTransitionEnd}>
           <Button
-            className="absolute right-[32px] top-[16px]"
+            className="absolute right-[24px] top-[16px]"
             intent={'ghost'}
             onClick={closePopover}
             size={'middle'}>

@@ -8,10 +8,11 @@ interface IFormState {
   isSubmitting: boolean;
   isValid: boolean;
 }
-export type Validate<T> = ({ value, formData }: { value: string; formData: T }) => null | string;
-interface IResisterConfig<T> {
+interface ResisterConfig<T> {
   validate: Validate<T>;
 }
+export type Validate<T> = ({ value, formData }: { value: string; formData: T }) => null | string;
+
 export function useForm<T extends Record<string, unknown>>() {
   const itemRefListRef = useRef<null | Map<string, HTMLElement>>(null);
   const itemValidationListRef = useRef<Record<string, Validate<T>>>({});
@@ -28,7 +29,7 @@ export function useForm<T extends Record<string, unknown>>() {
     return itemRefListRef.current;
   };
 
-  const register = (name: string, config: IResisterConfig<T>) => {
+  const register = (name: string, config: ResisterConfig<T>) => {
     const ref = (item: HTMLElement | null) => {
       const map = getMap();
       if (!item) return;
