@@ -1,4 +1,5 @@
 import { SelectedSeat } from '@/shared/types/booking';
+import { Section } from '@/shared/types/data.ts';
 import { SeatCount } from '@/shared/types/reservation';
 import { create } from 'zustand';
 
@@ -74,7 +75,10 @@ export const useReservationStore = create<ReservationStore>((set) => ({
     setSeatCount: (seatCount: SeatCount) => set({ seatCount }),
   },
   sectionAction: {
-    setSelectedSectionIndex: (selectedSectionIndex: number) => set({ section: { selectedSectionIndex } }),
+    setSelectedSectionIndex: (selectedSectionIndex: number) =>
+      set((s) => ({ section: { ...s.section, selectedSectionIndex } })),
+    setSelectedSection: (selectedSection: Section) =>
+      set((s) => ({ section: { ...s.section, selectedSection } })),
   },
   flagAction: {
     setIsCompleteReservation: (isCompleteReservation: boolean) =>

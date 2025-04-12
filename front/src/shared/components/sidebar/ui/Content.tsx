@@ -45,22 +45,25 @@ export function Content({ children, position = 'left', widthSize = '180px' }: Co
   return (
     isRender &&
     createPortal(
-      <div
-        className={clsx(
-          `fixed top-0 h-full w-[${widthSize}] bg-white p-4 pt-[64px] transition-all duration-300`,
-          positionClass,
-          isReady ? 'translate-x-0' : 'translate-x-[100%]',
-        )}
-        onTransitionEnd={handleTransitionEnd}>
-        <Button
-          className="absolute right-[16px] top-[16px]"
-          intent={'ghost'}
-          onClick={closePopover}
-          size={'fit'}>
-          <Icon iconName={'X'} />
-        </Button>
-        {children}
-      </div>,
+      <>
+        <div onClick={closePopover} className="fixed right-0 top-0 z-10 h-full w-full"></div>
+        <div
+          className={clsx(
+            `fixed top-0 h-full w-[${widthSize}] z-20 bg-white p-4 pt-[64px] transition-all duration-300`,
+            positionClass,
+            isReady ? 'translate-x-0' : 'translate-x-[100%]',
+          )}
+          onTransitionEnd={handleTransitionEnd}>
+          <Button
+            className="absolute right-[32px] top-[16px]"
+            intent={'ghost'}
+            onClick={closePopover}
+            size={'middle'}>
+            <Icon iconName={'X'} />
+          </Button>
+          {children}
+        </div>
+      </>,
       document.body,
     )
   );

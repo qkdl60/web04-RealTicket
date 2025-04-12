@@ -16,6 +16,8 @@ export function useView() {
         return prev;
       });
     };
+    handleResize();
+
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
