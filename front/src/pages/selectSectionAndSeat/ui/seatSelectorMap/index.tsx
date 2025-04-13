@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { BASE_URL } from '@/api/axios.ts';
@@ -91,7 +91,7 @@ export const SeatSelectorMap = ({ section }: { section: Section }) => {
               selectedSeatStatus,
             );
 
-            return (
+            return seat ? (
               <Seat
                 key={`${seatName}${seatIndex}`}
                 seatName={seatName}
@@ -99,6 +99,8 @@ export const SeatSelectorMap = ({ section }: { section: Section }) => {
                 seatIndex={seatIndex}
                 onClick={selectSeatHandler}
               />
+            ) : (
+              <EmptySeat />
             );
           })
         ) : (
@@ -108,3 +110,6 @@ export const SeatSelectorMap = ({ section }: { section: Section }) => {
     </>
   );
 };
+const EmptySeat = memo(() => {
+  return <div className="pointer-events-none h-6 w-6 bg-transparent" />;
+});

@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { useReservationStore } from '@/feature/reservation/stores/reservationStore.ts';
 import { useSeatStatusStore } from '@/feature/reservation/stores/seatStatusStore.ts';
 import { Icon } from '@/shared/components';
@@ -7,7 +9,7 @@ import { twMerge } from 'tailwind-merge';
 type SelectedSeatInfoProps = {
   className?: string;
 };
-export const SelectedSeatInfo = ({ className }: SelectedSeatInfoProps) => {
+export const SelectedSeatInfo = memo(({ className }: SelectedSeatInfoProps) => {
   const seatCount = useReservationStore((s) => s.seatCount);
   const selectedSeatList = Object.values(useSeatStatusStore((s) => s.seatInfo)).filter(
     (seat) => seat.seatStatus === 'mine',
@@ -40,4 +42,4 @@ export const SelectedSeatInfo = ({ className }: SelectedSeatInfoProps) => {
       </div>
     </div>
   );
-};
+});

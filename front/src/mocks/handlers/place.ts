@@ -9,7 +9,7 @@ export const placeHandlers = [
     if (isNaN(Number(id))) {
       return new HttpResponse(null, { status: 400 });
     }
-    if (Number(id) === 1) {
+    if (Number(id) == 1) {
       return HttpResponse.json(mockBigPlaceInformation);
     }
     return HttpResponse.json(mockPlaceInformation);

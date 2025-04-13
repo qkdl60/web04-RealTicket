@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 
 import { useEventAndPlaceDate } from '@/pages/reservationWaiting/hooks/useEventAndPlaceDate.tsx';
 import { formatEventInfo } from '@/pages/reservationWaiting/utils/formatEventInfo.ts';
+import { DemoSeatSelectorMap } from '@/pages/selectSectionAndSeat/ui/seatSelectorMap/DemoSeatSelectorMap.tsx';
 
 import { usePreventLeave } from '@/feature/reservation/hooks';
 import { useReservationStore } from '@/feature/reservation/stores/reservationStore';
@@ -11,12 +12,11 @@ import { useChangeSeatCountMutation } from './hooks';
 import {
   CompleteButton,
   EventInfoSection,
-  SeatCountSelectorSection, // SeatSelectorMap,
+  SeatCountSelectorSection,
   SeatStateGuideSection,
   SectionSelectorMap,
   SelectedSeatInfo,
 } from './ui';
-import { DemoSeatSelectorMap } from './ui/seatSelectorMap/DemoSeatSelectorMap.tsx';
 
 export const SelectSectionAndSeatPage = () => {
   const { eventId } = useParams();
@@ -36,7 +36,7 @@ export const SelectSectionAndSeatPage = () => {
 
   return (
     <div className="flex w-full gap-4">
-      <div className="m-auto flex w-[70%] flex-col gap-8 px-4 py-2">
+      <div className="m-auto flex h-full w-[70%] flex-col gap-8 px-4 py-2">
         {isChangingSeatCount && <Dimmed />}
         <EventInfoSection eventInfo={eventInfo} />
         {isSelectedSection ? (

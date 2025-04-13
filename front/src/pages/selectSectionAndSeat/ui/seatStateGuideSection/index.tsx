@@ -1,9 +1,11 @@
+import { memo } from 'react';
+
 import { Seat } from '@/feature/reservation/ui/seat';
 import { Separator } from '@/shared/components';
 
 import { SEAT_STATE_INFO_LIST } from '../../const';
 
-export const SeatStateGuideSection = () => {
+export const SeatStateGuideSection = memo(() => {
   return (
     <>
       <Separator direction="row" />
@@ -20,4 +22,4 @@ export const SeatStateGuideSection = () => {
       <Separator direction="row" />
     </>
   );
-};
+});
