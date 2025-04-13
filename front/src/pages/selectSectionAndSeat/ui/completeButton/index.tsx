@@ -14,6 +14,7 @@ type CompleteButtonProps = {
 export const CompleteButton = memo(({ eventId }: CompleteButtonProps) => {
   const navigate = useNavigate();
   const setIsCompleteReservation = useReservationStore((s) => s.flagAction.setIsCompleteReservation);
+  const setSelectedSeatList = useReservationStore((s) => s.seatAction.setSeatList);
   const selectedSeatInfoList = Object.values(useSeatStatusStore((s) => s.seatInfo)).filter(
     (value) => value.seatStatus === 'mine',
   );
@@ -32,12 +33,20 @@ export const CompleteButton = memo(({ eventId }: CompleteButtonProps) => {
       selectedSeatList,
       onSuccess: () => {
         setIsCompleteReservation(true);
+        setSelectedSeatList(selectedSeatList);
         setTimeout(() => {
           navigate(`${ROUTE_URL.EVENT.DETAIL(Number(eventId))}/reservation/result`);
         }, 0);
       },
     });
-  }, [completeReservation, eventId, selectedSeatList, setIsCompleteReservation, navigate]);
+  }, [
+    completeReservation,
+    eventId,
+    selectedSeatList,
+    setIsCompleteReservation,
+    navigate,
+    setSelectedSeatList,
+  ]);
   return (
     <Button disabled={!isCompleteSelectSeat} onClick={onComplete}>
       {isCompleteSelectSeat ? (

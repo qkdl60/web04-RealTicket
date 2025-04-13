@@ -35,7 +35,9 @@ const SelectSectionAndSeatPage = lazy(() =>
     default: SelectSectionAndSeatPage,
   })),
 );
-
+const ReservationResultPage = lazy(() =>
+  import('@/pages/reservationResult').then(({ ReservationResult }) => ({ default: ReservationResult })),
+);
 const router = createBrowserRouter([
   {
     path: '/',
@@ -84,7 +86,7 @@ const router = createBrowserRouter([
           { path: RESERVATION_STEP.CAPTCHA, element: <CaptchaPage /> },
           { path: RESERVATION_STEP.SELECT_COUNT, element: <SelectSeatCountPage /> },
           { path: RESERVATION_STEP.SELECT_SECTION_SEAT, element: <SelectSectionAndSeatPage /> },
-          { path: RESERVATION_STEP.RESULT, element: <div>result</div> },
+          { path: RESERVATION_STEP.RESULT, element: <ReservationResultPage /> },
         ],
       },
       {
