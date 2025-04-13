@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useId, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { BASE_URL } from '@/api/axios.ts';
@@ -37,11 +37,11 @@ export const SeatSelectorMap = ({ section }: { section: Section }) => {
   );
   const reservingSeatList = useReservingMutationState(PICK_SEAT_MUTATION_KEY);
   const [seatStatusList, setSeatStatusList] = useState<boolean[][]>([]);
-
+  const componentId = useId();
   useSSE<{ seatStatus: boolean[][] }>({
     sseURL: `${BASE_URL}${API.BOOKING.GET_SEATS_SSE(Number(eventId))}`,
+    componentId,
     onMessage: (data) => {
-      // console.log(`Message`, data);
       setSeatStatusList(data.seatStatus);
     },
   });

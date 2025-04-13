@@ -1,15 +1,19 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { Button, Icon } from '@/shared/components';
 import clsx from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 import { usePopoverContext } from '../../popover/hooks';
 
 type ContentProps = {
   children: ReactNode;
-  position?: 'left' | 'right';
+  position?: 'left' | 'right' | 'bottom';
   widthSize?: string;
+  heightSize?: string;
+  isOverlay?: boolean;
+  renderCloseButton: (onClose: () => void) => ReactNode;
+  className?: string;
 };
 /*
 isOpen true시 보여주고, 애니메이션 처링
@@ -19,11 +23,16 @@ isOpen은 모든 동작의 트리거 역할을 한다.
 
 */
 
-export function Content({ children, position = 'left', widthSize = '180px' }: ContentProps) {
+export function Content({
+  children,
+  position = 'left',
+  renderCloseButton,
+  isOverlay = false,
+  className,
+}: ContentProps) {
   const { isOpen, closePopover } = usePopoverContext();
   const [isRender, setIsRender] = useState(false);
   const [isReady, setIsReady] = useState(false);
-  const positionClass = position === 'left' ? 'left-0' : 'right-0';
 
   useEffect(() => {
     if (isOpen) {
@@ -41,26 +50,33 @@ export function Content({ children, position = 'left', widthSize = '180px' }: Co
       setIsRender(false);
     }
   };
+  const translateClass = {
+    left: isReady ? 'translate-x-0' : '-translate-x-full',
+    right: isReady ? 'translate-x-0' : 'translate-x-full',
+    bottom: isReady ? 'translate-y-0' : 'translate-y-full',
+  }[position];
 
+  const positionClass = {
+    left: 'left-0 top-0',
+    right: 'right-0 top-0',
+    bottom: 'bottom-0 left-0',
+  }[position];
   return (
     isRender &&
     createPortal(
       <>
-        <div onClick={closePopover} className="fixed right-0 top-0 z-10 h-full w-full"></div>
+        {isOverlay && <div onClick={closePopover} className="fixed right-0 top-0 z-10 h-full w-full"></div>}
         <div
-          className={clsx(
-            `fixed top-0 h-full w-[${widthSize}] z-20 bg-white p-4 pt-[64px] transition-all duration-300`,
-            positionClass,
-            isReady ? 'translate-x-0' : 'translate-x-[100%]',
+          className={twMerge(
+            clsx(
+              'fixed transform-gpu bg-white p-4 pt-[64px] transition-all duration-300',
+              positionClass,
+              translateClass,
+              className,
+            ),
           )}
           onTransitionEnd={handleTransitionEnd}>
-          <Button
-            className="absolute right-[24px] top-[16px]"
-            intent={'ghost'}
-            onClick={closePopover}
-            size={'middle'}>
-            <Icon iconName={'X'} />
-          </Button>
+          {renderCloseButton(closePopover)}
           {children}
         </div>
       </>,

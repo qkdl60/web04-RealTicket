@@ -4,35 +4,40 @@ import { useNavigate } from 'react-router-dom';
 import { useCompleteReservationMutation } from '@/pages/selectSectionAndSeat/hooks/useCompleteReservationMutation.tsx';
 
 import { useReservationStore } from '@/feature/reservation/stores/reservationStore.ts';
+import { useSeatStatusStore } from '@/feature/reservation/stores/seatStatusStore.ts';
 import { Button } from '@/shared/components';
 import { ROUTE_URL } from '@/shared/const/index.ts';
 
 type CompleteButtonProps = {
-  eventId: string;
+  eventId: number;
 };
 export const CompleteButton = memo(({ eventId }: CompleteButtonProps) => {
   const navigate = useNavigate();
   const setIsCompleteReservation = useReservationStore((s) => s.flagAction.setIsCompleteReservation);
-  const selectedSeatList = useReservationStore((s) => s.seat.selectedSeatList);
+  const selectedSeatInfoList = Object.values(useSeatStatusStore((s) => s.seatInfo)).filter(
+    (value) => value.seatStatus === 'mine',
+  );
   const seatCount = useReservationStore((s) => s.seatCount);
-  const isCompleteSelectSeat = seatCount === selectedSeatList.length;
-  const completeReservation = useCompleteReservationMutation(Number(eventId));
+  const isCompleteSelectSeat = seatCount === selectedSeatInfoList.length;
 
-  const goNextStep = useCallback(() => {
-    setIsCompleteReservation(true);
-    setTimeout(() => {
-      navigate(`${ROUTE_URL.EVENT.DETAIL(Number(eventId))}/reservation/result`);
-    }, 0);
-  }, [navigate, eventId, setIsCompleteReservation]);
+  const completeReservation = useCompleteReservationMutation(Number(eventId));
+  const selectedSeatList = selectedSeatInfoList.map((seatInfo) => ({
+    name: seatInfo.seatName,
+    seatIndex: seatInfo.seatIndex,
+    sectionIndex: seatInfo.sectionIndex,
+  }));
+
   const onComplete = useCallback(() => {
     completeReservation({
       selectedSeatList,
       onSuccess: () => {
         setIsCompleteReservation(true);
-        goNextStep();
+        setTimeout(() => {
+          navigate(`${ROUTE_URL.EVENT.DETAIL(Number(eventId))}/reservation/result`);
+        }, 0);
       },
     });
-  }, [completeReservation, goNextStep, selectedSeatList, setIsCompleteReservation]);
+  }, [completeReservation, eventId, selectedSeatList, setIsCompleteReservation, navigate]);
   return (
     <Button disabled={!isCompleteSelectSeat} onClick={onComplete}>
       {isCompleteSelectSeat ? (

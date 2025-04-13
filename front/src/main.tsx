@@ -13,7 +13,7 @@ async function initMockWorker() {
 initMockWorker().then(() => {
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
-      <App />
+      <App />,
     </StrictMode>,
   );
 });

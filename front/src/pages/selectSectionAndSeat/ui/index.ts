@@ -5,3 +5,5 @@ export * from './sectionSelectorMap';
 export * from './selectedSeatInfoSection';
 export * from './completeButton';
 export * from './seatSelectorMap';
+export * from './desktopView';
+export * from './mobileView';

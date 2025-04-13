@@ -1,6 +1,6 @@
 import { GuestLoginButton, LoginButton, SignupButton } from '@/feature/auth/ui';
 import { UserInfoButton } from '@/feature/user/ui';
-import { Button, Icon, LogoButton, Popover, ResponsiveView, Sidebar } from '@/shared/components';
+import { Button, Icon, LogoButton, Popover, ResponsiveView, Sheet } from '@/shared/components';
 import { useAuthStore } from '@/shared/stores';
 
 const headerStyleClass = 'm-auto flex w-full max-w-[1080px] justify-between bg-white px-8 py-4';
@@ -33,7 +33,15 @@ export function Header() {
                 </Button>
               )}
             />
-            <Sidebar.Content position="right" widthSize="200px">
+            <Sheet.Content
+              position="right"
+              className="h-full w-[200px]"
+              isOverlay
+              renderCloseButton={(closePopover) => (
+                <Button className="absolute right-8 top-4" onClick={closePopover} size="fit" intent="ghost">
+                  <Icon iconName="X" />
+                </Button>
+              )}>
               {isLogin ? (
                 <div>예매 내역</div>
               ) : (
@@ -43,7 +51,7 @@ export function Header() {
                   <LoginButton size="full" />
                 </nav>
               )}
-            </Sidebar.Content>
+            </Sheet.Content>
           </Popover.Root>
         </header>
       }

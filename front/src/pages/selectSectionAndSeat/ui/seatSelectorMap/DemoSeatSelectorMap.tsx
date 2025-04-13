@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo, useRef } from 'react';
+import { memo, useId, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { BASE_URL } from '@/api/axios.ts';
@@ -18,24 +18,25 @@ import { type UseMutateAsyncFunction, useMutation } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios';
 import { type VariantProps, cva, cx } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
+import { useShallow } from 'zustand/shallow';
 
 type DemoSeatSelectorMapProps = {
   section: Section;
 };
 export const DemoSeatSelectorMap = ({ section }: DemoSeatSelectorMapProps) => {
-  const sectionCache = useRef<Record<string, JSX.Element[]>>({});
-
   const { eventId } = useParams();
+
   const { mutateAsync: selectSeat } = useMutation({
     mutationFn: postSeat,
   });
   const selectedSectionIndex = useReservationStore((state) => state.section.selectedSectionIndex);
-
   const canView = useSeatStatusStore((state) => state.isStatusReady);
   const setIsStatusReady = useSeatStatusStore((state) => state.seatAction.setIsStatusReady);
   const setSeatStatus = useSeatStatusStore((state) => state.seatAction.setSeatStatus);
+  const componentId = useId();
   useSSE<{ seatStatus: boolean[][] }>({
     sseURL: `${BASE_URL}${API.BOOKING.GET_SEATS_SSE(Number(eventId))}`,
+    componentId,
     onMessage: (data) => {
       setSeatStatus(data.seatStatus);
       setIsStatusReady(true);
@@ -45,126 +46,85 @@ export const DemoSeatSelectorMap = ({ section }: DemoSeatSelectorMapProps) => {
     () => calcSeatNameList(section.seats, section.colLen, section.name, Number(eventId), section.id),
     [eventId, section.colLen, section.id, section.name, section.seats],
   );
-  console.log(sectionCache.current);
-  const renderSeatSection = useMemo(() => {
-    if (sectionCache.current[section.id]) {
-      return sectionCache.current[section.id];
-    }
-    const list = section.seats.map((seat, index) => (
-      <DemoSeat
-        key={index}
-        isEmpty={!seat}
-        seatIndex={index}
-        seatName={seatNameList[index]}
-        eventId={Number(eventId)}
-        sectionIndex={selectedSectionIndex!}
-        selectSeat={selectSeat}
-      />
-    ));
-
-    sectionCache.current[section.id] = list;
-    return list;
-  }, [section.id, section.seats, eventId, selectedSectionIndex, seatNameList, selectSeat]);
 
   return (
     <div className="relative flex min-h-[30vh] flex-col gap-8">
       <StageDirection />
-      <div
-        className={twMerge(
-          cx('mx-auto grid auto-cols-min gap-4', section ? `grid-cols-${section.colLen}` : ''),
-        )}>
-        {canView ? renderSeatSection : <Loading className="" />}
+      <div className="relative h-[600px] overflow-auto">
+        {canView ? (
+          section.seats.map((seat, index) => (
+            <DemoSeat
+              isEmpty={!seat}
+              seatName={seatNameList[index]}
+              seatIndex={index}
+              eventId={Number(eventId)}
+              sectionIndex={selectedSectionIndex!}
+              x={calcSeatPosition(index, section.colLen).x}
+              y={calcSeatPosition(index, section.colLen).y}
+              selectSeat={selectSeat}
+            />
+          ))
+        ) : (
+          <Loading />
+        )}
       </div>
     </div>
   );
 };
 
 type DemoSeatProps = {
+  className?: string;
   isEmpty: boolean;
   seatIndex: number;
   seatName: string;
   eventId: number;
   sectionIndex: number;
+  x: number;
+  y: number;
   selectSeat: UseMutateAsyncFunction<AxiosResponse<unknown, unknown>, Error, PostSeatData, unknown>;
 };
-/*
-isEmpty면 무조건 empty 
-예매 진행 중 리스트 가져와야한다. 
-*/
+
 const DemoSeat = memo(
-  ({ isEmpty, seatIndex, seatName, eventId, sectionIndex, selectSeat }: DemoSeatProps) => {
-    const setSeatInfo = useSeatStatusStore((state) => state.seatAction.setSeatInfo);
-    const seatState = useSeatStatusStore((state) => state.seatInfo[`${seatName}`]?.seatStatus);
-    const seatStatus = useSeatStatusStore((state) => state.seatStatus[sectionIndex][seatIndex]);
-    const removeSeatInfo = useSeatStatusStore((state) => state.seatAction.removeSeatInfo);
+  ({ isEmpty, seatIndex, seatName, eventId, sectionIndex, selectSeat, className, x, y }: DemoSeatProps) => {
+    const { seatState, seatStatus } = useSeatStatusStore(
+      useShallow((s) => ({
+        seatState: s.seatInfo[seatName]?.seatStatus,
+        seatStatus: s.seatStatus[sectionIndex][seatIndex],
+      })),
+    );
+
     const currentSeatStatus = calcSeatStatus(isEmpty, seatState, seatStatus);
-    const onClickSeat = useCallback(async () => {
-      if (isEmpty) return;
-      if (currentSeatStatus === 'mine') {
-        setSeatInfo(seatName, {
-          seatName,
-          seatIndex,
-          seatStatus: 'reserving',
-          sectionIndex,
-        });
 
-        selectSeat({ eventId, seatIndex, sectionIndex, expectedStatus: 'deleted' })
-          .then(() => {
-            toast.success('좌석이 취소되었습니다.');
-            removeSeatInfo(seatName);
-          })
-          .catch(() => {
-            toast.error('좌석 취소에 실패했습니다.\n다시 시도해주세요.');
-          });
-        return;
-      }
+    const onClickSeat = () => {
+      handleSeatClick({
+        isEmpty,
+        isMine: seatState === 'mine',
+        isAvailable: seatStatus,
+        seatName,
+        seatIndex,
+        sectionIndex,
+        eventId,
+        selectSeat,
+      });
+    };
 
-      if (currentSeatStatus === 'available') {
-        const maxSeatCount = useReservationStore.getState().seatCount;
-        const currentSeatCount = Object.keys(useSeatStatusStore.getState().seatInfo).length;
-        if (maxSeatCount <= currentSeatCount) return;
-
-        setSeatInfo(seatName, {
-          seatName,
-          seatIndex,
-          seatStatus: 'reserving',
-          sectionIndex,
-        });
-
-        selectSeat({ eventId, seatIndex, sectionIndex, expectedStatus: 'reserved' })
-          .then(() => {
-            toast.success('좌석이 선택되었습니다.');
-            setSeatInfo(seatName, {
-              seatName,
-              seatIndex,
-              seatStatus: 'mine',
-              sectionIndex,
-            });
-          })
-          .catch(() => {
-            toast.error('좌석 선택에 실패했습니다.\n다른 좌석을 선택해주세요.');
-            removeSeatInfo(seatName);
-          });
-        return;
-      }
-      return;
-    }, [
-      currentSeatStatus,
-      eventId,
-      isEmpty,
-      removeSeatInfo,
-      selectSeat,
-      seatIndex,
-      seatName,
-      sectionIndex,
-      setSeatInfo,
-    ]);
-
-    return <SeatButton key={seatIndex} onClick={onClickSeat} seatName={seatName} state={currentSeatStatus} />;
+    return isEmpty ? (
+      <EmptySeat x={x} y={y} />
+    ) : (
+      <SeatButton
+        key={seatIndex}
+        onClick={onClickSeat}
+        seatName={seatName}
+        state={currentSeatStatus}
+        className={className}
+        x={x}
+        y={y}
+      />
+    );
   },
 );
 
-const seatVariants = cva('rounded pointer-events-none box-border h-6 w-6', {
+const seatVariants = cva('box-border  h-6 w-6 absolute will-change-[background-color, transform]', {
   variants: {
     state: {
       empty: 'bg-transparent pointer-events-none',
@@ -181,10 +141,21 @@ const seatVariants = cva('rounded pointer-events-none box-border h-6 w-6', {
 
 type SeatProps = VariantProps<typeof seatVariants> & {
   seatName: string;
-  onClick: () => void;
+  x: number;
+  y: number;
+  onClick?: () => void;
+  className?: string;
 };
+const EmptySeat = memo(({ x, y }: { x: number; y: number }) => {
+  return (
+    <div
+      className="will-change-[background-color, transform] pointer-events-none absolute h-6 w-6 bg-transparent"
+      style={{ transform: `translateX(${x}px) translateY(${y}px)` }}
+    />
+  );
+});
 
-export const SeatButton = memo(({ state, seatName, onClick }: SeatProps) => {
+export const SeatButton = memo(({ state, seatName, onClick, x, y }: SeatProps) => {
   const isButton = onClick !== undefined;
 
   return isButton ? (
@@ -192,8 +163,9 @@ export const SeatButton = memo(({ state, seatName, onClick }: SeatProps) => {
       role="button"
       aria-label={seatName}
       tabIndex={state === 'available' ? 0 : -1}
-      className={`h-6 w-6 ${seatVariants({ state })}`}
+      className={twMerge(cx(seatVariants({ state })))}
       onClick={onClick}
+      style={{ transform: `translateX(${x}px) translateY(${y}px)` }}
     />
   ) : (
     <div className={seatVariants({ state })} />
@@ -210,4 +182,74 @@ const calcSeatStatus = (
   if (seatState === 'mine') return 'mine';
   if (seatStatus) return 'available';
   return 'others';
+};
+
+export const handleSeatClick = async ({
+  isEmpty,
+  isMine,
+  isAvailable,
+  seatName,
+  seatIndex,
+  sectionIndex,
+  eventId,
+  selectSeat,
+}: {
+  isEmpty: boolean;
+  isMine: boolean;
+  isAvailable: boolean;
+  seatName: string;
+  seatIndex: number;
+  sectionIndex: number;
+  eventId: number;
+  selectSeat: UseMutateAsyncFunction<AxiosResponse<unknown, unknown>, Error, PostSeatData, unknown>;
+}) => {
+  const { setSeatInfo, removeSeatInfo } = useSeatStatusStore.getState().seatAction;
+  if (isEmpty) return;
+  if (isMine) {
+    setSeatInfo(seatName, { seatName, seatIndex, seatStatus: 'reserving', sectionIndex });
+
+    try {
+      await selectSeat({ eventId, seatIndex, sectionIndex, expectedStatus: 'deleted' });
+      toast.success('좌석이 취소되었습니다.');
+      removeSeatInfo(seatName);
+    } catch {
+      toast.error('좌석 취소 실패. 다시 시도해주세요.');
+    }
+    return;
+  }
+
+  if (isAvailable) {
+    if (getMaxSeatCount() <= getCurrentSeatCount()) return;
+
+    setSeatInfo(seatName, { seatName, seatIndex, seatStatus: 'reserving', sectionIndex });
+
+    try {
+      await selectSeat({ eventId, seatIndex, sectionIndex, expectedStatus: 'reserved' });
+      toast.success('좌석 선택되었습니다.');
+      setSeatInfo(seatName, { seatName, seatIndex, seatStatus: 'mine', sectionIndex });
+    } catch {
+      toast.error('좌석 선택 실패. 다시 시도해주세요.');
+      removeSeatInfo(seatName);
+    }
+  }
+};
+const calcSeatPosition = (index: number, colLen: number) => {
+  const seatSize = 24;
+  const gap = 12;
+
+  const row = Math.floor(index / colLen);
+  const col = index % colLen;
+
+  const x = col * (seatSize + gap);
+  const y = row * (seatSize + gap);
+
+  return { x, y };
+};
+
+const getCurrentSeatCount = () => {
+  return Object.keys(useSeatStatusStore.getState().seatInfo).length;
+};
+
+const getMaxSeatCount = () => {
+  return useReservationStore.getState().seatCount;
 };

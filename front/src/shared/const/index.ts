@@ -66,4 +66,4 @@ export const EVENT_INFO_LABEL = {
   reservationOpenTime: '예매 오픈 시간',
 };
 
-export const MOBILE_MAX_SIZE = 768;
+export const MOBILE_MAX_SIZE = 640;

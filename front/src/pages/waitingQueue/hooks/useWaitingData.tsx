@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 
 import { BASE_URL } from '@/api/axios.ts';
 
@@ -13,9 +13,10 @@ export const useWaitingData = (eventId: number) => {
   const initialWaitingTimeRef = useRef<number | null>(null);
   const myOrder = useWaitingInfoStore((state) => state.userOrder);
   const [waitingData, setWaitingData] = useState<RePermissionResult | null>(null);
-
+  const componentId = useId();
   useSSE<RePermissionResult>({
     sseURL: `${BASE_URL}${API.BOOKING.GET_RE_PERMISSION(Number(eventId))}`,
+    componentId,
     onMessage: (data) => {
       setWaitingData(data);
     },

@@ -9,7 +9,6 @@ export const useCompleteReservationMutation = (eventId: number) => {
     mutationFn: postReservation,
     onSuccess: () => {
       queryClient.refetchQueries({ queryKey: ['reservation'] });
-      queryClient.invalidateQueries({ queryKey: ['event'] });
     },
   });
 

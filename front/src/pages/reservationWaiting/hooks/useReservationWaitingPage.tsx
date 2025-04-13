@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 
-import { formatEventInfo } from '@/pages/reservationWaiting/utils/formatEventInfo';
+import { formatEventInfo } from '@/feature/event/utils';
 
 import { useEventAndPlaceDate } from './useEventAndPlaceDate';
 import { useEventTimer } from './useEventTimer';

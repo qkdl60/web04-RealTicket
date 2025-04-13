@@ -20,7 +20,7 @@ export const SelectedSeatInfo = memo(({ className }: SelectedSeatInfoProps) => {
       <h3 className="text-heading2">선택한 좌석</h3>
       <div className="relative flex flex-col gap-2">
         {padEndArray(selectedSeatList, seatCount, null).map((item, index) => {
-          if (item == null)
+          if (item == null) {
             return (
               <div
                 key={index}
@@ -29,7 +29,7 @@ export const SelectedSeatInfo = memo(({ className }: SelectedSeatInfoProps) => {
                 <span className="text-display1 text-typo-sub">좌석을 선택해주세요</span>
               </div>
             );
-          else
+          } else {
             return (
               <div
                 key={index}
@@ -38,6 +38,7 @@ export const SelectedSeatInfo = memo(({ className }: SelectedSeatInfoProps) => {
                 <span className="text-display1 text-typo">{item.seatName}</span>
               </div>
             );
+          }
         })}
       </div>
     </div>
