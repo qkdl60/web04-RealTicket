@@ -69,7 +69,7 @@ export function Content({
         <div
           className={twMerge(
             clsx(
-              'fixed transform-gpu bg-white p-4 pt-[64px] transition-all duration-300',
+              'fixed z-20 transform-gpu bg-white p-4 pt-[64px] transition-all duration-300',
               positionClass,
               translateClass,
               className,

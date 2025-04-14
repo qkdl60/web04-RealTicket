@@ -1,5 +1,5 @@
 import { GuestLoginButton, LoginButton, SignupButton } from '@/feature/auth/ui';
-import { UserInfoButton } from '@/feature/user/ui';
+import { UserInfoButton, UserInfoSection } from '@/feature/user/ui';
 import { Button, Icon, LogoButton, Popover, ResponsiveView, Sheet } from '@/shared/components';
 import { useAuthStore } from '@/shared/stores';
 
@@ -35,7 +35,7 @@ export function Header() {
             />
             <Sheet.Content
               position="right"
-              className="h-full w-[200px]"
+              className={`h-full ${isLogin ? 'w-[460px]' : `w-[200px]`}`}
               isOverlay
               renderCloseButton={(closePopover) => (
                 <Button className="absolute right-8 top-4" onClick={closePopover} size="fit" intent="ghost">
@@ -43,7 +43,7 @@ export function Header() {
                 </Button>
               )}>
               {isLogin ? (
-                <div>예매 내역</div>
+                <UserInfoSection />
               ) : (
                 <nav className="flex flex-col gap-4">
                   <GuestLoginButton size="full" />

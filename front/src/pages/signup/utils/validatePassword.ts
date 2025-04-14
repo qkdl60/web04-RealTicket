@@ -1,8 +1,7 @@
-import type { Form } from '@/pages/signup';
-
 import { Validate } from '@/shared/hooks/useForm';
+import type { SignupForm } from '@/shared/types/user';
 
-export const validatePassword: Validate<Form> = ({ value }) => {
+export const validatePassword: Validate<SignupForm> = ({ value }) => {
   const isRightLength = value.length >= 4 && value.length <= 12;
   const patternReg = new RegExp(/^[a-z0-9]+$/);
   const isRightPattern = patternReg.test(value);

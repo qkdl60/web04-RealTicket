@@ -22,9 +22,10 @@ export function useUserInfo() {
     queryKey: [`reservation`],
     queryFn: getReservation,
     staleTime: Infinity,
+    initialData: [],
   });
   const shortUserId = userId?.slice(0, 12);
-  const beReservation = reservationList!.length !== 0;
+  const beReservation = reservationList ? reservationList.length !== 0 : false;
 
   const { mutate: requestDeleteReservation } = useMutation<AxiosResponse, CustomError, number>({
     mutationKey: RESERVATION_DELETE_MUTATION_KEY,

@@ -1,4 +1,4 @@
-import ReservationCard from '@/feature/reservation/ui/reservationCard';
+import { ReservationCard } from '@/feature/reservation/ui';
 import { useUserInfo } from '@/feature/user/hooks';
 import { Button, Icon, Popover, Separator } from '@/shared/components';
 import { cx } from 'class-variance-authority';

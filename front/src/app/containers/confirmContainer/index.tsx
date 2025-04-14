@@ -8,7 +8,7 @@ export function ConfirmContainer() {
   }
 
   return (
-    <div className="fixed left-0 top-0 z-10 flex h-full w-full items-center justify-center bg-surface/30">
+    <div className="fixed left-0 top-0 z-10 z-50 flex h-full w-full items-center justify-center bg-surface/30">
       <div className="z-[999] flex min-w-[240px] max-w-[480px] flex-col gap-4 rounded-xl border bg-surface-card px-6 py-3">
         <div>
           <h1 className="text-heading2">{confirmValue.title}</h1>
