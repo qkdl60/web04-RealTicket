@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ConfirmProvider } from '@/app/providers/confirmProvider';
 import { useReservationStore } from '@/feature/reservation/stores/reservationStore';
 import { useSSE } from '@/shared/hooks';
-import { act, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -81,6 +81,12 @@ vi.mock('@tanstack/react-query', () => ({
       onSuccess?.();
       onSettled?.();
     }),
+    mutateAsync: vi
+      .fn((_, { onSuccess, onSettled }) => {
+        onSuccess?.();
+        onSettled?.();
+      })
+      .mockResolvedValue(),
     isPending: false,
   }),
   useQueryClient: vi.fn(),
@@ -99,6 +105,7 @@ vi.mock('@/shared/hooks', () => ({
   useConfirm: vi.fn().mockReturnValue({
     confirm: vi.fn().mockReturnValue(true),
   }),
+  useView: vi.fn().mockReturnValue('desktop'),
 }));
 vi.mock(`@/api/booking`, () => ({
   postSeat: vi.fn().mockResolvedValue({ data: true }),
@@ -117,7 +124,6 @@ describe('좌석 선택 테스트', () => {
     let onMessageCallback: (data: { seatStatus: boolean[][] }) => void = () => {};
     act(() => {
       (useSSE as unknown as ReturnType<typeof vi.fn>).mockImplementation(({ onMessage }) => {
-        console.log('onMessage', onMessage);
         onMessageCallback = onMessage;
       });
     });
@@ -133,13 +139,15 @@ describe('좌석 선택 테스트', () => {
       onMessageCallback({ seatStatus: [[true, true]] });
     });
     waitFor(() => {
-      screen.findByRole('button', { name: /1행 1열/ });
+      screen.findByRole('button', { name: /A구역 1행 1열/ });
     });
+
     const seat = screen.getByRole('button', { name: /1행 1열/ });
     expect(seat).toBeInTheDocument();
     expect(seat).toBeEnabled();
 
     await user.click(seat);
+
     expect(seat).toHaveClass('bg-success');
 
     await user.click(seat);
@@ -150,7 +158,6 @@ describe('좌석 선택 테스트', () => {
     let onMessageCallback: (data: { seatStatus: boolean[][] }) => void = () => {};
     act(() => {
       (useSSE as unknown as ReturnType<typeof vi.fn>).mockImplementation(({ onMessage }) => {
-        console.log('onMessage', onMessage);
         onMessageCallback = onMessage;
       });
     });
@@ -160,6 +167,7 @@ describe('좌석 선택 테스트', () => {
     });
 
     withRender(<SelectSectionAndSeatPage />);
+
     const sectionList = screen.getAllByRole('radio', { name: 'A 섹션 선택' });
     const section = sectionList[0];
     await user.click(section);
@@ -167,10 +175,10 @@ describe('좌석 선택 테스트', () => {
       onMessageCallback({ seatStatus: [[true, true]] });
     });
     waitFor(() => {
-      screen.findByRole('button', { name: /1행 1열/ });
+      screen.findByRole('button', { name: /1행 2열/ });
     });
 
-    const seat = screen.getByRole('button', { name: /1행 1열/ });
+    const seat = screen.getByRole('button', { name: /1행 2열/ });
     await user.click(seat);
     expect(seat).toHaveClass('bg-success');
 
@@ -179,7 +187,6 @@ describe('좌석 선택 테스트', () => {
 
     const oneCountOption = screen.getByText(/1매/);
     await user.click(oneCountOption);
-    await waitForElementToBeRemoved(() => screen.getByText(/loading/));
 
     expect(seat).toHaveClass('bg-primary');
   });

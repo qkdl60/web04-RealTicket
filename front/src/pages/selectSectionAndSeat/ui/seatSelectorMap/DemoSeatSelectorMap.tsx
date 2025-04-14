@@ -54,6 +54,7 @@ export const DemoSeatSelectorMap = ({ section }: DemoSeatSelectorMapProps) => {
         {canView ? (
           section.seats.map((seat, index) => (
             <DemoSeat
+              key={index}
               isEmpty={!seat}
               seatName={seatNameList[index]}
               seatIndex={index}

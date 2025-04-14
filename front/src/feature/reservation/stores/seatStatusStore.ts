@@ -5,6 +5,7 @@ type SeatStatusStore = {
   seatStatus: boolean[][];
   isStatusReady: boolean;
   seatAction: {
+    initSeatInfo: () => void;
     setSeatStatus: (seatStatus: boolean[][]) => void;
     setSeatInfo: (seatName: string, seatInfo: SeatInfo) => void;
     removeSeatInfo: (seatName: string) => void;
@@ -24,6 +25,9 @@ export const useSeatStatusStore = create<SeatStatusStore>((set, get) => ({
   seatStatus: [],
   isStatusReady: false,
   seatAction: {
+    initSeatInfo: () => {
+      set({ seatInfo: {} });
+    },
     setSeatStatus: (seatStatus: boolean[][]) => set({ seatStatus }),
     setSeatInfo: (seatName: string, seatInfo: SeatInfo) =>
       set({ seatInfo: { ...get().seatInfo, [seatName]: seatInfo } }),

@@ -13,9 +13,10 @@ export const SeatStateGuideSection = memo(({ direction = 'row' }: SeatStateGuide
     <>
       <Separator direction="row" />
       <div className="flex justify-evenly">
-        {SEAT_STATE_INFO_LIST.map(({ state, description }) => {
+        {SEAT_STATE_INFO_LIST.map(({ state, description }, index) => {
           return (
             <div
+              key={index}
               className={`flex items-center gap-4 text-display1 text-typo ${direction === 'row' ? 'flex-row' : 'flex-col'}`}>
               <Seat state={state} />
               {description}

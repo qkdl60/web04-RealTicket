@@ -3,16 +3,17 @@ import { useCallback } from 'react';
 
 import { postSeatCount } from '@/api/booking.ts';
 
-import { useReservationStore } from '@/feature/reservation/stores';
-import { changeSeatCountDebounce, toast } from '@/shared/libs';
+import { useReservationStore, useSeatStatusStore } from '@/feature/reservation/stores';
+import { toast } from '@/shared/libs';
 import { SeatCount } from '@/shared/types/reservation';
 import { useMutation } from '@tanstack/react-query';
 
 export const useChangeSeatCountMutation = () => {
-  const initSeatList = useReservationStore((s) => s.seatAction.initSeatList);
+  //SeatStatus에 대해새 init 처리가 필요
+  const initSeatList = useSeatStatusStore((s) => s.seatAction.initSeatInfo);
   const setSeatCount = useReservationStore((s) => s.seatCountAction.setSeatCount);
   const [isChangingSeatCount, setIsChangingSeatCount] = useState<boolean>(false);
-  const { mutate: postSeatCountMutate } = useMutation({
+  const { mutateAsync: postSeatCountMutate } = useMutation({
     mutationFn: postSeatCount,
   });
   const changeSeatCount = useCallback(
@@ -20,17 +21,13 @@ export const useChangeSeatCountMutation = () => {
       setIsChangingSeatCount(true);
       toast.warning('예매 매수 변경 중입니다.\n잠시만 기다려 주세요.');
 
-      changeSeatCountDebounce(() => {
-        postSeatCountMutate(count, {
-          onSuccess: () => {
-            initSeatList();
-            setSeatCount(count);
-          },
-          onSettled: () => {
-            setIsChangingSeatCount(false);
-          },
-        });
-      });
+      try {
+        await postSeatCountMutate(count);
+        initSeatList();
+        setSeatCount(count);
+      } finally {
+        setIsChangingSeatCount(false);
+      }
     },
     [setSeatCount, postSeatCountMutate, initSeatList],
   );
