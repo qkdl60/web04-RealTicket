@@ -64,12 +64,22 @@ export const SeatSelectorMap = ({ section }: { section: Section }) => {
     [seatCount, selectedSeatCount, requestCancelSeat, requestReserveSeat],
   );
 
+  // const selectSeatHandler = (seatIndex: number, seatName: string, stateState: SeatState) => {
+  //   if (stateState === 'mine') {
+  //     requestCancelSeat(seatIndex, seatName);
+  //     return;
+  //   }
+  //   if (seatCount <= selectedSeatCount) return;
+  //   requestReserveSeat(seatIndex, seatName);
+  // };
+
   const seatNameList = useMemo(() => {
     return calcSeatNameList(seats, colLen, name, Number(eventId), selectedSectionIndex!);
   }, [colLen, name, seats, eventId, selectedSectionIndex]);
+  // const seatNameList = calcSeatNameList(seats, colLen, name, Number(eventId), selectedSectionIndex!);
 
   return (
-    <>
+    <div>
       <StageDirection />
       <div
         className={twMerge(
@@ -107,7 +117,7 @@ export const SeatSelectorMap = ({ section }: { section: Section }) => {
           <Loading />
         )}
       </div>
-    </>
+    </div>
   );
 };
 const EmptySeat = memo(() => {

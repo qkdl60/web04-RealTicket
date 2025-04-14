@@ -1,7 +1,7 @@
 import { BASE_URL } from '@/api/axios.ts';
 
 import { bigSeats, seats } from '@/mocks/data/seats.ts';
-import { http } from 'msw';
+import { HttpResponse, http } from 'msw';
 
 const random = () => {
   const r = Math.random();
@@ -55,5 +55,15 @@ export const bookingHandler = [
     return new Response(null, {
       status: 200,
     });
+  }),
+  http.get(`${BASE_URL}/booking/permission/:eventId`, () => {
+    return HttpResponse.json({
+      waitingStatus: false,
+      enteringStatus: true,
+      userOrder: 0,
+    });
+  }),
+  http.post(`${BASE_URL}/booking/count/`, () => {
+    return new Response(null, { status: 200 });
   }),
 ];

@@ -1,3 +1,4 @@
+import { BASE_URL } from '@/api/axios.ts';
 import { PostReservationData } from '@/api/reservation';
 
 import { API } from '@/shared/const';
@@ -54,5 +55,15 @@ export const reservationHandlers = [
 
     mockReservations.splice(index, 1);
     return new HttpResponse(null, { status: 204 });
+  }),
+
+  http.post(`${BASE_URL}/reservation`, () => {
+    return HttpResponse.json({
+      programName: '완료한 프로그렘',
+      runningDate: new Date(),
+      place: '대극장',
+      price: 1555000,
+      reservedSeats: ['A구역 2행 3열', 'A구역 2행 4열', 'A구역 2행 5열'],
+    });
   }),
 ];

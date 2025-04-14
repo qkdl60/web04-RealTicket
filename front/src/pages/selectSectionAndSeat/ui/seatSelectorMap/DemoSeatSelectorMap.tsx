@@ -50,7 +50,7 @@ export const DemoSeatSelectorMap = ({ section }: DemoSeatSelectorMapProps) => {
   return (
     <div className="relative flex min-h-[30vh] flex-col gap-8">
       <StageDirection />
-      <div className="relative h-[600px] overflow-auto">
+      <div className="relative h-[600px] overflow-auto pr-8">
         {canView ? (
           section.seats.map((seat, index) => (
             <DemoSeat

@@ -6,7 +6,7 @@ import type { ViewProps } from '../../types';
 import {
   CompleteButton,
   EventInfoSection,
-  SeatCountSelectorSection,
+  SeatCountSelectorSection, // SeatSelectorMap,
   SeatStateGuideSection,
   SectionSelectorMap,
   SelectedSeatInfo,
@@ -22,7 +22,7 @@ export function DesktopSelectSectionAndSeatView({
   changeSeatCount,
 }: ViewProps) {
   return (
-    <div className="flex w-full gap-4">
+    <div className="flex w-full gap-4 pb-4">
       <div className="m-auto flex h-full w-[70%] flex-col gap-8 px-4 py-2">
         {isChangingSeatCount && <Dimmed />}
         <EventInfoSection eventInfo={eventInfo} />

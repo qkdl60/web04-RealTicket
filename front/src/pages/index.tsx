@@ -6,7 +6,7 @@ import NotFoundPage from '@/pages/notFoundPage';
 import Layout from '@/app/layouts/Layout';
 import { ROUTE_URL } from '@/shared/const';
 import { RESERVATION_STEP } from '@/shared/const/reservation';
-import { WithLogin, WithoutLogin } from '@/shared/hocs';
+import { WithLogin, WithReservationGuard, WithoutLogin } from '@/shared/hocs';
 
 const LoginPage = lazy(() => import('@/pages/login').then(({ LoginPage }) => ({ default: LoginPage })));
 const SignUpPage = lazy(() => import('@/pages/signup').then(({ SignUpPage }) => ({ default: SignUpPage })));
@@ -66,21 +66,19 @@ const router = createBrowserRouter([
       {
         path: `${ROUTE_URL.EVENT.DEFAULT}/:eventId/ready`,
         element: (
-          // <WithLogin>
-          <ReservationWaitingPage />
-          // </WithLogin>
+          <WithLogin>
+            <ReservationWaitingPage />
+          </WithLogin>
         ),
       },
       {
         path: `${ROUTE_URL.EVENT.DEFAULT}/:eventId/reservation`,
         element: (
-          // <WithLogin>
-          //   <WithReservationGuard>
-
-          <Outlet />
-
-          //   </WithReservationGuard>
-          // </WithLogin>
+          <WithLogin>
+            <WithReservationGuard>
+              <Outlet />
+            </WithReservationGuard>
+          </WithLogin>
         ),
         children: [
           { path: RESERVATION_STEP.CAPTCHA, element: <CaptchaPage /> },

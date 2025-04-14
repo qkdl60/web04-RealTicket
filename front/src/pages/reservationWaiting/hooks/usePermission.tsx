@@ -21,7 +21,8 @@ export const usePermission = (eventId: number) => {
     });
 
     if (enteringStatus) {
-      navigate(ROUTE_URL.EVENT.DETAIL(Number(eventId)));
+      setUserOrder(0);
+      navigate(`${ROUTE_URL.EVENT.DETAIL(Number(eventId))}/reservation/captcha`);
     } else {
       setUserOrder(userOrder!);
       navigate(ROUTE_URL.EVENT.WAITING_ROOM(Number(eventId)));

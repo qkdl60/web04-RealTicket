@@ -69,7 +69,6 @@ export function useSSE<T>({ sseURL, componentId, onMessage }: useSSEProps<T>) {
 
     return () => {
       const eventSourceData = eventSourceMap.get(sseURL)!;
-      console.log('unmount', componentId);
       if (!eventSourceData) return;
       eventSourceData.eventHandler.delete(componentId);
       eventSourceData.count -= 1;

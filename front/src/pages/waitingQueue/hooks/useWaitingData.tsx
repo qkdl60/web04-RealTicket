@@ -33,6 +33,5 @@ export const useWaitingData = (eventId: number) => {
   const isLoadingWaitingData = waitingData === null;
   initialWaitingTimeRef.current =
     initialWaitingTimeRef.current === null && waitingTime !== null ? waitingTime : null;
-  console.log('waitingData', waitingData);
   return { myOrder, waitingTimeText, progressValue, totalWaiting, isMyTurn, restCount, isLoadingWaitingData };
 };
