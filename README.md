@@ -18,6 +18,16 @@
 ![실시간-예매-숏-샘플](https://github.com/user-attachments/assets/0bea6008-1770-4098-a4ce-a25364c36ec8)
 
 ---
+# 🎞️ 시연 영상
+
+## Desktop
+
+https://github.com/user-attachments/assets/93c0d919-cd6a-4449-baa0-4c771fdab4b6
+
+## Mobile
+
+https://github.com/user-attachments/assets/ba56e9b0-6509-4327-ad37-ee8aca63ffdd
+
 
 ## 🎯  **개발 목표**
 
@@ -31,6 +41,51 @@
 ---
 
 ## **🛠️ 문제 해결 과정**
+
+### SSE  connection 관리
+
+<div style="display: flex; gap: 0;">
+  <img src="https://github.com/user-attachments/assets/85b4ce5b-261f-4b2d-9b0b-ba7d6dac27aa" style="width: 70%;"/>
+  <img src="https://github.com/user-attachments/assets/d73ed28e-c58a-4b54-822f-5ba4aa5b5b2e" style="width: 70%;"/>
+</div>
+
+- 여러 컴포넌트가 동일 SSE URL에 개별적으로 연결하거나 같은 URL에 대한 SSE 연속으로 보내 리소스 낭비 발생
+- EventSource를 URL 기준 전역 Map으로 관리하고, 컴포넌트별 onMessage 핸들러만 독립 관리
+- **EventSource 연결 수 최소화 + 컴포넌트 간 독립적 데이터 처리 + 불필요한 연결/재연결 방지**
+
+[[자세히 보기]](https://www.notion.so/SSE-connection-1d5313ed69ba80769ba4ea97a66555b2)
+
+---
+
+
+### 좌석 현황 업데이트와 렌더링 최적화 
+<div style="display: flex; gap: 0;">
+ <img src="https://github.com/user-attachments/assets/a7dc7209-5bac-4520-aab0-a6b249d475ae" style="width: 70%;"/>
+</div>
+
+- 서버가 좌석 상태 변경 시 전체 좌석 데이터를 내려줘서 상태 변화와 관계없이 모든 좌석이 리렌더링되는 비효율 발생
+- `React.memo` + `React.useCallback` + `React.useMemo`로 1차 최적화 후, zustand selector 기반으로 각 좌석이 본인 상태만 구독하도록 구조 개선
+- 상태가 변경된 좌석만 리렌더링되어 렌더링 비용과 연산량을 최소화, 약 50% 렌더링 타임 단축 (10.23ms → 4.91ms)
+
+[[자세히 보기]](https://www.notion.so/1d4313ed69ba808a8c33d2c4b443f897)
+
+---
+
+### TanstackQuery의 queryKey, staleTime, invalidQueries를 이용한 API 호출 최소화
+
+<div style="display: flex; gap: 0;">
+  <img src="https://github.com/user-attachments/assets/1c79c967-596e-49e4-a676-903d4ba66f26" style="width: 70%;"/>
+  <img src="https://github.com/user-attachments/assets/d0142c11-dd70-4064-9d78-b959c1810bfe" style="width: 70%;"/>
+</div>
+
+- 메타 데이터에 대한 API 반복 호출, 변경되지 않은 데이터에 대한 API 요청 최적화
+- 공연 관련 메타 데이터는 변경될 일이 없기 때문에 staleTime infinity로 설정
+- 예매 내역은 내가 예매를 완료한 경우만 변경되기 떄문에 staleTime을 infinity로 설정하고, 예매 완료시 refetch를 통해서 정보를 업데이트
+- API 호출 감소로 서버 부하를 감소시켰다.
+
+[[자세히 보기]](https://chestnut-sense-efd.notion.site/react-query-cache-api-150313ed69ba80a9abe0ff364e7e1c54?pvs=4)
+
+---
 
 ### Server Sent Event를 통한 서버 리소스 절약
 
@@ -46,6 +101,8 @@
 [[자세히 보기]](https://chestnut-sense-efd.notion.site/WebSocket-VS-SSE-d8fed9e7c2bc46318b565dc775b6535a?pvs=4)
 
 ---
+
+
 ### 데이터 발행 비용 절약을 위한 SSE 브로드캐스팅
 
 <div style="display: flex; gap: 0;">
@@ -138,20 +195,6 @@
 - 가장 요청이 많고 핵심 병목 구간인 좌석 현황에서, 동시성을 제어하고 쿼리 성능을 개선해 병목을 완화했다.
 
 [[자세히보기]](https://chestnut-sense-efd.notion.site/Lua-c0aa5206efa748b882c0830f5acc1c87?pvs=4)
-
----
-### TanstackQuery의 queryKey, staleTime, invalidQueries를 이용한 API 호출 최소화
-
-<div style="display: flex; gap: 0;">
-  <img src="https://github.com/user-attachments/assets/1c79c967-596e-49e4-a676-903d4ba66f26" style="width: 70%;"/>
-  <img src="https://github.com/user-attachments/assets/d0142c11-dd70-4064-9d78-b959c1810bfe" style="width: 70%;"/>
-</div>
-
-- 여러 페이지에서 동일한 데이터에 대한 API 반복해서 호출하고 있었다.
-- query키와 staleTIme설정을 통해서 캐시 데이터를 사용했다.
-- API 호출 감소로 서버 부하를 감소시켰다.
-
-[[자세히 보기]](https://chestnut-sense-efd.notion.site/react-query-cache-api-150313ed69ba80a9abe0ff364e7e1c54?pvs=4)
 
 ---
 ### UI/UX 설계를 통한 동시 선택 문제 해결
