@@ -1,8 +1,8 @@
 import { RouterProvider } from 'react-router-dom';
 
 import router from '@/pages';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ConfirmContainer, ToastContainer } from './containers';
 import { ConfirmProvider, QueryProvider } from './providers';
 import './styles/index.css';
@@ -15,7 +15,7 @@ function App() {
         <ToastContainer />
         <ConfirmContainer />
       </ConfirmProvider>
-      <ReactQueryDevtools />
+      {/* <ReactQueryDevtools /> */}
     </QueryProvider>
   );
 }

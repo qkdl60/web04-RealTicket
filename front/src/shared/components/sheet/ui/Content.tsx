@@ -38,7 +38,9 @@ export function Content({
     if (isOpen) {
       setIsRender(true);
       setTimeout(() => {
-        setIsReady(true);
+        requestAnimationFrame(() => {
+          setIsReady(true);
+        });
       }, 0);
     } else {
       setIsReady(false); // 닫힐 때 초기화

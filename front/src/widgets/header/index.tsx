@@ -35,7 +35,7 @@ export function Header() {
             />
             <Sheet.Content
               position="right"
-              className={`h-full ${isLogin ? 'w-[460px]' : `w-[200px]`}`}
+              className={`h-full max-w-[100vw] ${isLogin ? 'w-[460px]' : `w-[200px]`}`}
               isOverlay
               renderCloseButton={(closePopover) => (
                 <Button className="absolute right-8 top-4" onClick={closePopover} size="fit" intent="ghost">
