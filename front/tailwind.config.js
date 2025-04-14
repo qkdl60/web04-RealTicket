@@ -8,6 +8,7 @@ import fontSize from './styles/fontSize.ts';
 const WIDTH_LIst = Array.from({ length: 1000 }, (_, index) => index);
 const COL_LENGTH_RANGE = Array.from({ length: 20 }, (_, index) => index + 1);
 const TRANSLATE_VALUE_RANGE = Array.from({ length: 101 }, (_, index) => index);
+const COLUMN_LENGTH_LIST = Array.from({ length: 30 }, (_, index) => index + 1);
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   safelist: [
@@ -17,6 +18,18 @@ export default {
   ],
   theme: {
     extend: {
+      gridColumnStart: {
+        ...COLUMN_LENGTH_LIST.reduce((acc, length) => {
+          acc[`${length}`] = `${length}`;
+          return acc;
+        }, {}),
+      },
+      gridTemplateColumns: {
+        ...COLUMN_LENGTH_LIST.reduce((acc, length) => {
+          acc[length] = `repeat(${length}, 24px)`;
+          return acc;
+        }, {}),
+      },
       colors,
       fontSize,
       fontFamily: {

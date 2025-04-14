@@ -5,8 +5,8 @@ import { useAuthStore } from '@/shared/stores';
 import axios, { AxiosError, isAxiosError } from 'axios';
 
 //TODO 타입 정의
-const isDevelopEnvironment = import.meta.env.DEV;
-// const isDevelopEnvironment = true;
+// const isDevelopEnvironment = import.meta.env.DEV;
+const isDevelopEnvironment = true;
 
 export const BASE_URL = import.meta.env.VITE_API_URL + (isDevelopEnvironment ? '' : '/api');
 type ErrorData = {

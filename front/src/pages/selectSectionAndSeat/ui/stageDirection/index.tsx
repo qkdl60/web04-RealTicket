@@ -1,5 +1,7 @@
+import { memo } from 'react';
+
 //TODO 무대 방향 추가 필요
-export const StageDirection = () => {
+export const StageDirection = memo(() => {
   return (
     <div className="text-center">
       <span className="cursor-default bg-surface-sub p-2 px-8 text-heading2 text-typo-display">
@@ -7,4 +9,4 @@ export const StageDirection = () => {
       </span>
     </div>
   );
-};
+});

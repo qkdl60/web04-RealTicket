@@ -11,7 +11,7 @@ export default function Layout() {
   return (
     <>
       <Header />
-      <div className="mx-auto flex max-w-[1080px] justify-center p-8 pt-4">
+      <div className="mx-auto flex h-[calc(100vh-71px)] max-w-[1080px] justify-center pb-8 pt-4">
         {/* //TODO reset error */}
         <ErrorBoundary fallback={<NotFoundPage />}>
           <Suspense fallback={<Loading />}>

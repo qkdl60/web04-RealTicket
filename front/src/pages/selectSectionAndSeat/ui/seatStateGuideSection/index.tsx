@@ -1,16 +1,23 @@
+import { memo } from 'react';
+
 import { Seat } from '@/feature/reservation/ui/seat';
 import { Separator } from '@/shared/components';
 
 import { SEAT_STATE_INFO_LIST } from '../../const';
 
-export const SeatStateGuideSection = () => {
+type SeatStateGuideSectionProps = {
+  direction?: 'row' | 'column';
+};
+export const SeatStateGuideSection = memo(({ direction = 'row' }: SeatStateGuideSectionProps) => {
   return (
     <>
       <Separator direction="row" />
       <div className="flex justify-evenly">
-        {SEAT_STATE_INFO_LIST.map(({ state, description }) => {
+        {SEAT_STATE_INFO_LIST.map(({ state, description }, index) => {
           return (
-            <div className="flex items-center gap-4 text-display1 text-typo">
+            <div
+              key={index}
+              className={`flex items-center gap-4 text-display1 text-typo ${direction === 'row' ? 'flex-row' : 'flex-col'}`}>
               <Seat state={state} />
               {description}
             </div>
@@ -20,4 +27,4 @@ export const SeatStateGuideSection = () => {
       <Separator direction="row" />
     </>
   );
-};
+});

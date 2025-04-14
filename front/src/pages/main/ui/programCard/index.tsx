@@ -15,7 +15,7 @@ export const ProgramCard = ({
   actors,
 }: Pick<Program, 'actors' | 'id' | 'name' | 'profileUrl'>) => {
   return (
-    <div className="flex min-h-[300px] w-[200px] min-w-[200px] flex-col gap-4 rounded border-2 p-4 hover:border-surface">
+    <div className="flex min-h-[300px] w-[200px] flex-col gap-4 rounded border-2 p-4 hover:border-surface">
       <img className="object-con h-[240px] w-[160px] object-cover" src={profileUrl} />
       <div className="flex flex-col gap-1 text-center">
         <div className="truncate text-display1 text-typo">{name}</div>

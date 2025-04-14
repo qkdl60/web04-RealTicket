@@ -17,7 +17,7 @@ import { getDateList } from '@/pages/programDetail/utils/getDateList';
 import { getSelectedEvent } from '@/pages/programDetail/utils/getSelectedEvent';
 import { getTimeList } from '@/pages/programDetail/utils/getTimeList';
 
-import { server } from '@/mocks/server.ts';
+import { server } from '@/mocks/server';
 import { ProgramEvent } from '@/shared/types/data.ts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@testing-library/jest-dom';

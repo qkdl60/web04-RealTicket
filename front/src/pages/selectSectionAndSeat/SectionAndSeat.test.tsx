@@ -2,7 +2,8 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { ConfirmProvider } from '@/app/providers/confirmProvider';
 import { useReservationStore } from '@/feature/reservation/stores/reservationStore';
-import { act, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
+import { useSSE } from '@/shared/hooks';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -38,11 +39,7 @@ vi.mock('@react-router-dom', async (importOriginal) => {
     useBlocker: vi.fn().mockReturnValue(undefined),
   };
 });
-vi.mock('@/shared/hooks', () => ({
-  useConfirm: vi.fn().mockReturnValue({
-    confirm: vi.fn().mockReturnValue(true),
-  }),
-}));
+
 vi.mock('@tanstack/react-query', () => ({
   QueryClient: vi.fn(),
   useSuspenseQuery: vi.fn().mockReturnValue({
@@ -84,6 +81,12 @@ vi.mock('@tanstack/react-query', () => ({
       onSuccess?.();
       onSettled?.();
     }),
+    mutateAsync: vi
+      .fn((_, { onSuccess, onSettled }) => {
+        onSuccess?.();
+        onSettled?.();
+      })
+      .mockResolvedValue(),
     isPending: false,
   }),
   useQueryClient: vi.fn(),
@@ -98,15 +101,11 @@ vi.mock('@/feature/reservation/hooks', () => ({
   }),
 }));
 vi.mock('@/shared/hooks', () => ({
-  useSSE: vi.fn().mockReturnValue({
-    data: {
-      seatStatus: [[true, true, true]],
-    },
-    isLoading: false,
-  }),
+  useSSE: vi.fn(),
   useConfirm: vi.fn().mockReturnValue({
     confirm: vi.fn().mockReturnValue(true),
   }),
+  useView: vi.fn().mockReturnValue('desktop'),
 }));
 vi.mock(`@/api/booking`, () => ({
   postSeat: vi.fn().mockResolvedValue({ data: true }),
@@ -116,19 +115,39 @@ const user = userEvent.setup();
 
 describe('좌석 선택 테스트', () => {
   beforeEach(() => {
+    vi.clearAllMocks();
     const initStore = useReservationStore.getState().initReservation;
     initStore();
   });
+
   it('섹션 선택 후 좌석 선택 배치 및 좌석 상태 확인 선택, 취소 기능 테스트', async () => {
+    let onMessageCallback: (data: { seatStatus: boolean[][] }) => void = () => {};
+    act(() => {
+      (useSSE as unknown as ReturnType<typeof vi.fn>).mockImplementation(({ onMessage }) => {
+        onMessageCallback = onMessage;
+      });
+    });
+
     withRender(<SelectSectionAndSeatPage />);
+
     const sectionList = screen.getAllByRole('radio', { name: 'A 섹션 선택' });
     const section = sectionList[0];
+
     await user.click(section);
+
+    act(() => {
+      onMessageCallback({ seatStatus: [[true, true]] });
+    });
+    waitFor(() => {
+      screen.findByRole('button', { name: /A구역 1행 1열/ });
+    });
+
     const seat = screen.getByRole('button', { name: /1행 1열/ });
     expect(seat).toBeInTheDocument();
     expect(seat).toBeEnabled();
 
     await user.click(seat);
+
     expect(seat).toHaveClass('bg-success');
 
     await user.click(seat);
@@ -136,15 +155,30 @@ describe('좌석 선택 테스트', () => {
   });
 
   it('좌석 선택 후 좌석 개수 변경 시 좌석 선택 초기화', async () => {
+    let onMessageCallback: (data: { seatStatus: boolean[][] }) => void = () => {};
+    act(() => {
+      (useSSE as unknown as ReturnType<typeof vi.fn>).mockImplementation(({ onMessage }) => {
+        onMessageCallback = onMessage;
+      });
+    });
+
     act(() => {
       useReservationStore.getState().seatCountAction.setSeatCount(2);
     });
+
     withRender(<SelectSectionAndSeatPage />);
+
     const sectionList = screen.getAllByRole('radio', { name: 'A 섹션 선택' });
     const section = sectionList[0];
     await user.click(section);
+    act(() => {
+      onMessageCallback({ seatStatus: [[true, true]] });
+    });
+    waitFor(() => {
+      screen.findByRole('button', { name: /1행 2열/ });
+    });
 
-    const seat = screen.getByRole('button', { name: /1행 1열/ });
+    const seat = screen.getByRole('button', { name: /1행 2열/ });
     await user.click(seat);
     expect(seat).toHaveClass('bg-success');
 
@@ -153,18 +187,29 @@ describe('좌석 선택 테스트', () => {
 
     const oneCountOption = screen.getByText(/1매/);
     await user.click(oneCountOption);
-    await waitForElementToBeRemoved(() => screen.getByText(/loading/));
 
     expect(seat).toHaveClass('bg-primary');
   });
 
   it('좌석 개수 이상 좌석 선택x, 모든 좌석 선택 완료시 완료 버튼 활성화 ', async () => {
+    let onMessageCallback: (data: { seatStatus: boolean[][] }) => void = () => {};
+    act(() => {
+      (useSSE as unknown as ReturnType<typeof vi.fn>).mockImplementation(({ onMessage }) => {
+        onMessageCallback = onMessage;
+      });
+    });
+
     withRender(<SelectSectionAndSeatPage />);
 
     const sectionList = screen.getAllByRole('radio', { name: 'A 섹션 선택' });
     const section = sectionList[0];
     await user.click(section);
-
+    act(() => {
+      onMessageCallback({ seatStatus: [[true, true]] });
+    });
+    waitFor(() => {
+      screen.findByRole('button', { name: /1행 1열/ });
+    });
     const disableBookingButton = screen.getByRole('button', { name: /좌석을 모두 선택해주세요/ });
 
     expect(disableBookingButton).toBeInTheDocument();

@@ -6,7 +6,11 @@ interface LoadingProps {
 }
 export const Loading = ({ className }: LoadingProps) => {
   return (
-    <div className={cx('absolute flex w-full items-center justify-center', className)}>
+    <div
+      className={cx(
+        'absolute left-0 top-0 flex h-full w-full transform-gpu items-center justify-center',
+        className,
+      )}>
       <div className="flex flex-col items-center gap-4">
         <Icon iconName="Loading" className="h-16 w-16 animate-spin" color={'primary'} />
         <span className="text-heading3 text-typo">loading..</span>

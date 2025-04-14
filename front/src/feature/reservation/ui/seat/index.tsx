@@ -30,7 +30,7 @@ type SeatProps =
       seatIndex?: undefined;
     });
 
-export const Seat = memo(function Seat({ state, seatName, onClick, seatIndex }: SeatProps) {
+export const Seat = memo(({ state, seatName, onClick, seatIndex }: SeatProps) => {
   const isButton = onClick !== undefined;
 
   return isButton ? (

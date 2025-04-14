@@ -18,3 +18,5 @@ export { default as Square } from '@/assets/icons/square.svg?react';
 export { default as CheckSquare } from '@/assets/icons/check-square.svg?react';
 export { default as Alert } from '@/assets/icons/alert-triangle.svg?react';
 export { default as XCircle } from '@/assets/icons/x-circle.svg?react';
+export { default as Menu } from '@/assets/icons/menu.svg?react';
+export { default as X } from '@/assets/icons/x.svg?react';

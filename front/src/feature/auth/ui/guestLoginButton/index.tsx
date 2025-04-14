@@ -9,7 +9,7 @@ import { useIsFetching } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
 const GUEST_LOGIN_QUERY_KEY = ['guest'];
-export function GuestLoginButton() {
+export function GuestLoginButton({ size = 'middle' }: { size?: 'middle' | 'full' }) {
   const { login } = useAuthStore((state) => state.action);
   const isGuestLoginPending = !!useIsFetching({ queryKey: GUEST_LOGIN_QUERY_KEY });
   const { confirm } = useConfirm();
@@ -52,7 +52,7 @@ export function GuestLoginButton() {
 
   return (
     <Button
-      size={'middle'}
+      size={size}
       color={'primary'}
       intent={'outline'}
       onClick={loginAsGuest}

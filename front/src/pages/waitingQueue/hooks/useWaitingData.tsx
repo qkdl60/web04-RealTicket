@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useId, useRef, useState } from 'react';
 
 import { BASE_URL } from '@/api/axios.ts';
 
@@ -12,8 +12,14 @@ import { calcProgressValue, calcRestCount, calcWaitingTime, formatWaitingTime } 
 export const useWaitingData = (eventId: number) => {
   const initialWaitingTimeRef = useRef<number | null>(null);
   const myOrder = useWaitingInfoStore((state) => state.userOrder);
-  const { data: waitingData, isLoading: isLoadingWaitingData } = useSSE<RePermissionResult>({
+  const [waitingData, setWaitingData] = useState<RePermissionResult | null>(null);
+  const componentId = useId();
+  useSSE<RePermissionResult>({
     sseURL: `${BASE_URL}${API.BOOKING.GET_RE_PERMISSION(Number(eventId))}`,
+    componentId,
+    onMessage: (data) => {
+      setWaitingData(data);
+    },
   });
   const totalWaiting = waitingData?.totalWaiting ?? null;
   const throughputRate = waitingData?.throughputRate ?? null;
@@ -23,10 +29,9 @@ export const useWaitingData = (eventId: number) => {
   const waitingTime = calcWaitingTime(restCount, throughputRate);
   const waitingTimeText = formatWaitingTime(waitingTime);
   const progressValue = calcProgressValue(initialWaitingTimeRef.current, waitingTime);
-
+  const isMyTurn = restCount !== null && restCount <= 0;
+  const isLoadingWaitingData = waitingData === null;
   initialWaitingTimeRef.current =
     initialWaitingTimeRef.current === null && waitingTime !== null ? waitingTime : null;
-  const isMyTurn = restCount !== null && restCount <= 0;
-
-  return { isLoadingWaitingData, myOrder, waitingTimeText, progressValue, totalWaiting, isMyTurn, restCount };
+  return { myOrder, waitingTimeText, progressValue, totalWaiting, isMyTurn, restCount, isLoadingWaitingData };
 };

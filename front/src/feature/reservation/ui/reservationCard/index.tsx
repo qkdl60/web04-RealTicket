@@ -7,7 +7,7 @@ interface ReservationCardProps extends Reservation {
   isDeleting: boolean;
 }
 
-export default function ReservationCard({
+export function ReservationCard({
   programName,
   runningDate,
   placeName,

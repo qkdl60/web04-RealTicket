@@ -12,7 +12,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { ReservationWaitingPageView } from './ui';
+import { DesktopReservationWaitingPageView } from './ui';
 
 describe('오픈 시간 버튼 상태 테스트', () => {
   const eventInfo: EventInfo = {
@@ -26,7 +26,7 @@ describe('오픈 시간 버튼 상태 테스트', () => {
 
   it('오픈 시간전 버튼 비활성화', () => {
     render(
-      <ReservationWaitingPageView
+      <DesktopReservationWaitingPageView
         eventInfo={eventInfo}
         isReservationOpen={false}
         overviewImageURL={''}
@@ -41,7 +41,7 @@ describe('오픈 시간 버튼 상태 테스트', () => {
 
   it('오픈 시간 후 버튼 활성화', () => {
     render(
-      <ReservationWaitingPageView
+      <DesktopReservationWaitingPageView
         eventInfo={eventInfo}
         isReservationOpen={true}
         overviewImageURL={''}
